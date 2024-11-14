@@ -11,7 +11,13 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        'custom-dark': '#0F1521',
+         'dark-gray':'#191E24',
+         'lavender-gray': '#8C89B4',
+         'borderColor':'#344054',
+         'gray-medium': '#9A9A9A',
       },
+       
     },
   },
   plugins: [],
