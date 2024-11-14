@@ -17,7 +17,10 @@ export default {
          'borderColor':'#344054',
          'gray-medium': '#9A9A9A',
       },
-       
+      
+      fontFamily: {
+        montserrat: ["Montserrat"],
+      },
     },
   },
   plugins: [],
