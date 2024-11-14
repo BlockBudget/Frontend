@@ -4,7 +4,7 @@ import Avatar from "@/components/Avatar";
 function CreateSavingsGroup() {
     return(
         <>
-            <div className="avatar flex items-center ml-5">
+            <div className="avatar w-11/12 m-auto flex items-center ml-5">
                 <div className="avatar-main">
                 <Avatar src="/avatar.svg" alt="User avatar" size={50} />
                 </div>

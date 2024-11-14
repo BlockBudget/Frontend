@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 const RootLayout = ({children,}:{children: React.ReactNode}) => {
   return (
     <div>
-        <div className="font-montserrat bg- bg-gradient-to-b  from-gray-900 to-gray-800 ">
+        <div className="font-montserrat w-11/12 m-auto ">
             <Navbar/>
             {children}
         </div>

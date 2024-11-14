@@ -34,7 +34,7 @@ export default function RootLayout({
 				/>
 			</head>
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased font-montserrat bg- bg-gradient-to-b  from-gray-900 to-gray-800 `}
+				className={`${geistSans.variable} ${geistMono.variable} antialiased font-montserrat bg-gradient-to-r  from-gray-900 to-gray-800 `}
 			> 
 				<Providers>{children}</Providers>
 			</body>
