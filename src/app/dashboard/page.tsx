@@ -11,6 +11,7 @@ import {
   ChartData,
   ChartOptions,
 } from "chart.js";
+import Navbar from "@/components/Navbar";
 
 // Register components to prevent missing scale errors
 ChartJS.register(LinearScale, CategoryScale, BarElement);
@@ -68,8 +69,8 @@ const page = () => {
     <div className="w-full min-h-[1113px] bg-custom-dark text-white">
 
       {/* Dashboard Header */}
-      <div className="w-[1200px] flex justify-between items-center pl-[100px] py-9">
-        <h1 className="text-4xl font-semibold">Dashboard</h1>
+      <div className="flex flex-col md:flex-row md:w-[1200px] justify-between items-center pl-4 md:pl-[100px] py-9">
+        <h1 className="text-2xl md:text-4xl font-semibold">Dashboard</h1>
         <div className="flex  gap-4 pl-[500px]">
           <img src="/user10.jpg" alt="Profile Picture" className="rounded-full" width="50" height="50" />
           <div>
@@ -163,8 +164,23 @@ const page = () => {
                   <Bar data={revenueData} options={revenueDataOptions} style={{ width: '100%', height: '100%' }} />
                 </div>
               </div>
+              {/* Custom Legend */}
+              <div className="flex items-center justify-start space-x-4 ">
+                {/* Locked Savings Legend */}
+                <div className="flex items-center space-x-2">
+                  <span className="w-3 h-3 rounded-full bg-orange-600"></span>
+                  <span className="text-white text-sm">Locked savings</span>
+                </div>
+                {/* Group Savings Legend */}
+                <div className="flex items-center space-x-2">
+                  <span className="w-3 h-3 rounded-full bg-white"></span>
+                  <span className="text-white text-sm">Group savings</span>
+                </div>
+              </div>
             </div>
+
           </div>
+
         </div>
 
 
