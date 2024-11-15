@@ -1,6 +1,46 @@
 import React from "react";
 import { Target, PiggyBank, Command } from "lucide-react";
 
+const ContributionStatus =()=>{
+	const months = [
+		{ name: 'Jan', status: 'completed' },
+		{ name: 'Feb', status: 'completed' },
+		{ name: 'Mar', status: 'completed' },
+		{ name: 'Apr', status: 'missed' },
+		{ name: 'May', status: 'completed' },
+		{ name: 'Jun', status: 'pending' },
+		{ name: 'Jul', status: 'pending' },
+		{ name: 'Aug', status: 'pending' },
+		{ name: 'Sep', status: 'pending' },
+		{ name: 'Oct', status: 'pending' },
+		{ name: 'Nov', status: 'pending' },
+		{ name: 'Dec', status: 'pending' },
+	  ];
+
+	  return (
+		<div className="grid grid-cols-6 gap-1 p-4 rounded-md">
+		  {months.map((month, index) => (
+			<div
+			  key={index}
+			  className={`flex items-center justify-center w-14 text-[0.6rem] h-7 border-white border-2 rounded-md text-white font-semibold 
+				${month.status === 'completed' ? 'bg-green-600' : 
+				  month.status === 'missed' ? 'bg-red-600' : 
+				  'bg-gray-600'}
+			  `}
+			>
+			  {month.name}
+			  {month.status === 'completed' && (
+				<span className="ml-1 text-xs font-bold">✔</span>
+			  )}
+			  {month.status === 'missed' && (
+				<span className="ml-1 text-xs font-bold">✖</span>
+			  )}
+			</div>
+		  ))}
+		</div>
+	  );
+
+}
 const MonthlySavings = () => {
     return (
 		<div className="min-h-screen text-gray-300 p-6">
@@ -70,7 +110,8 @@ const MonthlySavings = () => {
 								<th className="px-4 py-3">S/N</th>
 								<th className="px-4 py-3">Group Members</th>
 								<th className="px-4 py-3">Amount Contributed</th>
-								<th className="px-4 py-3">Outstanding Payment</th>
+								<th className="px-4 py-3">Contribution Status Log</th>
+								<th className="px-4 py-3">Outstanding </th>
 							</tr>
 						</thead>
 						<tbody>
@@ -116,9 +157,13 @@ const MonthlySavings = () => {
 									key={item.id}
 									className="border-t border-[#EAECF0] bg-transparent hover:bg-[#2D3748]"
 								>
-									<td className="px-4 py-3">{item.id}</td>
+									<td className="px-4 py-3 flex items-center">
+										<input type="checkbox" className="form-checkbox mr-2" />
+										{item.id}
+									</td>
 									<td className="px-4 py-3">{item.name}</td>
 									<td className="px-4 py-3">{item.contributed}</td>
+									<td className="px-4 py-3"><ContributionStatus /></td>
 									<td className="px-4 py-3">{item.outstanding}</td>
 								</tr>
 							))}
