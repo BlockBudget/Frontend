@@ -17,7 +17,7 @@ import {
   
 export const config = createConfig({
     chains: [liskSepolia, lisk,mainnet, polygon, optimism],
-    connectors: [injected(), metaMask(), safe()],
+    connectors: [  safe()],
     transports: {
       [lisk.id]: http(),
       [mainnet.id]: http(),

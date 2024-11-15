@@ -76,9 +76,14 @@ export const ConnectBtn = () => {
                         )}
                       </div>
                     )}
-                    {chain.name}
+                    {/* {chain.name} */}
                   </button>
-                  
+                  <button onClick={openAccountModal} className="w-full bg-transparent border text-white  py-2 px-7 text-sm rounded-full" type="button">
+                    {account.displayName}
+                    {/* {account.displayBalance
+                      ? ` (${account.displayBalance})`
+                      : ""} */}
+                  </button>
                 </div>
               );
             })()}

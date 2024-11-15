@@ -5,16 +5,16 @@ import React from "react";
 function CreateLockedSavings() {
 	return (
 		<>
-			<div className="w-11/12 m-auto">
-				<Link href="/" className="flex space-x-2">
+			<div className="w-full m-auto">
+				<Link href="/dashboard" className="flex space-x-2">
 					<IndentDecrease className="text-white " size={20} />{" "}
 					<span className="text-white font-montserrat font-semibold text-sm">
 						Back
 					</span>
 				</Link>
 			</div>
-			<div className="min-h-screen flex items-center justify-center p-6">
-				<div className="w-full relative max-w-lg bg-[#00000052] border-2 border-gray-700 rounded-[48px] p-8 shadow-lg overflow-hidden text-gray-300">
+			<div className="min-h-screen flex items-center -mt-12 justify-center p-6">
+				<div className="w-full relative max-w-lg bg-gradient-to-b from-gray-900 to-[#1d1f24] border-2 border-gray-700 rounded-[48px] p-8 shadow-lg overflow-hidden text-gray-300">
 					<h2 className="text-2xl font-montserrat font-semibold text-center text-white mb-8">
 						Create a new locked savings
 					</h2>
@@ -66,8 +66,8 @@ function CreateLockedSavings() {
 						</button>
 					</form>
 
-					<div className="absolute bg-opacity-40 z-0 backdrop-blur-lg bg-gradient-to-t from-[#0a0a0a99] to-transparent left-0 right-0 h-full -z-5 w-full rounded-full -bottom-[200px]">
-						<div className="bg-[#27292924] h-1/2 m-auto mt-20 w-3/5 blur-sm rounded-full"></div>
+					<div className="absolute bg-opacity-40 z-0 backdrop-blur-lg bg-gray-800 left-0 right-0 h-full -z-5 w-full rounded-full -bottom-[200px]">
+						<div className="bg-gray-700/20 h-1/2 m-auto mt-20 w-3/5 blur-sm rounded-full"></div>
 					</div>
 				</div>
 			</div>

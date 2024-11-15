@@ -1,6 +1,7 @@
 "use client"
 import { ConnectBtn } from "@/components/ConnectBtn";
 import Navbar from "@/components/Navbar";
+import Link from "next/link";
 import React from "react";
 import { useAccount } from "wagmi";
 
@@ -9,8 +10,9 @@ const LandingPage = () => {
 	return (
 		<>
 			<div className="min-h-screen bg-[#0E141B] text-gray-300  ">
+				<div className="w-11/12 m-auto ">
 				<Navbar />
-				<div className="relative overflow-hidden w-11/12 m-auto flex flex-col justify-center items-center pt-16">
+				<div className="relative overflow-hidden flex flex-col justify-center items-center pt-16">
 					<div className="absolute inset-0 z-0">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -58,8 +60,8 @@ const LandingPage = () => {
 
 						<div className="grid grid-cols-3 items-center gap-6">
 							{isConnected ? (
-								<button className="px-6 py-2 border border-gray-500 text-sm text-white rounded-rounded shadow-md ">
-									Get Started
+								<button className="px-6 py-2 border border-gray-500 text-sm text-white rounded-full shadow-md ">
+								<Link href="/dashboard">Get Started</Link>	
 								</button>
 							) : (
 								<ConnectBtn />
@@ -79,6 +81,7 @@ const LandingPage = () => {
 							</p>
 						</div>
 					</div>
+				</div>
 				</div>
 			</div>
 		</>

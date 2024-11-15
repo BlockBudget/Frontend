@@ -4,7 +4,7 @@ import Avatar from "@/components/Avatar";
 function CreateSavingsGroup() {
     return(
         <>
-            <div className="avatar w-11/12 m-auto flex items-center ml-5">
+            <div className="avatar flex items-center">
                 <div className="avatar-main">
                 <Avatar src="/avatar.svg" alt="User avatar" size={50} />
                 </div>
@@ -13,7 +13,7 @@ function CreateSavingsGroup() {
                     <p className="name text-white p-2 font-extrabold">Jerome Bell</p>
                 </div>
             </div>
-            <div className="contribution-table flex flex-col">
+            <div className="contribution-table flex  mt-8 flex-col">
                 <div className="contribution-header text-center">
                     <p className="name text-white p-2 mb-5 font-bold">My Contribution groups</p>
                 </div>
