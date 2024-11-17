@@ -90,7 +90,7 @@ const page = () => {
 	return (
 		<div className=" text-white">
 			{/* Dashboard Header */}
-			<div className="flex flex-col md:flex-row  justify-between items-center py-9">
+			<div className="flex flex-col md:flex-row   justify-between items-center py-9">
 				<h1 className="text-2xl md:text-4xl ml-9 font-semibold">Dashboard</h1>
 				<div className="flex  gap-4 pl-[500px]">
 					<img
@@ -113,7 +113,7 @@ const page = () => {
 				</div>
 			</div>
 
-			<div className="grid grid-flow-col gap-6">
+			<div className="grid grid-cols-12 gap-6">
 				<div className="flex flex-col col-span-9">
 					{/* Summary Boxes */}
 					<div className="grid grid-cols-3 gap-2  h-[150px] mb-6">
@@ -236,8 +236,8 @@ const page = () => {
 						<h3 className="text-lg font-semibold mb-4">
 							My group contributions
 						</h3>
-						<div className="space-y-2 w-[376px] h-[80px] gap-[13px]">
-							<div className="flex justify-between items-center w-[376px] h-[80px] border-b-[3px] border-borderColor">
+						<div className="space-y-2 w-full h-[80px] gap-[13px]">
+							<div className="flex justify-between items-center  h-[80px] border-b-[3px] border-borderColor">
 								<div className="flex items-center gap-2">
 									<div className="w-[40px] h-[40px] rounded-full bg-orange-500"></div>
 									<div>
@@ -252,7 +252,7 @@ const page = () => {
 								</div>
 							</div>
 
-							<div className="flex justify-between items-center w-[376px] h-[80px] border-b-[3px] border-borderColor">
+							<div className="flex justify-between items-center  h-[80px] border-b-[3px] border-borderColor">
 								<div className="flex items-center gap-2">
 									<div className="w-[40px] h-[40px] rounded-full bg-purple-500"></div>
 									<div>
@@ -267,7 +267,7 @@ const page = () => {
 								</div>
 							</div>
 
-							<div className="flex justify-between items-center w-[376px] h-[80px] border-b-[3px] border-borderColor">
+							<div className="flex justify-between items-center  h-[80px] border-b-[3px] border-borderColor">
 								<div className="flex items-center gap-2">
 									<div className="w-[40px] h-[40px] rounded-full bg-purple-500"></div>
 									<div>
@@ -291,7 +291,7 @@ const page = () => {
 					<div className="relative rounded-[16px]  h-[370px] bg-dark-gray border border-borderColor p-4">
 						<h3 className="text-lg font-semibold mb-4">My Locked savings</h3>
 						<div className="space-y-2">
-							<div className="flex justify-between items-center w-[376px] h-[80px] border-b-[3px] border-borderColor">
+							<div className="flex justify-between items-center h-[80px] border-b-[3px] border-borderColor">
 								<div className="flex items-center gap-2">
 									<div className="w-[40px] h-[40px] rounded-full bg-orange-500"></div>
 									<div>
@@ -306,7 +306,7 @@ const page = () => {
 								</div>
 							</div>
 
-							<div className="flex justify-between items-center w-[376px] h-[80px] border-b-[3px] border-borderColor">
+							<div className="flex justify-between items-center h-[80px] border-b-[3px] border-borderColor">
 								<div className="flex items-center gap-2">
 									<div className="w-[40px] h-[40px] rounded-full bg-orange-500"></div>
 									<div>
@@ -321,7 +321,7 @@ const page = () => {
 								</div>
 							</div>
 
-							<div className="flex justify-between items-center w-[376px] h-[80px] border-b-[3px] border-borderColor">
+							<div className="flex justify-between items-center h-[80px] border-b-[3px] border-borderColor">
 								<div className="flex items-center gap-2">
 									<div className="w-[40px] h-[40px] rounded-full bg-orange-500"></div>
 									<div>

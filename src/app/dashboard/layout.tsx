@@ -1,15 +1,19 @@
+"use client"
 import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
+import { useState } from "react";
 
-
-const RootLayout = ({children,}:{children: React.ReactNode}) => {
-  return (
-    <div>
-        <div className="font-montserrat w-11/12 m-auto ">
-            <Navbar/>
-            {children}
-        </div>
-    </div>
-  )
-}
+const RootLayout = ({ children }: { children: React.ReactNode }) => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+	return (
+		<div className="flex font-montserrat h-screen gap-6">
+			<Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+			<div className={`${isCollapsed ? "ml-20 w-11/12 m-auto" : "ml-56 w-4/5 m-auto"} flex flex-col `}>
+				<Navbar />
+				{children}
+			</div>
+		</div>
+	);
+};
 
 export default RootLayout;
