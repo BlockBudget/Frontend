@@ -8,28 +8,25 @@ const CreateWatchlist = () => {
 			<div className="max-w-6xl mx-auto">
 				<div className="flex md:flex-row flex-col justify-between items-center my-10">
 					<p className="text-gray-400">
-						<span className="font-semibold text-white">Next payment due:</span>{" "}
-						Oct 4, 2024
+						<span className="font-semibold text-white"> Jerome Bell</span>{" "}
+						
 					</p>
 					<div className="space-x-4">
-						<button className="px-6 py-2 border border-gray-500 text-sm text-white rounded-xl shadow-md ">
-							Pay Now
-						</button>
-						<button className="px-6 py-2 border border-gray-500 text-sm text-gray-300 rounded-xl hover:border-white">
-							Pay All Now
-						</button>
 					</div>
 				</div>
 
 			
 				<div className="overflow-x-auto bg-transparent flex flex-col items-center justify-center min-w-1/2">
-                    <div className="flex items-center justify-between my-3 w-1/2">
+					<h2 className="text-left self-center w-[44%]">Create Whitelist</h2>
+                    <div className="flex items-center justify-between my-3 mx-3 w-[46%] gap-4">
 						<input type="text" placeholder="Enter wallet address" className="px-6 py-2 border  border-gray-500 bg-black text-sm text-gray-500 rounded-md shadow-md w-1/2 " />
-                        <button className="px-6 py-2 border border-gray-500 text-sm text-white rounded-xl shadow-md w-1/2 ">
+                        <button className="px-6 py-2 bg-[#0e131e] border border-gray-500 text-sm text-white rounded-xl shadow-md w-1/2 ">
                             Add Member
                         </button>
                     </div>
-					<table className=" border-2 border-[#fff] text-sm text-left text-[#FFFFFF]">
+                    <div className="border-2 border-gray-700 p-3 rounded-lg">
+
+					<table className="  text-sm text-left text-[#FFFFFF]">
 						<thead className="bg-[#131418] text-gray-300">
 							<tr>
 								<th className="px-4 py-3">S/N</th>
@@ -93,6 +90,7 @@ const CreateWatchlist = () => {
 							))}
 						</tbody>
 					</table>
+                    </div>
 				</div>
 			</div>
 		</div>
