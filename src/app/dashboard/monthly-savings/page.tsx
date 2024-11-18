@@ -163,7 +163,7 @@ const MonthlySavings = () => {
 									</td>
 									<td className="px-4 py-3">{item.name}</td>
 									<td className="px-4 py-3">{item.contributed}</td>
-									<td className="px-4 py-3"><ContributionStatus /></td>
+									<td className="px-4 py-3"><ContributionStatus/></td>
 									<td className="px-4 py-3">{item.outstanding}</td>
 								</tr>
 							))}
