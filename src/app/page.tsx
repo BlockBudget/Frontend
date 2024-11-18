@@ -1,12 +1,32 @@
 "use client"
 import { ConnectBtn } from "@/components/ConnectBtn";
 import Navbar from "@/components/Navbar";
+import { abi } from "@/context/abi";
+import { contractAddress } from "@/context/contractAddress";
 import Link from "next/link";
 import React from "react";
 import { useAccount } from "wagmi";
+import { useWriteContract } from "wagmi";
+import { useReadContract } from "wagmi";
 
 const LandingPage = () => {
-	const { isConnected } = useAccount();
+	const { isConnected,address } = useAccount();
+// 	const {writeContract} = useWriteContract();
+// 	 const result = useReadContract({
+//     abi,
+//     address: contractAddress,
+//     functionName: ' userProfiles',
+// 	args:[address]
+//   })
+  
+// console.log(result);
+
+// 	writeContract({
+// 		abi:abi,
+// 		address:contractAddress,
+// 		functionName:" registerUser",
+// 		args:["peter"]
+// 	})
 	return (
 		<>
 			<div className="min-h-screen bg-[#0E141B] text-gray-300  ">

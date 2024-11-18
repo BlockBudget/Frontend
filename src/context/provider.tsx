@@ -13,7 +13,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
 		<div>
 			<WagmiProvider config={config}>
 				<QueryClientProvider client={queryClient}>
-					<ThirdwebProvider >
+					<ThirdwebProvider>
 						{children}
 					</ThirdwebProvider>
 				</QueryClientProvider>
