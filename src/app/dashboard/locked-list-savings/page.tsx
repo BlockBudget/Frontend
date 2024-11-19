@@ -8,11 +8,11 @@ import { useState, useEffect } from "react";
 import { parseEther } from "viem";
 
 function CreateLockedSavings() {
-    const [lockedSavingsList, setLockedSavingsList] = useState<any[]>([]);
+    const [lockedSavingsList, setLockedSavingsList] = useState<any>();
     const {address} = useAccount();
 
 
-    const {data:asyncLockedSavingsList,isLoading,error,isSuccess} = useReadContract({
+    const {data:asyncLockedSavingsList,isLoading,error,isSuccess}:any = useReadContract({
         address: contractAddress,
         abi: abi,
         functionName: "getTimeLockedAccountDetails",
@@ -26,16 +26,21 @@ function CreateLockedSavings() {
         if (error) {
             console.error("Error reading contract:", error);
         }
-        if (isSuccess) {
-            setLockedSavingsList(asyncLockedSavingsList as any[]);
-          console.log("lockedSavingsList::", lockedSavingsList);
-          console.log("ASYNCLOCKED",asyncLockedSavingsList)
+      
+        if (isSuccess && asyncLockedSavingsList) {
+            const transformedList = {
+                balance: asyncLockedSavingsList[0],
+                accruedInterest: asyncLockedSavingsList[1],
+                lockEndTime: asyncLockedSavingsList[2],
+                isActive: asyncLockedSavingsList[3]
+            };
+            setLockedSavingsList(transformedList);
+            // console.log("lockedSavingsList::", transformedList);
+            console.log("ASYNCLOCKED", lockedSavingsList);
         }
-      },[isLoading,error,isSuccess,asyncLockedSavingsList])
+    }, [isLoading, error, isSuccess, asyncLockedSavingsList]);
 
-      lockedSavingsList.map((item)=>{
-        console.log(item, "items")
-      })
+   
     return(
         <>
             <div className="avatar  flex items-center">
@@ -63,15 +68,15 @@ function CreateLockedSavings() {
 					</tr>
 				</thead>
                 <tbody>
-                    {lockedSavingsList.map((item, index) => (
+                   
                         <tr>
-						  <td key={index} className="border-l-0 pl-2 border-r-0 border  py-2 text-gray-500">{index + 1}</td>
-						  <td key={index} className="border-l-0 border-r-0 border  py-2 text-white">{item.balance}</td>
-						  <td key={index} className="border-l-0 border-r-0 border  py-2 text-white">{item.accruedInterest}</td>
-						  <td key={index} className="border-l-0 border-r-0 border  py-2 text-white">{item.lockEndTime}</td>
-						  {/* <td className="border-l-0 border-r-0 border  py-2 text-white">{item.isActive ? "Yes" : "No"}</td> */}
+						  <td  className="border-l-0 pl-2 border-r-0 border  py-2 text-gray-500">1</td>
+						  <td  className="border-l-0 border-r-0 border  py-2 text-white">{lockedSavingsList?.balance}</td>
+						  <td  className="border-l-0 border-r-0 border  py-2 text-white">{lockedSavingsList?.accruedInterest}</td>
+						  <td className="border-l-0 border-r-0 border  py-2 text-white">{lockedSavingsList?.lockEndTime}</td>
+						  <td className="border-l-0 border-r-0 border  py-2 text-white">{lockedSavingsList?.isActive ? "Yes" : "No"}</td>
 						</tr>
-                    ))}
+
                 </tbody>
                 </table>
             </div>
