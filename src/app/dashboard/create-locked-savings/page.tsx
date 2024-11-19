@@ -1,8 +1,74 @@
+"use client";
 import { IndentDecrease } from "lucide-react";
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useState, useEffect } from "react";
+import { abi } from "../../../context/abi";
+import { contractAddress } from "../../../context/contractAddress";
+import { useWriteContract,useWaitForTransactionReceipt,useAccount } from "wagmi";
+import { parseEther } from "viem";
+import { useRouter } from "next/navigation";
+
 
 function CreateLockedSavings() {
+	const [accountType, setAccountType] = useState("");
+	const [interestType, setInterestType] = useState("");
+	const [lockDuration, setLockDuration] = useState("");
+	const [initialDeposit, setInitialDeposit] = useState("");
+	const [txHash, setTxHash] = useState(''); // Transaction hash
+
+
+	const router = useRouter();
+	const {writeContractAsync,isPending} = useWriteContract();
+
+	const handleSubmit = async (e:any) => {
+		e.preventDefault();
+		// Add your blockchain submission logic here
+		
+		const dueDateTimestamp = Math.floor(new Date(lockDuration).getTime() / 1000);
+		
+
+		try {
+			// Convert amount to wei (1 ether = 10^18 wei)
+			const amountInWei = parseEther(initialDeposit);
+	  
+			// Convert date to Unix timestamp
+			// const dueDateTimestamp = Math.floor(new Date(date).getTime() / 1000);
+	  
+			const tx = await writeContractAsync({
+			  address: contractAddress,
+			  abi: abi,
+			  functionName: "createTimeLockedAccount",
+			  args: [
+				accountType,
+				interestType,
+				dueDateTimestamp, 
+				amountInWei
+			  ]
+			});
+
+			console.log("creating savings....")
+			setTxHash(tx); 
+			
+			// console.log("tx::",tx);
+			// toast.info("Transaction submitted. Waiting for confirmation...")    
+		  } catch (err) {
+			console.error("Error creating locked account:", err);
+			// toast.error("Error creating invoice: " + err.message);
+		  }
+	};
+
+	const { isLoading: isConfirming, isSuccess: isConfirmed } =
+	useWaitForTransactionReceipt({
+	  hash: txHash as `0x${string}`,
+	});
+
+	useEffect(() => {
+		if (isConfirmed) {
+			// toast.success("Transaction confirmed successfully");
+			router.push("/locked-list-savings");
+		}
+	}, [isConfirmed]);
 
 	return (
 		<>
@@ -20,50 +86,72 @@ function CreateLockedSavings() {
 						Create a new locked savings
 					</h2>
 
-					<form className="space-y-5 relative z-50">
+					<form className="space-y-5 relative z-50" onSubmit={handleSubmit}>
 						<div>
 							<label className="block mb-1 text-sm font-medium text-[#FFFFFF]">
-								Savings name
+								Account Type
+							</label>
+							<select
+								value={accountType}
+								onChange={(e) => setAccountType(e.target.value)}
+								className="w-full px-4 py-1 bg-[#131418] border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+							>
+								<option value="">Select Account Type</option>
+								<option value="0">Savings</option>
+								<option value="1">Checking</option>
+								<option value="2">Investment</option>
+							</select>
+						</div>
+
+						<div>
+							<label className="block mb-1 text-sm font-medium text-[#FFFFFF]">
+								Interest Type
+							</label>
+							<select
+								value={interestType}
+								onChange={(e) => setInterestType(e.target.value)}
+								className="w-full px-4 py-1 bg-[#131418] border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+							>
+								<option value="">Select Interest Type</option>
+								<option value="0">Fixed</option>
+								<option value="1">Variable</option>
+								<option value="2">Compound</option>
+							</select>
+						</div>
+
+						<div>
+							<label className="block mb-1 text-sm font-medium text-[#FFFFFF]">
+								Lock Duration
+							</label>
+							<select
+								value={lockDuration}
+								onChange={(e) => setLockDuration(e.target.value)}
+								className="w-full px-4 py-1 bg-[#131418] border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+							>
+								<option value="">Select Lock Duration</option>
+								<option value="1">1 Month</option>
+								<option value="6">6 Months</option>
+								<option value="12">1 Year</option>
+							</select>
+						</div>
+						<div>
+							<label className="block mb-1 text-sm font-medium text-[#FFFFFF]">
+								Initial Deposit
 							</label>
 							<input
-								type="text"
-								placeholder="Enter a name for this savings"
+								type="number"
+								placeholder="Enter initial deposit"
+								value={initialDeposit}
+								onChange={(e) => setInitialDeposit(e.target.value)}	
 								className="w-full px-4 py-1 placeholder:text-sm bg-[#131418] border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
 							/>
 						</div>
 
-						<div>
-							<label className="block mb-1 text-sm font-medium text-[#FFFFFF]">
-								Target amount
-							</label>
-							<input
-								type="number"
-								placeholder="Set your savings target"
-								className="w-full px-4 py-1 bg-[#131418] placeholder:text-sm border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-							/>
-						</div>
-
-						<div>
-							<label className="block mb-1 text-sm font-medium text-[#FFFFFF]">
-								Savings life span
-							</label>
-							<div className="flex space-x-4">
-								<input
-									type="date"
-									className="w-full px-4 py-1 bg-[#131418]  border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-								/>
-								{/* <input
-									type="date"
-									className="w-full px-4 py-1 bg-[#131418]  border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-								/> */}
-							</div>
-						</div>
-
 						<button
 							type="submit"
-							className="w-full py-2 mt-4 bg-[#131418]  text-white font-semibold rounded-full hover:bg-[#131418]  transition duration-200"
+							className="w-full py-2 mt-4 bg-[#131418] text-white font-semibold rounded-full hover:bg-[#131418] transition duration-200"
 						>
-							Create Savings
+							{isPending ? "Confirming..." : "Create Savings"}
 						</button>
 					</form>
 
