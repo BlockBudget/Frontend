@@ -188,6 +188,72 @@ export const abi = [
 		inputs: [
 			{
 				internalType: "bytes32",
+				name: "goalId",
+				type: "bytes32",
+			},
+		],
+		name: "calculateGoalProgress",
+		outputs: [
+			{
+				internalType: "uint256",
+				name: "percentageComplete",
+				type: "uint256",
+			},
+			{
+				internalType: "uint256",
+				name: "remaining",
+				type: "uint256",
+			},
+			{
+				internalType: "uint256",
+				name: "timeLeft",
+				type: "uint256",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [],
+		name: "calculateInterest",
+		outputs: [
+			{
+				internalType: "uint256",
+				name: "",
+				type: "uint256",
+			},
+		],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "bytes32",
+				name: "goalId",
+				type: "bytes32",
+			},
+			{
+				internalType: "uint256",
+				name: "milestoneIndex",
+				type: "uint256",
+			},
+		],
+		name: "checkMilestoneProgress",
+		outputs: [
+			{
+				internalType: "bool",
+				name: "",
+				type: "bool",
+			},
+		],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "bytes32",
 				name: "campaignId",
 				type: "bytes32",
 			},
@@ -201,34 +267,6 @@ export const abi = [
 			},
 		],
 		stateMutability: "payable",
-		type: "function",
-	},
-	{
-		inputs: [
-			{
-				internalType: "uint256",
-				name: "_timeframe",
-				type: "uint256",
-			},
-			{
-				internalType: "uint256",
-				name: "_totalBudget",
-				type: "uint256",
-			},
-			{
-				internalType: "string[]",
-				name: "_categories",
-				type: "string[]",
-			},
-			{
-				internalType: "uint256[]",
-				name: "_limits",
-				type: "uint256[]",
-			},
-		],
-		name: "createBudget",
-		outputs: [],
-		stateMutability: "nonpayable",
 		type: "function",
 	},
 	{
@@ -360,6 +398,83 @@ export const abi = [
 	{
 		inputs: [
 			{
+				internalType: "bytes32",
+				name: "goalId",
+				type: "bytes32",
+			},
+			{
+				internalType: "string",
+				name: "description",
+				type: "string",
+			},
+			{
+				internalType: "uint256",
+				name: "targetAmount",
+				type: "uint256",
+			},
+			{
+				internalType: "uint256",
+				name: "deadline",
+				type: "uint256",
+			},
+			{
+				internalType: "uint256",
+				name: "rewardAmount",
+				type: "uint256",
+			},
+		],
+		name: "defineSavingsMilestone",
+		outputs: [
+			{
+				internalType: "uint256",
+				name: "",
+				type: "uint256",
+			},
+		],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "uint256",
+				name: "amount",
+				type: "uint256",
+			},
+		],
+		name: "deposit",
+		outputs: [
+			{
+				internalType: "bool",
+				name: "",
+				type: "bool",
+			},
+		],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "bytes32",
+				name: "campaignId",
+				type: "bytes32",
+			},
+		],
+		name: "endCampaign",
+		outputs: [
+			{
+				internalType: "bool",
+				name: "",
+				type: "bool",
+			},
+		],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
 				internalType: "address",
 				name: "",
 				type: "address",
@@ -444,6 +559,54 @@ export const abi = [
 		inputs: [
 			{
 				internalType: "bytes32",
+				name: "campaignId",
+				type: "bytes32",
+			},
+			{
+				internalType: "address",
+				name: "contributor",
+				type: "address",
+			},
+		],
+		name: "getContribution",
+		outputs: [
+			{
+				internalType: "uint256",
+				name: "",
+				type: "uint256",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "bytes32",
+				name: "goalId",
+				type: "bytes32",
+			},
+			{
+				internalType: "address",
+				name: "contributor",
+				type: "address",
+			},
+		],
+		name: "getGoalContributionHistory",
+		outputs: [
+			{
+				internalType: "uint256[]",
+				name: "",
+				type: "uint256[]",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "bytes32",
 				name: "goalId",
 				type: "bytes32",
 			},
@@ -487,6 +650,63 @@ export const abi = [
 	{
 		inputs: [
 			{
+				internalType: "bytes32",
+				name: "goalId",
+				type: "bytes32",
+			},
+			{
+				internalType: "uint256",
+				name: "milestoneIndex",
+				type: "uint256",
+			},
+		],
+		name: "getMilestoneDetails",
+		outputs: [
+			{
+				internalType: "string",
+				name: "description",
+				type: "string",
+			},
+			{
+				internalType: "uint256",
+				name: "targetAmount",
+				type: "uint256",
+			},
+			{
+				internalType: "uint256",
+				name: "deadline",
+				type: "uint256",
+			},
+			{
+				internalType: "bool",
+				name: "isCompleted",
+				type: "bool",
+			},
+			{
+				internalType: "uint256",
+				name: "completedAt",
+				type: "uint256",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [],
+		name: "getRemainingLockTime",
+		outputs: [
+			{
+				internalType: "uint256",
+				name: "",
+				type: "uint256",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
 				internalType: "address",
 				name: "user",
 				type: "address",
@@ -513,6 +733,24 @@ export const abi = [
 				internalType: "bool",
 				name: "isActive",
 				type: "bool",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [],
+		name: "getTransactionHistory",
+		outputs: [
+			{
+				internalType: "uint256[]",
+				name: "deposits",
+				type: "uint256[]",
+			},
+			{
+				internalType: "uint256[]",
+				name: "withdrawals",
+				type: "uint256[]",
 			},
 		],
 		stateMutability: "view",
@@ -553,6 +791,53 @@ export const abi = [
 		type: "function",
 	},
 	{
+		inputs: [
+			{
+				internalType: "bytes32",
+				name: "campaignId",
+				type: "bytes32",
+			},
+			{
+				internalType: "address",
+				name: "contributor",
+				type: "address",
+			},
+		],
+		name: "isWhitelisted",
+		outputs: [
+			{
+				internalType: "bool",
+				name: "",
+				type: "bool",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "bytes32",
+				name: "goalId",
+				type: "bytes32",
+			},
+			{
+				internalType: "uint256",
+				name: "newTarget",
+				type: "uint256",
+			},
+			{
+				internalType: "uint256",
+				name: "newDeadline",
+				type: "uint256",
+			},
+		],
+		name: "modifySavingsGoal",
+		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
 		inputs: [],
 		name: "owner",
 		outputs: [
@@ -563,6 +848,30 @@ export const abi = [
 			},
 		],
 		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "bytes32",
+				name: "campaignId",
+				type: "bytes32",
+			},
+			{
+				internalType: "address",
+				name: "contributor",
+				type: "address",
+			},
+		],
+		name: "refundContribution",
+		outputs: [
+			{
+				internalType: "bool",
+				name: "",
+				type: "bool",
+			},
+		],
+		stateMutability: "nonpayable",
 		type: "function",
 	},
 	{
@@ -588,12 +897,54 @@ export const abi = [
 	{
 		inputs: [
 			{
+				internalType: "bytes32",
+				name: "goalId",
+				type: "bytes32",
+			},
+		],
+		name: "trackSavingRate",
+		outputs: [
+			{
+				internalType: "uint256",
+				name: "",
+				type: "uint256",
+			},
+		],
+		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
 				internalType: "address",
 				name: "newOwner",
 				type: "address",
 			},
 		],
 		name: "transferOwnership",
+		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "bytes32",
+				name: "goalId",
+				type: "bytes32",
+			},
+			{
+				internalType: "string",
+				name: "actionType",
+				type: "string",
+			},
+			{
+				internalType: "string",
+				name: "reason",
+				type: "string",
+			},
+		],
+		name: "triggerEmergencyAction",
 		outputs: [],
 		stateMutability: "nonpayable",
 		type: "function",
@@ -782,6 +1133,105 @@ export const abi = [
 			},
 		],
 		stateMutability: "view",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "bytes32",
+				name: "goalId",
+				type: "bytes32",
+			},
+		],
+		name: "verifyGoalCompletion",
+		outputs: [
+			{
+				internalType: "bool",
+				name: "",
+				type: "bool",
+			},
+		],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "bytes32",
+				name: "campaignId",
+				type: "bytes32",
+			},
+			{
+				internalType: "address[]",
+				name: "addresses",
+				type: "address[]",
+			},
+		],
+		name: "whitelistAddresses",
+		outputs: [],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "uint256",
+				name: "amount",
+				type: "uint256",
+			},
+		],
+		name: "withdraw",
+		outputs: [
+			{
+				internalType: "bool",
+				name: "",
+				type: "bool",
+			},
+		],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "bytes32",
+				name: "campaignId",
+				type: "bytes32",
+			},
+		],
+		name: "withdrawContribution",
+		outputs: [
+			{
+				internalType: "bool",
+				name: "",
+				type: "bool",
+			},
+		],
+		stateMutability: "nonpayable",
+		type: "function",
+	},
+	{
+		inputs: [
+			{
+				internalType: "bytes32",
+				name: "goalId",
+				type: "bytes32",
+			},
+			{
+				internalType: "uint256",
+				name: "amount",
+				type: "uint256",
+			},
+		],
+		name: "withdrawFromGoal",
+		outputs: [
+			{
+				internalType: "bool",
+				name: "",
+				type: "bool",
+			},
+		],
+		stateMutability: "nonpayable",
 		type: "function",
 	},
 ];
