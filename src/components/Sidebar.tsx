@@ -4,47 +4,50 @@ import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import {
 	Settings,
-	Home,
 	Inbox,
 	PieChart,
 	PanelRightOpen,
 	PanelLeftClose,
-	Bot,
-	UsersRound,
-	GitMerge,
-	LayoutGrid,
-	PowerCircle,
+	ChartNoAxesCombined,
+	PiggyBank,
+	LogOut,
+	Bell,
+	Users,
+	Vault,
+	HandCoins,
 } from "lucide-react";
 import Image from "next/image";
+import { useUserProfile } from "../hooks/RegisteredUser";
 
 export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 	const pathname = usePathname();
+	const { userProfile } = useUserProfile();
 
 	const navs = [
 		{
 			title: "Dashboard",
-			icon: <Home className="h-5 w-5" />,
+			icon: <ChartNoAxesCombined className="h-5 w-5" />,
 			url: "/dashboard",
 		},
 		{
-			title: "Create new savings",
-			icon: <PieChart className="h-5 w-5" />,
+			title: "Contribution",
+			icon: <HandCoins className="h-5 w-5" />,
 			url: "/dashboard/create-savings",
 		},
 		{
-			title: "Create new group",
-			icon: <Inbox className="h-5 w-5" />,
+			title: "Create savings",
+			icon: <Vault className="h-5 w-5" />,
 			url: "/dashboard/create-locked-savings",
 		},
 		{
 			title: "Savings",
-			icon: <Bot className="h-5 w-5" />,
+			icon: <PiggyBank className="h-5 w-5" />,
 			url: "/dashboard/savings",
 		},
 		{
 			title: "Groups",
-			icon: <GitMerge className="h-5 w-5" />,
-			url: "/flows",
+			icon: <Users className="h-5 w-5" />,
+			url: "#",
 		},
 	];
 
@@ -55,8 +58,13 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 			url: "/integrations",
 		},
 		{
+			title: "Notifications",
+			icon: <Bell className="h-5 w-5" />,
+			url: "#",
+		},
+		{
 			title: "Logout",
-			icon: <PowerCircle className="h-5 w-5" />,
+			icon: <LogOut className="h-5 w-5" />,
 			url: "/settings",
 		},
 	];
@@ -65,16 +73,16 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 		<aside
 			className={`min-h-screen ${
 				isCollapsed ? "w-16" : "w-52"
-			} transition-all fixed duration-300  bg-gradient-to-r text-white from-gray-900 to-gray-800 border-r border-[#344054] py-2 px-4`}
+			} transition-all fixed duration-300  bg-[#00000052] text-white  border-r border-[#344054] py-2 px-2`}
 		>
-			<div className="flex justify-between items-center py-3">
-				<div className="text-base font-medium flex space-x-3 ">
-					{/* <Image src={Logo} alt="logo" className="h-7 w-10" /> */}
+			<div className="flex justify-between items-center py-3 px-2">
+				<Link href="/" className="text-base font-semibold items-center flex space-x-3 ">
+					<img src="/Frame.png" alt="logo" className="h-8 w-8" />
 					<span>{!isCollapsed && "BlockBudget"}</span>
-				</div>
+				</Link>
 				<button
 					className={`absolute top-5 ${
-						!isCollapsed ? "right-5" : "right-0"
+						!isCollapsed ? "right-2" : "right-0"
 					} text-gray-600`}
 					onClick={() => setIsCollapsed(!isCollapsed)}
 				>
@@ -86,7 +94,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 				</button>
 			</div>
 
-			<nav className="mt-2 space-y-32">
+			<nav className="mt-2  flex flex-col justify-between h-[85vh]">
 				<div className="space-y-3">
 					{navs.map((nav) => {
 						const isActive = pathname === nav.url;
@@ -94,13 +102,19 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 							<Link
 								href={nav.url}
 								key={nav.title}
-								className={`flex items-center space-x-3 p-2 font-semibold  rounded-lg transition-colors ${
+								className={`flex items-center space-x-3  py-2 ${
+									isCollapsed ? "px-3" : "px-4"
+								} border border-[#FFFFFF1A] font-semibold transition-colors ${
 									isActive
 										? "bg-gray-200  text-black"
-										: "text-white bg-[#0E131E] hover:bg-[#F5F5F5]"
+										: "text-[#FFFFFF] bg-[#0E131E] hover:text-black hover:bg-gray-200 "
 								}`}
 							>
-								<div className={`${isActive ? "text-black" : "text-white"}`}>
+								<div
+									className={`${
+										isActive ? "text-black" : "text-[#FFFFFF] hover:text-black"
+									}`}
+								>
 									{nav.icon}
 								</div>
 								{!isCollapsed && (
@@ -117,14 +131,18 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 							<Link
 								href={setting.url}
 								key={setting.title}
-								className={`flex items-center space-x-3 p-2 font-semibold rounded-lg transition-colors ${
+								className={`flex items-center space-x-3 py-2 ${
+									isCollapsed ? "px-3" : "px-4"
+								}  border border-[#FFFFFF1A] font-semibold transition-colors ${
 									isActive
 										? "bg-gray-200  text-black"
-										: "text-white bg-[#0E131E] hover:bg-[#F5F5F5]"
+										: "text-[#FFFFFF] bg-[#0E131E] hover:text-black hover:bg-gray-200  "
 								}`}
 							>
 								<div
-									className={`${isActive ? "text-black" : "text-white"}`}
+									className={`${
+										isActive ? "text-black" : "text-[#FFFFFF] hover:text-black"
+									}`}
 								>
 									{setting.icon}
 								</div>
@@ -134,6 +152,18 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 							</Link>
 						);
 					})}
+					<div className="mt-4 cursor-pointer flex gap-3 items-center ">
+						<img
+							src="/user10.jpg"
+							alt="user icon"
+							className="object-cover rounded-full h-7 w-7"
+						/>
+						{!isCollapsed && (
+							<span className="text-sm overflow-hidden text-ellipsis font-medium">
+								{userProfile?.userAddress}
+							</span>
+						)}
+					</div>
 				</div>
 			</nav>
 		</aside>
