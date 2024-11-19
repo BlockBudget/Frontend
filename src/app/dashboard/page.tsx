@@ -90,8 +90,6 @@ const page = () => {
     borderRadius: 10,
   };
 
-  console.log(getCampaignDetails("1"));
-
   return (
     <div className=" text-white">
       {/* Dashboard Header */}

@@ -3,7 +3,7 @@ import { contractAddress } from "../context/contractAddress";
 import { useReadContract } from "wagmi";
 
 export const useGetCampaignDetails = () => {
-  const getCampaignDetails = async (campaignId: string) => {
+  const getCampaignDetails = (campaignId: string) => {
     return useReadContract({
       abi,
       address: contractAddress,
