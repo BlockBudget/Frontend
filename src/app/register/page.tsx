@@ -9,12 +9,12 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 function RegisterUser() {
-	const { writeContract, isPending, isSuccess, isError, error } = useWriteContract();
-    const {address} = useAccount();
+	const { writeContract, isPending, isSuccess, isError } = useWriteContract();
+	const { address } = useAccount();
 	const [userName, setUserName] = useState("");
 	const router = useRouter();
 
-	const handleCreateUser = (e:any) => {
+	const handleCreateUser = (e: any) => {
 		e.preventDefault();
 		try {
 			writeContract({
@@ -25,18 +25,15 @@ function RegisterUser() {
 				account: address,
 			});
 			if (isSuccess) {
-				toast.success('Registered successfully!', {
-					icon: '✅',
-				  });
-				  router.push("/dashboard");
-				}
-
+				toast.success("Registered successfully!", {
+					icon: "✅",
+				});
+			}
+			router.push("/dashboard");
 		} catch (error) {
-
-			toast.error('Registration Failed. Please try again.', {
-			  icon: '❌',
+			toast.error("Registration Failed. Please try again.", {
+				icon: "❌",
 			});
-
 		}
 	};
 	return (
@@ -64,12 +61,13 @@ function RegisterUser() {
 						<button
 							type="submit"
 							disabled={isPending}
-							className="w-full py-2 mt-4 bg-[#131418] shadow-sm  text-white font-semibold rounded-full hover:bg-[#131418]  transition duration-200"
+							className={`w-full py-2 mt-4 border border-gray-700 ${
+								isPending ? "bg-[#1f2024]" : "bg-[#131418]"
+							}  shadow-sm  text-white font-semibold rounded-full hover:bg-[#131418]  transition duration-200`}
 						>
-							Create Account
+							{isPending ? "loading..." : "Create Account"}
 						</button>
 					</form>
-
 				</div>
 			</div>
 		</>
