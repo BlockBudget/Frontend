@@ -97,7 +97,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 								className={`flex items-center space-x-3 p-2 font-semibold  rounded-lg transition-colors ${
 									isActive
 										? "bg-gray-200  text-black"
-										: "text-white bg-[#0E131E] hover:bg-[#F5F5F5]"
+										: "text-white bg-[#0E131E] hover:bg-[#F5F5F5] hover:text-gray-700"
 								}`}
 							>
 								<div className={`${isActive ? "text-black" : "text-white"}`}>
@@ -120,7 +120,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 								className={`flex items-center space-x-3 p-2 font-semibold rounded-lg transition-colors ${
 									isActive
 										? "bg-gray-200  text-black"
-										: "text-white bg-[#0E131E] hover:bg-[#F5F5F5]"
+										: "text-white bg-[#0E131E] hover:bg-[#F5F5F5] hover:text-gray-700"
 								}`}
 							>
 								<div

@@ -1,8 +1,63 @@
+"use client"
 import { IndentDecrease } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { contractAddress } from "@/context/contractAddress";
+import { ToastContainer, toast } from "react-toastify";
+import { abi } from "@/context/abi";
+import { useWriteContract,useWaitForTransactionReceipt } from "wagmi";
+import { parseEther } from "viem";
 
 function CreateLockedSavings() {
+	const [savingsName, setSavingsName] = useState("");
+	const [description, setDescription] = useState("");
+	const [targetAmount, setTargetAmount] = useState("0");
+	const [duration, setDuration] = useState("");
+	const [isPrivate, setIsPrivate] = useState(false);
+	const [txHash, setTxHash] = useState<`0x${string}` | null>(null);
+
+	const {writeContractAsync,isPending} = useWriteContract();
+
+	const handleCreateNewSaving = async (event:React.FormEvent<HTMLFormElement>) => {
+		try {
+			event.preventDefault();
+			const targetAmountToReach = parseEther(targetAmount);
+			const durationTimestamp = Math.floor(new Date(duration).getTime() / 1000);
+
+			const tx = await writeContractAsync({
+				address: contractAddress,
+				abi: abi,
+				functionName: "createCampaign",
+				args: [
+					savingsName,
+					savingsName,
+					targetAmountToReach,
+					durationTimestamp,
+					isPrivate
+				]
+			})
+
+			console.log(tx);
+			setTxHash(tx); 
+			toast.info("Campaign Submitted. Waiting for confirmation...") 
+
+		} catch (error) {
+			console.error("Error creating invoice:", error);
+      		toast.error("Error creating invoice: " + error);
+		}
+	}
+
+	const { isLoading: isConfirming, isSuccess: isConfirmed } =
+	useWaitForTransactionReceipt({
+	  hash: txHash ?? undefined,
+	});
+
+	useEffect(() => {
+		if (isConfirmed) {
+		  toast.success("New Saving Created Successfully");
+		}
+	  }, [isConfirmed]);
+
 	return (
 		<>
 			<div className="w-full m-auto">
@@ -25,6 +80,8 @@ function CreateLockedSavings() {
 								Savings name
 							</label>
 							<input
+								value={savingsName}
+								onChange={(e) => setSavingsName(e.target.value)}
 								type="text"
 								placeholder="Enter a name for this savings"
 								className="w-full px-4 py-1 placeholder:text-sm bg-[#131418] border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -36,6 +93,8 @@ function CreateLockedSavings() {
 								Target amount
 							</label>
 							<input
+								value={targetAmount}
+								onChange={(e) => setTargetAmount(e.target.value)}
 								type="number"
 								placeholder="Set your savings target"
 								className="w-full px-4 py-1 bg-[#131418] placeholder:text-sm border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -48,17 +107,20 @@ function CreateLockedSavings() {
 							</label>
 							<div className="flex space-x-4">
 								<input
+									value={duration}
+									onChange={(e) => setDuration(e.target.value)}
 									type="date"
 									className="w-full px-4 py-1 bg-[#131418]  border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
 								/>
-								<input
+								{/* <input
 									type="date"
 									className="w-full px-4 py-1 bg-[#131418]  border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-								/>
+								/> */}
 							</div>
 						</div>
 
 						<button
+							onClick={handleCreateNewSaving}
 							type="submit"
 							className="w-full py-2 mt-4 bg-[#131418]  text-white font-semibold rounded-full hover:bg-[#131418]  transition duration-200"
 						>
