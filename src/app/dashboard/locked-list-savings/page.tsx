@@ -1,7 +1,46 @@
+"use client"
 import React from "react";
 import Avatar from "@/components/Avatar";
+import { useReadContract,useAccount } from "wagmi";
+import { abi } from "../../../context/abi";
+import { contractAddress } from "../../../context/contractAddress";
+import { useState, useEffect } from "react";
+import { parseEther } from "viem";
 
 function CreateLockedSavings() {
+    const [lockedSavingsList, setLockedSavingsList] = useState<any>();
+    const {address} = useAccount();
+
+
+    const {data:asyncLockedSavingsList,isLoading,error,isSuccess}:any = useReadContract({
+        address: contractAddress,
+        abi: abi,
+        functionName: "getTimeLockedAccountDetails",
+        args: address ? [address] : []
+    })
+
+    useEffect(() => {
+        if (isLoading) {
+            console.log("Loading contract data...");
+        }
+        if (error) {
+            console.error("Error reading contract:", error);
+        }
+      
+        if (isSuccess && asyncLockedSavingsList) {
+            const transformedList = {
+                balance: asyncLockedSavingsList[0],
+                accruedInterest: asyncLockedSavingsList[1],
+                lockEndTime: asyncLockedSavingsList[2],
+                isActive: asyncLockedSavingsList[3]
+            };
+            setLockedSavingsList(transformedList);
+            // console.log("lockedSavingsList::", transformedList);
+            console.log("ASYNCLOCKED", lockedSavingsList);
+        }
+    }, [isLoading, error, isSuccess, asyncLockedSavingsList]);
+
+   
     return(
         <>
             <div className="avatar  flex items-center">
@@ -22,24 +61,22 @@ function CreateLockedSavings() {
                 <thead>
 					<tr className="bg-black">
 						<th className="border-none pl-2 py-2 text-white text-left">S/N</th>
-						<th className="border-none py-2 text-white text-left">Saving name</th>
-						<th className="border-none py-2 text-white text-left">Target Amount</th>
-						<th className="border-none py-2 text-white text-left">Close Date</th>
+						<th className="border-none py-2 text-white text-left">Account Type</th>
+						<th className="border-none py-2 text-white text-left">Interest Type</th>
+						<th className="border-none py-2 text-white text-left">Lock Duration</th>
+						<th className="border-none py-2 text-white text-left">Initial Deposit</th>
 					</tr>
 				</thead>
                 <tbody>
+                   
                         <tr>
-						  <td className="border-l-0 pl-2 border-r-0 border  py-2 text-gray-500">1</td>
-						  <td className="border-l-0 border-r-0 border  py-2 text-white">December Savings</td>
-						  <td className="border-l-0 border-r-0 border  py-2 text-white">N10,000</td>
-						  <td className="border-l-0 border-r-0 border  py-2 text-white">Oct 24, 2024</td>
+						  <td  className="border-l-0 pl-2 border-r-0 border  py-2 text-gray-500">1</td>
+						  <td  className="border-l-0 border-r-0 border  py-2 text-white">{lockedSavingsList?.balance}</td>
+						  <td  className="border-l-0 border-r-0 border  py-2 text-white">{lockedSavingsList?.accruedInterest}</td>
+						  <td className="border-l-0 border-r-0 border  py-2 text-white">{lockedSavingsList?.lockEndTime}</td>
+						  <td className="border-l-0 border-r-0 border  py-2 text-white">{lockedSavingsList?.isActive ? "Yes" : "No"}</td>
 						</tr>
-                        <tr>
-						  <td className="border-l-0 pl-2 border-r-0 border py-2 text-gray-500">2</td>
-						  <td className="border-l-0 border-r-0 border py-2 text-white">December Savings</td>
-						  <td className="border-l-0 border-r-0 border py-2 text-white">N10,000</td>
-						  <td className="border-l-0 border-r-0 border py-2 text-white">Oct 24, 2024</td>
-						</tr>
+
                 </tbody>
                 </table>
             </div>
