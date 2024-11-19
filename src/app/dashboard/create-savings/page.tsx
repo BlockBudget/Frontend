@@ -13,10 +13,10 @@ function CreateSavingsGroup() {
 					</span>
 				</Link>
 			</div>
-			<div className="min-h-screen max-w-2xl w-2/3 m-auto flex items-center justify-center p-6">
-				<div className="w-full relative max-w-lg bg-gradient-to-b from-gray-900 to-[#1d1f24] border-2 border-gray-700 rounded-[48px] p-8 shadow-lg  overflow-hidden text-gray-300">
+			<div className="min-h-screen  w-4/5 m-auto flex items-center justify-center p-6">
+				<div className="w-full relative max-w-lg bg-[#00000052] border-2 border-gray-700 rounded-[48px] p-8 shadow-lg  overflow-hidden text-gray-300">
 					<h2 className="text-2xl font-montserrat  font-semibold text-center text-white mb-8">
-						Create a new savings Group
+						Create Contribution
 					</h2>
 
 					<form className="space-y-5 relative z-50">
@@ -106,9 +106,9 @@ function CreateSavingsGroup() {
 						</button>
 					</form>
 
-					<div className="absolute bg-opacity-50  backdrop:blur-lg   bg-gray-800 left-0 right-0 h-full -z-5 w-full rounded-full -bottom-[300px]">
+					{/* <div className="absolute bg-opacity-50  backdrop:blur-lg   bg-gray-800 left-0 right-0 h-full -z-5 w-full rounded-full -bottom-[300px]">
 						<div className=" bg-gray-700/20 h-1/2  m-auto mt-20 w-3/5 blur-sm rounded-full"></div>
-					</div>
+					</div> */}
 				</div>
 			</div>
 		</>
