@@ -55,7 +55,7 @@ function CreateLockedSavings() {
 
 	useEffect(() => {
 		if (isConfirmed) {
-		  toast.success("New Saving Created Successfully");
+		  toast.success("New Campaign Created Successfully");
 		}
 	  }, [isConfirmed]);
 
