@@ -22,10 +22,8 @@ const Navbar = () => {
 export const Navbar2 = () => {
 	return (
 		<>
-			<div className="flex justify-between  text-white  h-28 py-6">
-				<div className="text-lg  font-semibold">
-					
-				</div>
+			<div className="flex justify-end text-white top-0  h-28 py-6">
+				
 				<ConnectBtn />
 			</div>
 		</>
