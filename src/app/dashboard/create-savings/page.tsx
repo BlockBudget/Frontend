@@ -1,7 +1,8 @@
+"use client"
 import { IndentDecrease } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { contractAddress } from "@/context/contractAddress";
 import toast from "react-hot-toast";
 import { abi } from "@/context/abi";
@@ -13,12 +14,12 @@ function CreateSavingsGroup() {
 	const [description, setDescription] = useState("");
 	const [targetAmount, setTargetAmount] = useState("0");
 	const [duration, setDuration] = useState("");
-	const [isPrivate, setIsPrivate] = useState(false);
+	const [isPrivate, setIsPrivate] = useState(true);
 	const [txHash, setTxHash] = useState<`0x${string}` | null>(null);
 
 	const {writeContractAsync,isPending} = useWriteContract();
 
-	const handleCreateNewSaving = async (e:any) => {
+	const handleCreateNewContribution = async (e:any) => {
 		try {
 			e.preventDefault();
 			const targetAmountToReach = parseEther(targetAmount);
@@ -30,7 +31,7 @@ function CreateSavingsGroup() {
 				functionName: "createCampaign",
 				args: [
 					savingsName,
-					savingsName,
+					description,
 					targetAmountToReach,
 					durationTimestamp,
 					isPrivate
@@ -80,6 +81,8 @@ function CreateSavingsGroup() {
 								Group Name
 							</label>
 							<input
+								value={savingsName}
+								onChange={(e) => setSavingsName(e.target.value)}
 								type="text"
 								placeholder="Enter a name for the group"
 								className="w-full px-4 py-1 placeholder:text-sm bg-[#131418] border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -94,6 +97,8 @@ function CreateSavingsGroup() {
 								Group Description
 							</label>
 							<input
+								value={description}
+								onChange={(e) => setDescription(e.target.value)}
 								type="text"
 								placeholder="Enter Group Description"
 								className="w-full px-4 py-1 bg-[#131418] placeholder:text-sm border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -108,6 +113,8 @@ function CreateSavingsGroup() {
 								Target Amount
 							</label>
 							<input
+								value={targetAmount}
+								onChange={(e) => setTargetAmount(e.target.value)}
 								type="number"
 								placeholder="Enter Target Amount"
 								className="w-full px-4 py-1 bg-[#131418] placeholder:text-sm border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -121,6 +128,8 @@ function CreateSavingsGroup() {
 							<div className="flex w-11/12 m-auto space-x-4">
 								<label className="flex items-center">
 									<input
+										checked={isPrivate}
+										onChange={() => setIsPrivate(true)}
 										type="radio"
 										name="distributionMethod"
 										className="form-radion h-5 w-5 text-gray-500 accent-gray-400"
@@ -131,6 +140,8 @@ function CreateSavingsGroup() {
 								</label>
 								<label className="flex items-center">
 									<input
+										checked={!isPrivate}
+										onChange={() => setIsPrivate(false)}
 										type="radio"
 										name="distributionMethod"
 										className="form-radion h-5 w-5 text-gray-500 accent-gray-400"
@@ -148,6 +159,8 @@ function CreateSavingsGroup() {
 							</label>
 							<div className="flex space-x-4">
 								<input
+									value={duration}
+									onChange={(e) => setDuration(e.target.value)}
 									type="date"
 									className="w-full px-4 py-1 bg-[#131418]  border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
 								/>
@@ -155,6 +168,7 @@ function CreateSavingsGroup() {
 						</div>
 
 						<button
+							onClick={handleCreateNewContribution}
 							type="submit"
 							className="w-full py-2 mt-4 bg-[#131418]  text-white border font-semibold rounded-xl hover:bg-[#131418]  transition duration-200"
 						>

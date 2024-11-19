@@ -1,4 +1,3 @@
-"use client"
 import { IndentDecrease } from "lucide-react";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
@@ -27,8 +26,6 @@ function CreateLockedSavings() {
 								Savings name
 							</label>
 							<input
-								value={savingsName}
-								onChange={(e) => setSavingsName(e.target.value)}
 								type="text"
 								placeholder="Enter a name for this savings"
 								className="w-full px-4 py-1 placeholder:text-sm bg-[#131418] border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -40,8 +37,6 @@ function CreateLockedSavings() {
 								Target amount
 							</label>
 							<input
-								value={targetAmount}
-								onChange={(e) => setTargetAmount(e.target.value)}
 								type="number"
 								placeholder="Set your savings target"
 								className="w-full px-4 py-1 bg-[#131418] placeholder:text-sm border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -54,8 +49,6 @@ function CreateLockedSavings() {
 							</label>
 							<div className="flex space-x-4">
 								<input
-									value={duration}
-									onChange={(e) => setDuration(e.target.value)}
 									type="date"
 									className="w-full px-4 py-1 bg-[#131418]  border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
 								/>
@@ -67,7 +60,6 @@ function CreateLockedSavings() {
 						</div>
 
 						<button
-							onClick={handleCreateNewSaving}
 							type="submit"
 							className="w-full py-2 mt-4 bg-[#131418]  text-white font-semibold rounded-full hover:bg-[#131418]  transition duration-200"
 						>
