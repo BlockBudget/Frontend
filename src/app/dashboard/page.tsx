@@ -19,14 +19,14 @@ import {
 	ChartData,
 	ChartOptions,
 } from "chart.js";
-import Navbar from "../../components/Navbar";
 import Link from "next/link";
 import { useAccount } from "wagmi";
+import { useUserProfile } from "../../hooks/RegisteredUser";
 // Register components to prevent missing scale errors
 ChartJS.register(LinearScale, CategoryScale, BarElement);
 
 const page = () => {
-	const { address, isConnected } = useAccount();
+	const {  userProfile, isConnected } = useUserProfile();
 	const revenueData = {
 		labels: [
 			"Jan",
@@ -91,95 +91,82 @@ const page = () => {
 	return (
 		<div className=" text-white">
 			{/* Dashboard Header */}
-			<div className="flex flex-col md:flex-row   justify-between items-center py-9">
-				<h1 className="text-2xl md:text-4xl ml-9 font-semibold">Dashboard</h1>
-				<div className="flex  gap-4 pl-[500px]">
-					<img
-						src="/user10.jpg"
-						alt="Profile Picture"
-						className="rounded-full"
-						width="50"
-						height="50"
-					/>
+			<div className="flex flex-col md:flex-row   justify-start items-center pb-9">
+				
+					
 					<div>
-						<div className="text-sm">Welcome back!</div>
-						<h2 className="text-lg font-semibold">Jerome Bell</h2>
+						<div className="text-base font-normal">Welcome back!</div>
+						<h2 className="text-2xl font-semibold">{userProfile?.name}</h2>
 					</div>
-					<a href="#" className="relative">
-						<Bell />
-						<span className="block size-2 bg-red-500 rounded-full absolute top-0 right-0">
-							{" "}
-						</span>
-					</a>
-				</div>
+			
 			</div>
 
-			<div className="grid grid-cols-12 gap-6">
-				<div className="flex flex-col col-span-9">
+			<div className="grid md:grid-cols-12 grid-cols-1 gap-5">
+				<div className="flex flex-col md:col-span-9 col-span-1">
 					{/* Summary Boxes */}
-					<div className="grid grid-cols-3 gap-2  h-[150px] mb-6">
+					<div className="grid md:grid-cols-3 grid-cols-1 gap-2 mb-6">
 						{/* Box 1 */}
-						<div className="p-4 h-[150px] rounded-[16px] bg-dark-gray border border-borderColor text-center">
-							<div className="m-auto flex gap-2 w-214px h-[60px] mt-8 ml-8">
-								<div className="flex items-center justify-center w-[50px] h-[50px] rounded-full bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25),0px_0px_20px_8px_rgba(0,0,0,0.25)]">
+						<div className="p-4 rounded-[16px] bg-dark-gray border border-borderColor text-center">
+							<div className=" flex gap-4 py-5">
+								<div className="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-white shadow-sm ">
 									<PiggyBank className="text-dark-gray" />
 								</div>
 
-								<div>
+								<div className="text-left">
 									<div className="text-xs text-lavender-gray">
 										Total savings
 									</div>
-									<h2 className="text-xl">₦ 632.000</h2>
+									<h2 className="text-xl">$ 632.000</h2>
 								</div>
 							</div>
 						</div>
 
 						{/* Box 2 */}
-						<div className="p-4  h-[150px] rounded-[16px] bg-dark-gray border border-borderColor text-center">
-							<div className="m-auto flex gap-2 w-214px h-[60px] mt-8 ml-8">
-								<div className="flex items-center justify-center w-[50px] h-[50px] rounded-full bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25),0px_0px_20px_8px_rgba(0,0,0,0.25)]">
+						<div className="p-4  rounded-[16px] bg-dark-gray border border-borderColor text-center">
+							<div className="flex gap-4 py-5">
+								<div className="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-white shadow-sm ">
 									<Vault className="text-dark-gray" />
 								</div>
-								<div>
+								<div  className="text-left">
 									<div className="text-xs text-lavender-gray">
 										Total locked savings
 									</div>
-									<h2 className="text-xl">₦ 632.000</h2>
+									<h2 className="text-xl">$ 632.000</h2>
 								</div>
 							</div>
 						</div>
 
 						{/* Box 3 */}
-						<div className="p-4  h-[150px] rounded-[16px] bg-dark-gray border border-borderColor text-center">
-							<div className="m-auto flex gap-2 h-[60px] mt-8 ml-8">
-								<div className="flex items-center justify-center w-[50px] h-[50px] rounded-full bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25),0px_0px_20px_8px_rgba(0,0,0,0.25)]">
+						<div className="p-4 rounded-[16px] bg-dark-gray border border-borderColor text-center">
+							<div className=" flex gap-4 py-5">
+								<div className="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-white shadow-sm">
 									<HandCoins className="text-dark-gray" />
 								</div>
-								<div>
+								<div  className="text-left">
 									<div className="text-xs text-lavender-gray">
 										Total contributions
 									</div>
-									<h2 className="text-xl">₦ 632.000</h2>
+									<h2 className="text-xl">$ 632.000</h2>
 								</div>
 							</div>
 						</div>
 					</div>
 
 					{/* Action Buttons */}
-					<div className="grid grid-cols-3 gap-3 py-5 text-center">
-						<Link href="/dashboard/create-locked-savings" className="flex w-full col-span-1 items-center justify-center m-auto  gap-2 py-2  bg-primary/10 rounded-[16px] border-[2px] border-white text-sm font-semibold ">
+					<div className="grid md:grid-cols-3 grid-cols-1  gap-3 py-5 text-center">
+						<Link href="/dashboard/create-locked-savings" className="flex w-full col-span-1 items-center justify-center m-auto  gap-2 py-2  bg-primary/10 rounded-full border border-white text-sm font-semibold ">
 							<span>
 								<LockKeyhole />
 							</span>
 							Create locked savings
 						</Link>
-						<Link href="/dashboard/create-savings" className="flex items-center justify-center w-full col-span-1 m-auto gap-2  py-2 bg-primary/10 rounded-[16px] border-[2px] border-white text-sm font-semibold ">
+						<Link href="/dashboard/create-savings" className="flex items-center justify-center w-full col-span-1 m-auto gap-2  py-2 bg-primary/10 rounded-full border border-white text-sm font-semibold ">
 							<span>
 								<Users />
 							</span>
 							Create group
 						</Link>
-						<Link href="/dashboard/create-savings" className="flex items-center justify-center  col-span-1 w-full m-auto gap-2  py-2 bg-primary/10 rounded-[16px] border-[2px] border-white text-sm font-semibold ">
+						<Link href="/dashboard/create-savings" className="flex items-center justify-center  col-span-1 w-full m-auto gap-2  py-2 bg-primary/10 rounded-full border border-white text-sm font-semibold ">
 							<span>
 								<Banknote />{" "}
 							</span>
@@ -189,8 +176,8 @@ const page = () => {
 
 					{/* Savings by Months Chart */}
 					<div className=" mt-[40px] flex  gap-4 mb-8">
-						<div className="flex-1 rounded-[16px] bg-dark-gray border-[3px] border-borderColor p-4">
-							<div className="w-[791px] h-[62px] flex justify-between">
+						<div className="flex-1 rounded-[16px] bg-dark-gray border-2 border-borderColor p-4">
+							<div className="h-[62px] flex justify-between">
 								<div>
 									<h2 className="text-xl">Savings by months</h2>
 									<div className="text-xs text-lavender-gray">
@@ -201,7 +188,7 @@ const page = () => {
 									<div className="text-xs text-lavender-gray">
 										Total savings
 									</div>
-									<h1 className="text-[32px] leading-[42px]">₦ 1278.45</h1>
+									<h1 className="text-[32px] leading-[42px]">$ 1278.45</h1>
 								</div>
 							</div>
 							<div className="m-4 p-[44px]">
@@ -231,7 +218,7 @@ const page = () => {
 				</div>
 
 				{/* Right Column: My Group Contributions and Locked Savings */}
-				<div className="flex  flex-col col-span-3 space-y-4">
+				<div className="flex  flex-col md:col-span-3 col-span-1 space-y-4">
 					{/* My group contributions */}
 					<div className="relative rounded-[16px]  h-[370px] bg-dark-gray border border-borderColor p-4">
 						<h3 className="text-lg font-semibold mb-4">
@@ -249,7 +236,7 @@ const page = () => {
 									</div>
 								</div>
 								<div className="text-xs font-medium text-gray-medium">
-									₦10,000
+									$10,000
 								</div>
 							</div>
 

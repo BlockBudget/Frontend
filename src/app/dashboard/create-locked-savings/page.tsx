@@ -3,7 +3,7 @@ import { IndentDecrease } from "lucide-react";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { contractAddress } from "@/context/contractAddress";
-import { ToastContainer, toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { abi } from "@/context/abi";
 import { useWriteContract,useWaitForTransactionReceipt } from "wagmi";
 import { parseEther } from "viem";
@@ -18,9 +18,9 @@ function CreateLockedSavings() {
 
 	const {writeContractAsync,isPending} = useWriteContract();
 
-	const handleCreateNewSaving = async (event:React.FormEvent<HTMLFormElement>) => {
+	const handleCreateNewSaving = async (e:any) => {
 		try {
-			event.preventDefault();
+			e.preventDefault();
 			const targetAmountToReach = parseEther(targetAmount);
 			const durationTimestamp = Math.floor(new Date(duration).getTime() / 1000);
 
@@ -39,8 +39,9 @@ function CreateLockedSavings() {
 
 			console.log(tx);
 			setTxHash(tx); 
-			toast.info("Campaign Submitted. Waiting for confirmation...") 
-
+			toast.success('Campaign Submitted. Waiting for confirmation...', {
+				icon: '✅',
+			  });
 		} catch (error) {
 			console.error("Error creating invoice:", error);
       		toast.error("Error creating invoice: " + error);
