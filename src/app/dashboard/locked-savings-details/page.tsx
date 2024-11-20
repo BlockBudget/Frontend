@@ -18,7 +18,7 @@ import Link from "next/link";
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
 
-const SavingsPage = () => {
+const LockedPage = () => {
 	const { userProfile, isConnected } = useUserProfile();
 	const data = {
 		labels: [
@@ -101,7 +101,7 @@ const SavingsPage = () => {
 				<Link href="/dashboard" className=" flex space-x-2">
 					<PiggyBank className="text-white " size={20} />{" "}
 					<span className="text-white font-montserrat font-semibold text-base">
-						Goal Savings
+						Locked Savings
 					</span>
 				</Link>
 			</div>
@@ -203,4 +203,4 @@ const SavingsPage = () => {
 	);
 };
 
-export default SavingsPage;
+export default LockedPage;
