@@ -35,9 +35,9 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 			url: "/dashboard/create-savings",
 		},
 		{
-			title: "Create savings",
+			title: "Plans",
 			icon: <Vault className="h-5 w-5" />,
-			url: "/dashboard/create-locked-savings",
+			url: "/dashboard/plans",
 		},
 		{
 			title: "Savings",
@@ -65,7 +65,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 		{
 			title: "Logout",
 			icon: <LogOut className="h-5 w-5" />,
-			url: "/settings",
+			url: "/",
 		},
 	];
 
@@ -76,7 +76,10 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 			} transition-all fixed duration-300  bg-[#00000052] text-white  border-r border-[#344054] py-2 px-2`}
 		>
 			<div className="flex justify-between items-center py-3 px-2">
-				<Link href="/" className="text-base font-semibold items-center flex space-x-3 ">
+				<Link
+					href="/"
+					className="text-base font-semibold items-center flex space-x-3 "
+				>
 					<img src="/Frame.png" alt="logo" className="h-8 w-8" />
 					<span>{!isCollapsed && "BlockBudget"}</span>
 				</Link>
@@ -110,13 +113,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 										: "text-[#FFFFFF] bg-[#0E131E] hover:text-black hover:bg-gray-200 "
 								}`}
 							>
-								<div
-									className={`${
-										isActive ? "text-black" : "text-[#FFFFFF] hover:text-black"
-									}`}
-								>
-									{nav.icon}
-								</div>
+								<div>{nav.icon}</div>
 								{!isCollapsed && (
 									<span className="text-sm font-medium">{nav.title}</span>
 								)}
@@ -139,13 +136,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 										: "text-[#FFFFFF] bg-[#0E131E] hover:text-black hover:bg-gray-200  "
 								}`}
 							>
-								<div
-									className={`${
-										isActive ? "text-black" : "text-[#FFFFFF] hover:text-black"
-									}`}
-								>
-									{setting.icon}
-								</div>
+								<div>{setting.icon}</div>
 								{!isCollapsed && (
 									<span className="text-sm font-medium">{setting.title}</span>
 								)}
