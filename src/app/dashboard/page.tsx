@@ -23,12 +23,13 @@ import Navbar from "../../components/Navbar";
 import Link from "next/link";
 import { useAccount } from "wagmi";
 import { useGetCampaignDetails } from "@/hooks/useGetCampaignDetails";
+import { useUserProfile } from "@/hooks/RegisteredUser";
 // Register components to prevent missing scale errors
 ChartJS.register(LinearScale, CategoryScale, BarElement);
 
 const page = () => {
 	const { getCampaignDetails } = useGetCampaignDetails();
-	const { address, isConnected } = useAccount();
+	const {  userProfile, isConnected } = useUserProfile();
 	const revenueData = {
 		labels: [
 			"Jan",
@@ -101,75 +102,62 @@ const page = () => {
 	return (
 		<div className=" text-white">
 			{/* Dashboard Header */}
-			<div className="flex flex-col md:flex-row   justify-between items-center py-9">
-				<h1 className="text-2xl md:text-4xl ml-9 font-semibold">Dashboard</h1>
-				<div className="flex  gap-4 pl-[500px]">
-					<img
-						src="/user10.jpg"
-						alt="Profile Picture"
-						className="rounded-full"
-						width="50"
-						height="50"
-					/>
+			<div className="flex flex-col md:flex-row   justify-start items-center pb-9">
+				
+					
 					<div>
-						<div className="text-sm">Welcome back!</div>
-						<h2 className="text-lg font-semibold">Jerome Bell</h2>
+						<div className="text-base font-normal">Welcome back!</div>
+						<h2 className="text-2xl font-semibold">{userProfile?.name}</h2>
 					</div>
-					<a href="#" className="relative">
-						<Bell />
-						<span className="block size-2 bg-red-500 rounded-full absolute top-0 right-0">
-							{" "}
-						</span>
-					</a>
-				</div>
+			
 			</div>
 
-			<div className="grid grid-cols-12 gap-6">
-				<div className="flex flex-col col-span-9">
+			<div className="grid md:grid-cols-12 grid-cols-1 gap-5">
+				<div className="flex flex-col md:col-span-9 col-span-1">
 					{/* Summary Boxes */}
-					<div className="grid grid-cols-3 gap-2  h-[150px] mb-6">
+					<div className="grid md:grid-cols-3 grid-cols-1 gap-2 mb-6">
 						{/* Box 1 */}
-						<div className="p-4 h-[150px] rounded-[16px] bg-dark-gray border border-borderColor text-center">
-							<div className="m-auto flex gap-2 w-214px h-[60px] mt-8 ml-8">
-								<div className="flex items-center justify-center w-[50px] h-[50px] rounded-full bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25),0px_0px_20px_8px_rgba(0,0,0,0.25)]">
+						<div className="p-4 rounded-[16px] bg-dark-gray border border-borderColor text-center">
+							<div className=" flex gap-4 py-5">
+								<div className="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-white shadow-sm ">
 									<PiggyBank className="text-dark-gray" />
 								</div>
 
-								<div>
+								<div className="text-left">
 									<div className="text-xs text-lavender-gray">
 										Total savings
 									</div>
-									<h2 className="text-xl">₦ 632.000</h2>
+									<h2 className="text-xl">$ 632.000</h2>
 								</div>
 							</div>
 						</div>
 
 						{/* Box 2 */}
-						<div className="p-4  h-[150px] rounded-[16px] bg-dark-gray border border-borderColor text-center">
-							<div className="m-auto flex gap-2 w-214px h-[60px] mt-8 ml-8">
-								<div className="flex items-center justify-center w-[50px] h-[50px] rounded-full bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25),0px_0px_20px_8px_rgba(0,0,0,0.25)]">
+						<div className="p-4  rounded-[16px] bg-dark-gray border border-borderColor text-center">
+							<div className="flex gap-4 py-5">
+								<div className="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-white shadow-sm ">
 									<Vault className="text-dark-gray" />
 								</div>
-								<div>
+								<div  className="text-left">
 									<div className="text-xs text-lavender-gray">
 										Total locked savings
 									</div>
-									<h2 className="text-xl">₦ 632.000</h2>
+									<h2 className="text-xl">$ 632.000</h2>
 								</div>
 							</div>
 						</div>
 
 						{/* Box 3 */}
-						<div className="p-4  h-[150px] rounded-[16px] bg-dark-gray border border-borderColor text-center">
-							<div className="m-auto flex gap-2 h-[60px] mt-8 ml-8">
-								<div className="flex items-center justify-center w-[50px] h-[50px] rounded-full bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25),0px_0px_20px_8px_rgba(0,0,0,0.25)]">
+						<div className="p-4 rounded-[16px] bg-dark-gray border border-borderColor text-center">
+							<div className=" flex gap-4 py-5">
+								<div className="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-white shadow-sm">
 									<HandCoins className="text-dark-gray" />
 								</div>
-								<div>
+								<div  className="text-left">
 									<div className="text-xs text-lavender-gray">
 										Total contributions
 									</div>
-									<h2 className="text-xl">₦ 632.000</h2>
+									<h2 className="text-xl">$ 632.000</h2>
 								</div>
 							</div>
 						</div>
