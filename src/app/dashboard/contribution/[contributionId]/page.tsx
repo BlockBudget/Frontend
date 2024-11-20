@@ -9,14 +9,13 @@ import { isAddress } from "viem";
 import { useWriteContract } from "wagmi";
 import {} from "viem";
 import WhitelistModal from "@/components/WhitelistModal";
+import ProgressBar from "@/components/ProgressBar";
 
 const SavingsDashboard = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [userAddress, setUserAddress] = useState("");
 	const [campaignId, setCampaignId] = useState("");
 	const { writeContract, isSuccess } = useWriteContract();
-
-
 
 	const handleAddUsers = (addresses: any) => {
 		try {
@@ -44,6 +43,7 @@ const SavingsDashboard = () => {
 			toast.error("Failed to whitelist addresses. Check your inputs:", error);
 		}
 	};
+	const completionPercentage = 39;
 	return (
 		<>
 			<div className="flex justify-end w-11/12 mb-3 m-auto">
@@ -67,7 +67,8 @@ const SavingsDashboard = () => {
 							<span>Distribution method: Distribute at End of Period</span>
 						</p>
 					</div>
-
+					{/* Progress Bar */}
+					<ProgressBar percentage={completionPercentage} />
 					<div className="grid grid-cols-3 gap-6 mb-10">
 						<div className="bg-[#00000052] md:col-span-1 col-span-3 border-2 space-x-3 flex border-[#344054] p-6 rounded-lg shadow-md text-center">
 							<div className="bg-[#FFFFFF] shadow-sm p-3 rounded-full">
