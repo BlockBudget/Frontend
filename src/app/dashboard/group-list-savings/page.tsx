@@ -1,5 +1,8 @@
 import React from "react";
 import Avatar from "@/components/Avatar";
+import { useReadContract } from "wagmi";
+import { abi } from "@/context/abi";
+import { contractAddress } from "@/context/contractAddress";
 
 function CreateSavingsGroup() {
     return(
