@@ -25,15 +25,11 @@ function RegisterUser() {
 				account: address,
 			});
 			if (isSuccess) {
-				toast.success("Registered successfully!", {
-					icon: "✅",
-				});
+				toast.success("Registered successfully!");
+				router.push("/dashboard");
 			}
-			router.push("/dashboard");
 		} catch (error) {
-			toast.error("Registration Failed. Please try again.", {
-				icon: "❌",
-			});
+			toast.error("Registration Failed. Please try again.");
 		}
 	};
 	return (

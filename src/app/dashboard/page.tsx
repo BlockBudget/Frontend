@@ -29,7 +29,7 @@ ChartJS.register(LinearScale, CategoryScale, BarElement);
 
 const page = () => {
 	const { getCampaignDetails } = useGetCampaignDetails();
-	const {  userProfile, isConnected } = useUserProfile();
+	const { userProfile, isConnected } = useUserProfile();
 	const revenueData = {
 		labels: [
 			"Jan",
@@ -103,13 +103,10 @@ const page = () => {
 		<div className=" text-white">
 			{/* Dashboard Header */}
 			<div className="flex flex-col md:flex-row   justify-start items-center pb-9">
-				
-					
-					<div>
-						<div className="text-base font-normal">Welcome back!</div>
-						<h2 className="text-2xl font-semibold">{userProfile?.name}</h2>
-					</div>
-			
+				<div>
+					<div className="text-base font-normal">Welcome back!</div>
+					<h2 className="text-2xl font-semibold">{userProfile?.name}</h2>
+				</div>
 			</div>
 
 			<div className="grid md:grid-cols-12 grid-cols-1 gap-5">
@@ -127,7 +124,7 @@ const page = () => {
 									<div className="text-xs text-lavender-gray">
 										Total savings
 									</div>
-									<h2 className="text-xl">$ 632.000</h2>
+									<h2 className="text-xl">$ 0.00</h2>
 								</div>
 							</div>
 						</div>
@@ -138,11 +135,11 @@ const page = () => {
 								<div className="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-white shadow-sm ">
 									<Vault className="text-dark-gray" />
 								</div>
-								<div  className="text-left">
+								<div className="text-left">
 									<div className="text-xs text-lavender-gray">
 										Total locked savings
 									</div>
-									<h2 className="text-xl">$ 632.000</h2>
+									<h2 className="text-xl">$ 0.00</h2>
 								</div>
 							</div>
 						</div>
@@ -153,11 +150,11 @@ const page = () => {
 								<div className="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-white shadow-sm">
 									<HandCoins className="text-dark-gray" />
 								</div>
-								<div  className="text-left">
+								<div className="text-left">
 									<div className="text-xs text-lavender-gray">
 										Total contributions
 									</div>
-									<h2 className="text-xl">$ 632.000</h2>
+									<h2 className="text-xl">$ 0.00</h2>
 								</div>
 							</div>
 						</div>
@@ -175,7 +172,7 @@ const page = () => {
 							Create savings
 						</Link>
 						<Link
-							href="/dashboard/create-savings"
+							href="/dashboard/create-contribution"
 							className="flex items-center justify-center w-full col-span-1 m-auto gap-2  py-2 bg-primary/10 rounded-full border border-white text-sm font-semibold "
 						>
 							<span>
@@ -208,7 +205,7 @@ const page = () => {
 									<div className="text-xs text-lavender-gray">
 										Total savings
 									</div>
-									<h1 className="text-[32px] leading-[42px]">₦ 1278.45</h1>
+									<h1 className="text-[32px] leading-[42px]">$ 0.00</h1>
 								</div>
 							</div>
 							<div className="m-4 p-[44px]">
@@ -256,7 +253,7 @@ const page = () => {
 									</div>
 								</div>
 								<div className="text-xs font-medium text-gray-medium">
-									₦10,000
+									$0.00
 								</div>
 							</div>
 
@@ -271,7 +268,7 @@ const page = () => {
 									</div>
 								</div>
 								<div className="text-xs font-medium text-gray-medium">
-									₦10,000
+									$0.00
 								</div>
 							</div>
 
@@ -286,7 +283,7 @@ const page = () => {
 									</div>
 								</div>
 								<div className="text-xs font-medium text-gray-medium">
-									₦10,000
+									$0.00
 								</div>
 							</div>
 						</div>
@@ -313,7 +310,7 @@ const page = () => {
 									</div>
 								</div>
 								<div className="text-xs font-medium text-gray-medium">
-									₦1,000,000
+									$0.00
 								</div>
 							</div>
 
@@ -328,7 +325,7 @@ const page = () => {
 									</div>
 								</div>
 								<div className="text-xs font-medium text-gray-medium">
-									₦1,000,000
+									$0.00
 								</div>
 							</div>
 
@@ -343,7 +340,7 @@ const page = () => {
 									</div>
 								</div>
 								<div className="text-xs font-medium text-gray-medium">
-									₦1,000,000
+									$0.00
 								</div>
 							</div>
 						</div>
