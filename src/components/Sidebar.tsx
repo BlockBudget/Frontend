@@ -32,7 +32,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 		{
 			title: "Contribution",
 			icon: <HandCoins className="h-5 w-5" />,
-			url: "/dashboard/create-savings",
+			url: "/dashboard/contribution",
 		},
 		{
 			title: "Plans",

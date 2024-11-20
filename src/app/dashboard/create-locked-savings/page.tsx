@@ -1,7 +1,6 @@
 "use client";
 import { IndentDecrease } from "lucide-react";
 import Link from "next/link";
-import React from "react";
 import { useState, useEffect } from "react";
 import { abi } from "../../../context/abi";
 import { contractAddress } from "../../../context/contractAddress";
@@ -147,7 +146,7 @@ function CreateLockedSavings() {
 
 						<button
 							type="submit"
-							className="w-full py-2 mt-4 bg-[#131418] text-white font-semibold rounded-full hover:bg-[#131418] transition duration-200"
+							className="w-full py-2 mt-4 bg-[#131418] border-gray-700 border text-white font-semibold rounded-full hover:bg-[#131418] transition duration-200"
 						>
 							{isPending ? "Confirming..." : "Create Savings"}
 						</button>

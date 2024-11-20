@@ -167,36 +167,29 @@ const page = () => {
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="grid grid-cols-3 gap-3 py-5 text-center">
-            <Link
-              href="/dashboard/create-locked-savings"
-              className="flex w-full col-span-1 items-center justify-center m-auto  gap-2 py-2  bg-primary/10 rounded-[16px] border-[2px] border-white text-sm font-semibold "
-            >
-              <span>
-                <LockKeyhole />
-              </span>
-              Create locked savings
-            </Link>
-            <Link
-              href="/dashboard/create-savings"
-              className="flex items-center justify-center w-full col-span-1 m-auto gap-2  py-2 bg-primary/10 rounded-[16px] border-[2px] border-white text-sm font-semibold "
-            >
-              <span>
-                <Users />
-              </span>
-              Create group
-            </Link>
-            <Link
-              href="/dashboard/create-savings"
-              className="flex items-center justify-center  col-span-1 w-full m-auto gap-2  py-2 bg-primary/10 rounded-[16px] border-[2px] border-white text-sm font-semibold "
-            >
-              <span>
-                <Banknote />{" "}
-              </span>
-              Join group savings
-            </Link>
-          </div>
+
+					{/* Action Buttons */}
+					<div className="grid md:grid-cols-3 grid-cols-1  gap-3 py-5 text-center">
+						<Link href="/dashboard/plans" className="flex w-full col-span-1 items-center justify-center m-auto  gap-2 py-2  bg-primary/10 rounded-full border border-white text-sm font-semibold ">
+							<span>
+								<LockKeyhole />
+							</span>
+							Create savings
+						</Link>
+						<Link href="/dashboard/create-savings" className="flex items-center justify-center w-full col-span-1 m-auto gap-2  py-2 bg-primary/10 rounded-full border border-white text-sm font-semibold ">
+							<span>
+								<Users />
+							</span>
+							Create Contribution
+						</Link>
+						<Link href="/dashboard/create-savings" className="flex items-center justify-center  col-span-1 w-full m-auto gap-2  py-2 bg-primary/10 rounded-full border border-white text-sm font-semibold ">
+							<span>
+								<Banknote />{" "}
+							</span>
+							Join group savings
+						</Link>
+					</div>
+
 
           {/* Savings by Months Chart */}
           <div className=" mt-[40px] flex  gap-4 mb-8">
