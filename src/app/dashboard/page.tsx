@@ -154,17 +154,17 @@ const page = () => {
 
 					{/* Action Buttons */}
 					<div className="grid md:grid-cols-3 grid-cols-1  gap-3 py-5 text-center">
-						<Link href="/dashboard/create-locked-savings" className="flex w-full col-span-1 items-center justify-center m-auto  gap-2 py-2  bg-primary/10 rounded-full border border-white text-sm font-semibold ">
+						<Link href="/dashboard/plans" className="flex w-full col-span-1 items-center justify-center m-auto  gap-2 py-2  bg-primary/10 rounded-full border border-white text-sm font-semibold ">
 							<span>
 								<LockKeyhole />
 							</span>
-							Create locked savings
+							Create savings
 						</Link>
 						<Link href="/dashboard/create-savings" className="flex items-center justify-center w-full col-span-1 m-auto gap-2  py-2 bg-primary/10 rounded-full border border-white text-sm font-semibold ">
 							<span>
 								<Users />
 							</span>
-							Create group
+							Create Contribution
 						</Link>
 						<Link href="/dashboard/create-savings" className="flex items-center justify-center  col-span-1 w-full m-auto gap-2  py-2 bg-primary/10 rounded-full border border-white text-sm font-semibold ">
 							<span>

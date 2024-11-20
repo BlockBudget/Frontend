@@ -170,7 +170,7 @@ function CreateSavingsGroup() {
 						<button
 							onClick={handleCreateNewContribution}
 							type="submit"
-							className="w-full py-2 mt-4 bg-[#131418]  text-white border font-semibold rounded-xl hover:bg-[#131418]  transition duration-200"
+							className="w-full py-2 mt-4 bg-[#131418]  text-white border border-gray-700 font-semibold rounded-xl hover:bg-[#131418]  transition duration-200"
 						>
 							Create Group
 						</button>
