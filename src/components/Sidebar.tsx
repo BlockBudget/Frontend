@@ -40,14 +40,14 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 			url: "/dashboard/plans",
 		},
 		{
-			title: "Savings",
+			title: "Goal Savings",
 			icon: <PiggyBank className="h-5 w-5" />,
-			url: "/dashboard/savings",
+			url: "/dashboard/opened-savings",
 		},
 		{
-			title: "Groups",
+			title: "Locked Savings",
 			icon: <Users className="h-5 w-5" />,
-			url: "#",
+			url: "/dashboard/locked-savings-details",
 		},
 	];
 

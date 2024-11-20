@@ -22,12 +22,12 @@ const SavingsOptions = () => {
       <div className="grid grid-cols-2 w-3/4 m-auto gap-6">
         {/* Option 1 */}
         <Link href="/dashboard/create-locked-savings" className="flex bg-[#00000052] border-2 border-borderColor  items-center justify-center h-44 hover:bg-[#0f0f0f52] rounded-[30px] shadow-lg transition-all cursor-pointer">
-          <p className="font-semibold text-lg">Create new saving</p>
+          <p className="font-semibold text-lg">Create new locked saving</p>
         </Link>
 
         {/* Option 2 */}
-        <Link href="/dashboard/create-locked-savings"  className="flex bg-[#00000052] border-2 border-borderColor  items-center justify-center h-44  hover:bg-[#0f0f0f52] rounded-[30px] shadow-lg transition-all cursor-pointer">
-          <p className="font-semibold text-lg">Create new Locked saving</p>
+        <Link href="/dashboard/create-savings-goal"  className="flex bg-[#00000052] border-2 border-borderColor  items-center justify-center h-44  hover:bg-[#0f0f0f52] rounded-[30px] shadow-lg transition-all cursor-pointer">
+          <p className="font-semibold text-lg">Create a goal saving</p>
         </Link>
       </div>
       </div>
