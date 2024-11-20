@@ -16,6 +16,7 @@ import {
 
 } from "chart.js";
 import ProgressBar from "@/components/ProgressBar";
+import { PiggyBank, TargetIcon } from "lucide-react";
 
 
 
@@ -139,20 +140,30 @@ const SavingsPage = () => {
 
       <div className="grid grid-cols-2 gap-4 my-6 text-left">
 
-        <div className="p-8 bg-dark-gray rounded-lg border-[3px] border-gray-700">
+        <div className="flex gap-4 p-8 bg-dark-gray rounded-lg border-[3px] border-gray-700">
+          <div className="flex items-center justify-center w-[50px] h-[50px] rounded-full bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25),0px_0px_20px_8px_rgba(0,0,0,0.25)]">
+            <TargetIcon className="text-dark-gray" />
+          </div>
+          <div>
 
-          <h3 className="text-md text-gray-400">Target Savings</h3>
+            <h3 className="text-md text-gray-400">Target Savings</h3>
 
-          <p className="text-xl font-bold">₦ 632,000</p>
+            <p className="text-xl font-bold">₦ 632,000</p>
 
+          </div>
         </div>
 
-        <div className="p-8  bg-dark-gray rounded-lg border-[3px] border-gray-700">
+        <div className="flex gap-4 p-8 bg-dark-gray rounded-lg border-[3px] border-gray-700">
+          <div className="flex items-center justify-center w-[50px] h-[50px] rounded-full bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25),0px_0px_20px_8px_rgba(0,0,0,0.25)]">
+            <PiggyBank className="text-dark-gray" />
+          </div>
+          <div>
 
-          <h3 className="text-md text-gray-400">Total Accumulated</h3>
+            <h3 className="text-md text-gray-400">Total Accumulated</h3>
 
-          <p className="text-xl font-bold">₦ 632,000</p>
+            <p className="text-xl font-bold">₦ 632,000</p>
 
+          </div>
         </div>
 
       </div>
