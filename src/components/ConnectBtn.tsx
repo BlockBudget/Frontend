@@ -36,9 +36,9 @@ export const ConnectBtn = () => {
             return (
               <button
                 onClick={openConnectModal}
-                className="w-full bg-transparent border text-white  py-2 px-7 text-sm rounded-full"
+                className="w-full  bg-[#9d2cf3de] shadow-md font-semibold text-white  py-2 px-7 text-sm rounded-full"
               >
-                Connect your wallet
+                Connect Wallet
               </button>
             );
           }
@@ -78,7 +78,7 @@ export const ConnectBtn = () => {
                 )}
                 {/* {chain.name} */}
               </button>
-              <button onClick={openAccountModal} className="w-full bg-transparent border text-white  py-2 px-7 text-sm rounded-full" type="button">
+              <button onClick={openAccountModal} className="w-full bg-transparent border text-black  py-2 px-7 text-sm rounded-full" type="button">
                 {account.displayName}
                 {/* {account.displayBalance
                   ? ` (${account.displayBalance})`

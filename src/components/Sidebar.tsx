@@ -73,7 +73,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 		<aside
 			className={`min-h-screen ${
 				isCollapsed ? "w-16" : "w-52"
-			} transition-all fixed duration-300  bg-[#00000052] text-white  border-r border-[#344054] py-2 px-2`}
+			} transition-all fixed duration-300  bg-[#ffff] text-black  border-r border-[#0039CE66] py-2 px-2`}
 		>
 			<div className="flex justify-between items-center py-3 px-2">
 				<Link
@@ -109,8 +109,8 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 									isCollapsed ? "px-3" : "px-4"
 								} border border-[#FFFFFF1A] font-semibold transition-colors ${
 									isActive
-										? "bg-gray-200  text-black"
-										: "text-[#FFFFFF] bg-[#0E131E] hover:text-black hover:bg-gray-200 "
+										? "bg-gradient-to-r from-[#9C2CF3] to-[#3A6FF9] text-white"
+										: "text-[#7108c2fb] bg-[#9d2cf317] hover:text-white hover:bg-gradient-to-r hover:from-[#9C2CF3] hover:to-[#3A6FF9]"
 								}`}
 							>
 								<div>{nav.icon}</div>
@@ -132,8 +132,8 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 									isCollapsed ? "px-3" : "px-4"
 								}  border border-[#FFFFFF1A] font-semibold transition-colors ${
 									isActive
-										? "bg-gray-200  text-black"
-										: "text-[#FFFFFF] bg-[#0E131E] hover:text-black hover:bg-gray-200  "
+										? "bg-gradient-r from-[#9C2CF3] to-[#3A6FF9] text-white"
+										: "text-[#7108c2fb] bg-[#9d2cf317] hover:text-white hover:bg-gradient-r hover:from-[#9C2CF3] hover:to-[#3A6FF9]"
 								}`}
 							>
 								<div>{setting.icon}</div>

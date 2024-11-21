@@ -99,14 +99,14 @@ const SavingsPage = () => {
 		<>
 			<div className="flex justify-end w-11/12 mb-3 m-auto">
 				<Link href="/dashboard" className=" flex space-x-2">
-					<PiggyBank className="text-white " size={20} />{" "}
-					<span className="text-white font-montserrat font-semibold text-base">
+					<PiggyBank className="text-black " size={20} />{" "}
+					<span className="text-black font-montserrat font-semibold text-base">
 						Goal Savings
 					</span>
 				</Link>
 			</div>
 
-			<div className="p-8  text-white h-full">
+			<div className="p-8  text-black h-full">
 				{/* Header Section */}
 
 				<div>
@@ -129,9 +129,9 @@ const SavingsPage = () => {
 				{/* Target and Total Accumulated Boxes */}
 
 				<div className="grid grid-cols-2 gap-4 my-6 text-left">
-					<div className="flex gap-4 p-8 bg-dark-gray rounded-lg border-[3px] border-gray-700">
-						<div className="flex items-center justify-center w-[50px] h-[50px] rounded-full bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25),0px_0px_20px_8px_rgba(0,0,0,0.25)]">
-							<TargetIcon className="text-dark-gray" />
+					<div className="flex gap-4 p-8 rounded-lg border bg-white shadow-lg ">
+						<div className="flex items-center justify-center w-[50px] h-[50px] rounded-full bg-[#0039CE] shadow-sm ">
+							<TargetIcon className="text-white" />
 						</div>
 						<div>
 							<h3 className="text-md text-gray-400">Target Savings</h3>
@@ -140,9 +140,9 @@ const SavingsPage = () => {
 						</div>
 					</div>
 
-					<div className="flex gap-4 p-8 bg-dark-gray rounded-lg border-[3px] border-gray-700">
-						<div className="flex items-center justify-center w-[50px] h-[50px] rounded-full bg-white shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25),0px_0px_20px_8px_rgba(0,0,0,0.25)]">
-							<PiggyBank className="text-dark-gray" />
+					<div className="flex gap-4 p-8 rounded-lg border bg-white shadow-lg ">
+						<div className="flex items-center justify-center w-[50px] h-[50px] rounded-full bg-[#0039CE] shadow-sm">
+							<PiggyBank className="text-white" />
 						</div>
 						<div>
 							<h3 className="text-md text-gray-400">Total Accumulated</h3>
@@ -156,16 +156,16 @@ const SavingsPage = () => {
 
 				<div className="my-6 flex justify-between gap-6">
 					<div>
-						<p className="text-sm text-gray-400">
+						<p className="text-sm text-black">
 							Available for withdrawal:{" "}
-							<span className="text-lg text-white">
+							<span className="text-lg text-black">
 								Withdrawal not yet available
 							</span>
 						</p>
 					</div>
 
 					<div>
-						<button className="px-6 w-[405px] h-12 py-2 bg-[#0E131E]  hover:bg-gray-700 border-2 border-gray-700 rounded-xl">
+						<button className="px-6 w-[405px] h-12 py-2 bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#8f2add] hover:to-[#3069fc] rounded-xl">
 							Withdraw
 						</button>
 					</div>
@@ -180,11 +180,11 @@ const SavingsPage = () => {
 					</div>
 
 					<div className="flex space-x-4 my-2">
-						<button className="px-6 h-12 py-2 w-48 bg-[#0E131E] rounded-xl hover:bg-gray-700 border-2 border-gray-700 ">
+						<button className="px-6 h-12 py-2 w-48 rounded-xl bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#8f2add] hover:to-[#3069fc] ">
 							Pay now
 						</button>
 
-						<button className="px-6 h-12 py-2 w-48 bg-[#0E131E] rounded-xl hover:bg-gray-700 border-2 border-gray-700">
+						<button className="px-6 h-12 py-2 w-48 rounded-xl bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#8f2add] hover:to-[#3069fc]">
 							Pay all now
 						</button>
 					</div>
@@ -192,7 +192,7 @@ const SavingsPage = () => {
 
 				{/* Savings Journey Chart */}
 
-				<div className="bg-dark-gray rounded-lg w-full h-[304px] p-4 border-[3px] border-gray-700">
+				<div className="bg-white shadow-lg rounded-lg w-full h-[304px] p-4 border">
 					<h3 className="text-lg mb-4">My Savings Journey</h3>
 					<div className=" w-full h-[240px]">
 						<Line data={data} options={options} />

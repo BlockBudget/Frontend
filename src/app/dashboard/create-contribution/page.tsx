@@ -63,21 +63,21 @@ function CreateSavingsGroup() {
 		<>
 			<div className="w-full m-auto">
 				<Link href="/dashboard" className="flex space-x-2">
-					<IndentDecrease className="text-white " size={20} />{" "}
-					<span className="text-white font-montserrat font-semibold text-sm">
+					<IndentDecrease className="text-black " size={20} />{" "}
+					<span className="text-black font-montserrat font-semibold text-sm">
 						Back
 					</span>
 				</Link>
 			</div>
 			<div className="min-h-screen  w-4/5 m-auto flex items-center justify-center p-6">
-				<div className="w-full relative max-w-lg bg-[#00000052] border-2 border-gray-700 rounded-[48px] p-8 shadow-lg  overflow-hidden text-gray-300">
-					<h2 className="text-2xl font-montserrat  font-semibold text-center text-white mb-8">
+				<div className="w-full relative max-w-lg  rounded-[48px] p-8 overflow-hidden text-black">
+					<h2 className="text-2xl font-montserrat  font-semibold text-center text-[#000] mb-8">
 						Create Contribution
 					</h2>
 
 					<form className="space-y-5 relative z-50">
 						<div>
-							<label className="block mb-1 text-sm font-medium text-[#FFFFFF]">
+							<label className="block mb-1 text-sm font-medium text-[#0000]">
 								Group Name
 							</label>
 							<input
@@ -85,14 +85,13 @@ function CreateSavingsGroup() {
 								onChange={(e) => setSavingsName(e.target.value)}
 								type="text"
 								placeholder="Enter a name for the group"
-								className="w-full px-4 py-1 placeholder:text-sm bg-[#131418] border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+								className="w-full px-4 py-2 placeholder:text-sm  border border-[#DADADA] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
 							/>
 						</div>
 
 						<div>
 							<label
-								className="block mb-1 text-sm font-medium text-[
-            #FFFFFF]"
+								className="block mb-1 text-sm font-medium text-[#000]"
 							>
 								Group Description
 							</label>
@@ -101,14 +100,13 @@ function CreateSavingsGroup() {
 								onChange={(e) => setDescription(e.target.value)}
 								type="text"
 								placeholder="Enter Group Description"
-								className="w-full px-4 py-1 bg-[#131418] placeholder:text-sm border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+								className="w-full px-4 py-2 placeholder:text-sm border border-[#DADADA] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
 							/>
 						</div>
 
 						<div>
 							<label
-								className="block mb-1 text-sm font-medium text-[
-            #FFFFFF]"
+								className="block mb-1 text-sm font-medium text-[#000]"
 							>
 								Target Amount
 							</label>
@@ -117,12 +115,12 @@ function CreateSavingsGroup() {
 								onChange={(e) => setTargetAmount(e.target.value)}
 								type="number"
 								placeholder="Enter Target Amount"
-								className="w-full px-4 py-1 bg-[#131418] placeholder:text-sm border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+								className="w-full px-4 py-2 placeholder:text-sm border border-[#DADADA] 00 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
 							/>
 						</div>
 
 						<div>
-							<label className="block mb-3 text-sm font-medium text-[#FFFFFF]">
+							<label className="block mb-3 text-sm font-medium text-[#000]">
 								Contribution Type
 							</label>
 							<div className="flex w-11/12 m-auto space-x-4">
@@ -132,7 +130,7 @@ function CreateSavingsGroup() {
 										onChange={() => setIsPrivate(true)}
 										type="radio"
 										name="distributionMethod"
-										className="form-radion h-5 w-5 text-gray-500 accent-gray-400"
+										className="form-radion h-5 w-5 text-black accent-[#3A6FF9]"
 									/>
 									<span className="ml-2 text-sm">
 										Private
@@ -144,7 +142,7 @@ function CreateSavingsGroup() {
 										onChange={() => setIsPrivate(false)}
 										type="radio"
 										name="distributionMethod"
-										className="form-radion h-5 w-5 text-gray-500 accent-gray-400"
+										className="form-radion h-5 w-5 text-gray-500 accent-[#3A6FF9]"
 									/>
 									<span className="ml-2 text-sm">
 										Public
@@ -154,7 +152,7 @@ function CreateSavingsGroup() {
 						</div>
 
 						<div>
-							<label className="block mb-1 text-sm font-medium text-[#FFFFFF]">
+							<label className="block mb-1 text-sm font-medium text-[#000]">
 								Duration
 							</label>
 							<div className="flex space-x-4">
@@ -162,7 +160,7 @@ function CreateSavingsGroup() {
 									value={duration}
 									onChange={(e) => setDuration(e.target.value)}
 									type="date"
-									className="w-full px-4 py-1 bg-[#131418]  border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+									className="w-full px-4 py-2  border border-[#DADADA]  rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
 								/>
 							</div>
 						</div>
@@ -170,7 +168,7 @@ function CreateSavingsGroup() {
 						<button
 							onClick={handleCreateNewContribution}
 							type="submit"
-							className="w-full py-2 mt-4 bg-[#131418]  text-white border border-gray-700 font-semibold rounded-xl hover:bg-[#131418]  transition duration-200"
+							className="w-full py-2 mt-4 bg-gradient-to-r from-[#9C2CF3] to-[#3A6FF9]  text-white border border-[#DADADA]  font-semibold rounded-xl hover:bg-[#131418]  transition duration-200"
 						>
 							Create Group
 						</button>

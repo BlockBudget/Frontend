@@ -32,10 +32,10 @@ const ContributionList = () => {
 	};
 
 	return (
-		<div className="min-h-screen  text-white">
+		<div className="min-h-screen  text-[#000]">
 			<div className="flex justify-between mb-20">
 				<h1 className="text-2xl font-bold ">All Contributions</h1>
-				<Link href="/dashboard/create-contribution" className="px-6 py-2  border bg-[#0E131E] border-gray-500 text-sm text-white rounded-xl shadow-md ">
+				<Link href="/dashboard/create-contribution" className="px-6 py-2  border bg-gradient-to-r from-[#9C2CF3] to-[#3A6FF9] border-gray-500 text-sm text-white rounded-xl shadow-md ">
 					Create Contribution
 				</Link>
 			</div>
