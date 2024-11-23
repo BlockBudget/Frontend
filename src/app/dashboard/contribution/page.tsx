@@ -35,7 +35,7 @@ const ContributionList = () => {
 		<div className="min-h-screen  text-[#000]">
 			<div className="flex justify-between mb-20">
 				<h1 className="text-2xl font-bold ">All Contributions</h1>
-				<Link href="/dashboard/create-contribution" className="px-6 py-2  border bg-gradient-to-r from-[#9C2CF3] to-[#3A6FF9] border-gray-500 text-sm text-white rounded-xl shadow-md ">
+				<Link href="/dashboard/create-contribution" className="px-6 py-2  border bg-gradient-to-r from-[#9d2cf3cc] to-[#9d2cf3a6] border-gray-500 text-sm text-white rounded-xl shadow-md ">
 					Create Contribution
 				</Link>
 			</div>
@@ -44,7 +44,7 @@ const ContributionList = () => {
 					<div
 						key={contribution.id}
 						
-						className="flex justify-between items-center bg-[#0E131E] hover:bg-[#0e131a] px-6 py-4 rounded-lg cursor-pointer shadow-md"
+						className="flex justify-between items-center bg-[] hover:bg-[#0e131a] px-6 py-4 rounded-lg cursor-pointer shadow-md"
 					>
 						<div>
 							<h2 className="text-lg font-semibold">{contribution.name}</h2>

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { IndentDecrease } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { contractAddress } from "@/context/contractAddress";
 import toast from "react-hot-toast";
 import { abi } from "@/context/abi";
-import { useWriteContract,useWaitForTransactionReceipt } from "wagmi";
+import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { parseEther } from "viem";
 
 function CreateSavingsGroup() {
@@ -17,9 +17,9 @@ function CreateSavingsGroup() {
 	const [isPrivate, setIsPrivate] = useState(true);
 	const [txHash, setTxHash] = useState<`0x${string}` | null>(null);
 
-	const {writeContractAsync,isPending} = useWriteContract();
+	const { writeContractAsync, isPending } = useWriteContract();
 
-	const handleCreateNewContribution = async (e:any) => {
+	const handleCreateNewContribution = async (e: any) => {
 		try {
 			e.preventDefault();
 			const targetAmountToReach = parseEther(targetAmount);
@@ -34,31 +34,29 @@ function CreateSavingsGroup() {
 					description,
 					targetAmountToReach,
 					durationTimestamp,
-					isPrivate
-				]
-			})
+					isPrivate,
+				],
+			});
 
 			console.log(tx);
-			setTxHash(tx); 
-			toast.success('Campaign Submitted. Waiting for confirmation...', {
-				icon: '✅',
-			  });
+			setTxHash(tx);
+			toast.success("Campaign Submitted. Waiting for confirmation...");
 		} catch (error) {
 			console.error("Error creating invoice:", error);
-      		toast.error("Error creating invoice: " + error);
+			toast.error("Error creating invoice: " + error);
 		}
-	}
+	};
 
 	const { isLoading: isConfirming, isSuccess: isConfirmed } =
-	useWaitForTransactionReceipt({
-	  hash: txHash ?? undefined,
-	});
+		useWaitForTransactionReceipt({
+			hash: txHash ?? undefined,
+		});
 
 	useEffect(() => {
 		if (isConfirmed) {
-		  toast.success("New Campaign Created Successfully");
+			toast.success("New Campaign Created Successfully");
 		}
-	  }, [isConfirmed]);
+	}, [isConfirmed]);
 	return (
 		<>
 			<div className="w-full m-auto">
@@ -90,9 +88,7 @@ function CreateSavingsGroup() {
 						</div>
 
 						<div>
-							<label
-								className="block mb-1 text-sm font-medium text-[#000]"
-							>
+							<label className="block mb-1 text-sm font-medium text-[#000]">
 								Group Description
 							</label>
 							<input
@@ -105,9 +101,7 @@ function CreateSavingsGroup() {
 						</div>
 
 						<div>
-							<label
-								className="block mb-1 text-sm font-medium text-[#000]"
-							>
+							<label className="block mb-1 text-sm font-medium text-[#000]">
 								Target Amount
 							</label>
 							<input
@@ -132,9 +126,7 @@ function CreateSavingsGroup() {
 										name="distributionMethod"
 										className="form-radion h-5 w-5 text-black accent-[#3A6FF9]"
 									/>
-									<span className="ml-2 text-sm">
-										Private
-									</span>
+									<span className="ml-2 text-sm">Private</span>
 								</label>
 								<label className="flex items-center">
 									<input
@@ -144,9 +136,7 @@ function CreateSavingsGroup() {
 										name="distributionMethod"
 										className="form-radion h-5 w-5 text-gray-500 accent-[#3A6FF9]"
 									/>
-									<span className="ml-2 text-sm">
-										Public
-									</span>
+									<span className="ml-2 text-sm">Public</span>
 								</label>
 							</div>
 						</div>
@@ -168,7 +158,7 @@ function CreateSavingsGroup() {
 						<button
 							onClick={handleCreateNewContribution}
 							type="submit"
-							className="w-full py-2 mt-4 bg-gradient-to-r from-[#9C2CF3] to-[#3A6FF9]  text-white border border-[#DADADA]  font-semibold rounded-xl hover:bg-[#131418]  transition duration-200"
+							className="w-full py-2 mt-4 bg-gradient-to-r from-[#9d2cf3cc] to-[#9d2cf3a4]  text-white border border-[#DADADA]  font-semibold rounded-xl hover:bg-[#131418]  transition duration-200"
 						>
 							Create Group
 						</button>

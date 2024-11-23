@@ -5,11 +5,11 @@ import Link from "next/link";
 const Navbar = () => {
 	return (
 		<>
-			<div className=" items-center text-white bg-[#9d2cf3e5] py-4">
+			<div className=" items-center text-white z-30 relative bg-[#003acec0]  py-4">
 				<div className="w-11/12 m-auto flex justify-between ">
 				<div className="text-lg  font-semibold">
 					<Link href="/" className="font-semibold flex gap-3 items-center">
-						<img src="/Frame.png" alt="logo" className="h-8 w-8" />
+						{/* <img src="/Frame.png" alt="logo" className="h-8 w-8" /> */}
 						BlockBudget
 					</Link>
 				</div>
@@ -18,7 +18,7 @@ const Navbar = () => {
 						Market
 					</Link>
 					<Link href="/" className="font-semibold flex gap-3 items-center">
-						How it works
+						Docs
 					</Link>
 					<Link href="/" className="font-semibold flex gap-3 items-center">
 						News

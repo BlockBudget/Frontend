@@ -49,7 +49,7 @@ const page = () => {
 			{
 				label: "Locked savings",
 				data: [6, 16, 12, 15, 10, 20, 19, 30, 25, 20, 27, 16],
-				backgroundColor: "rgba(156, 44, 243, 1)",
+				backgroundColor: "rgba(0, 57, 206, 1)",
 				barThickness: 10,
 				borderWidth: 2,
 				borderColor: "transparent",
@@ -112,7 +112,7 @@ const page = () => {
 						{/* Box 1 */}
 						<div className="p-4 relative overflow-hidden  rounded-[16px] bg-white border shadow-md hover:shadow-lg text-center">
 							<div className=" flex gap-4 py-5">
-								<div className="flex items-center  justify-center w-[40px] h-[40px] rounded-full bg-[#9d2cf3f3] shadow-sm">
+								<div className="flex items-center  justify-center w-[40px] h-[40px] rounded-full bg-[#003aceda] shadow-sm">
 									<PiggyBank className="text-white" />
 								</div>
 
@@ -121,9 +121,9 @@ const page = () => {
 									<h2 className="text-xl">$ 0.00</h2>
 								</div>
 							</div>
-							<div className="flex items-center left-48 top-0 justify-center w-52 h-52 absolute rounded-full bg-[#9d2cf328]">
-								<div className="bg-[#9d2cf359] w-44 relative h-44 rounded-full">
-									<div className="bg-[#9d2cf354] absolute left-5 top-4 w-36 h-36 rounded-full"></div>
+							<div className="flex items-center left-48 top-0 justify-center w-52 h-52 absolute rounded-full bg-[#003ace11]">
+								<div className="bg-[#003ace28] w-44 relative h-44 rounded-full">
+									<div className="bg-[#003ace59] absolute left-5 top-4 w-36 h-36 rounded-full"></div>
 								</div>
 							</div>
 						</div>
@@ -131,7 +131,7 @@ const page = () => {
 						{/* Box 2 */}
 						<div className="p-4 relative overflow-hidden  rounded-[16px] shadow-md hover:shadow-lg border bg-white text-center">
 							<div className="flex gap-4 py-5">
-								<div className="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-[#9d2cf3f6] shadow-sm">
+								<div className="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-[#003aceda] shadow-sm">
 									<Vault className="text-white" />
 								</div>
 								<div className="text-left">
@@ -139,9 +139,9 @@ const page = () => {
 									<h2 className="text-xl">$ 0.00</h2>
 								</div>
 							</div>
-							<div className="flex items-center left-48 top-0 justify-center w-52 h-52 absolute rounded-full bg-[#9d2cf328]">
-								<div className="bg-[#9d2cf359] w-44 relative h-44 rounded-full">
-									<div className="bg-[#9d2cf354] absolute left-5 top-4 w-36 h-36 rounded-full"></div>
+							<div className="flex items-center left-48 top-0 justify-center w-52 h-52 absolute rounded-full bg-[#003ace11]">
+								<div className="bg-[#003ace28] w-44 relative h-44 rounded-full">
+									<div className="bg-[#003ace59] absolute left-5 top-4 w-36 h-36 rounded-full"></div>
 								</div>
 							</div>
 						</div>
@@ -149,7 +149,7 @@ const page = () => {
 						{/* Box 3 */}
 						<div className="p-4 relative overflow-hidden rounded-[16px] bg-white border shadow-md hover:shadow-lg text-center">
 							<div className=" flex gap-4 py-5">
-								<div className="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-[#9d2cf3f1] shadow-sm">
+								<div className="flex items-center justify-center w-[40px] h-[40px] rounded-full bg-[#003aceda] shadow-sm">
 									<HandCoins className="text-white" />
 								</div>
 								<div className="text-left">
@@ -159,9 +159,9 @@ const page = () => {
 									<h2 className="text-xl">$ 0.00</h2>
 								</div>
 							</div>
-							<div className="flex items-center left-48 top-0 justify-center w-52 h-52 absolute rounded-full bg-[#9d2cf328]">
-								<div className="bg-[#9d2cf359] w-44 relative h-44 rounded-full">
-									<div className="bg-[#9d2cf354] absolute left-5 top-4 w-36 h-36 rounded-full"></div>
+							<div className="flex items-center left-48 top-0 justify-center w-52 h-52 absolute rounded-full bg-[#003ace11]">
+								<div className="bg-[#003ace28] w-44 relative h-44 rounded-full">
+									<div className="bg-[#003ace59] absolute left-5 top-4 w-36 h-36 rounded-full"></div>
 								</div>
 							</div>
 						</div>
@@ -171,7 +171,7 @@ const page = () => {
 					<div className="grid md:grid-cols-3 grid-cols-1  gap-3 py-5 text-center">
 						<Link
 							href="/dashboard/plans"
-							className="flex w-full col-span-1 border items-center justify-center m-auto text-[#7108c2fb] hover:text-white bg-[#9d2cf317] hover:bg-gradient-to-r hover:from-[#8f2add] hover:to-[#3069fc]  gap-2 py-2 rounded-full text-sm font-semibold "
+							className="flex w-full col-span-1 border items-center justify-center m-auto text-black hover:text-white bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] gap-2 py-2 rounded-full text-sm font-semibold "
 						>
 							<span>
 								<LockKeyhole />
@@ -180,7 +180,7 @@ const page = () => {
 						</Link>
 						<Link
 							href="/dashboard/create-contribution"
-							className="flex w-full col-span-1 border items-center justify-center m-auto text-[#7108c2fb] hover:text-white bg-[#9d2cf317] hover:bg-gradient-to-r hover:from-[#8f2add] hover:to-[#3069fc]  gap-2 py-2 rounded-full text-sm font-semibold  "
+							className="flex w-full col-span-1 border items-center justify-center m-auto text-black hover:text-white bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77]  gap-2 py-2 rounded-full text-sm font-semibold  "
 						>
 							<span>
 								<Users />
@@ -189,7 +189,7 @@ const page = () => {
 						</Link>
 						<Link
 							href="/dashboard/create-savings"
-							className="flex w-full col-span-1 border items-center justify-center m-auto text-[#7108c2fb] hover:text-white bg-[#9d2cf315] hover:bg-gradient-to-r hover:from-[#8f2add] hover:to-[#3069fc]  gap-2 py-2 rounded-full text-sm font-semibold "
+							className="flex w-full col-span-1 border items-center justify-center m-auto text-black hover:text-white bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] gap-2 py-2 rounded-full text-sm font-semibold "
 						>
 							<span>
 								<Banknote />{" "}
@@ -249,7 +249,7 @@ const page = () => {
 							My group contributions
 						</h3>
 						<div className="space-y-2 w-full h-[80px] gap-[13px]">
-							<div className="flex justify-between items-center rounded-lg p-2  hover:text-white hover:bg-gradient-to-r hover:from-[#8f2add] hover:to-[#3069fc] h-[80px] bg-[#9d2cf317] text-[#7108c2fb]">
+							<div className="flex justify-between items-center rounded-lg p-2   h-[80px] bg-[#0039CE1A] text-black">
 								<div className="flex items-center gap-2">
 									<div>
 										<div className="text-sm">December Savings</div>
@@ -259,7 +259,7 @@ const page = () => {
 								<div className="text-xs font-medium ">$0.00</div>
 							</div>
 
-							<div className="flex justify-between items-center rounded-lg p-2  hover:text-white hover:bg-gradient-to-r hover:from-[#8f2add] hover:to-[#3069fc] h-[80px] bg-[#9d2cf317] text-[#7108c2fb]">
+							<div className="flex justify-between items-center rounded-lg p-2  h-[80px] bg-[#0039CE1A] text-black">
 								<div className="flex items-center gap-2">
 									{/* <div className="w-[40px] h-[40px] rounded-full bg-purple-500"></div> */}
 									<div>
@@ -270,7 +270,7 @@ const page = () => {
 								<div className="text-xs font-medium ">$0.00</div>
 							</div>
 
-							<div className="flex justify-between items-center  rounded-lg p-2  hover:text-white hover:bg-gradient-to-r hover:from-[#8f2add] hover:to-[#3069fc] h-[80px] bg-[#9d2cf317] text-[#7108c2fb]">
+							<div className="flex justify-between items-center  rounded-lg p-2  h-[80px] bg-[#0039CE1A] text-black">
 								<div className="flex items-center gap-2">
 									{/* <div className="w-[40px] h-[40px] rounded-full bg-purple-500"></div> */}
 									<div>
@@ -297,7 +297,7 @@ const page = () => {
 					<div className="relative rounded-[16px]  h-[370px] border bg-white shadow-xl p-4">
 						<h3 className="text-lg font-semibold mb-4">My Locked savings</h3>
 						<div className="space-y-2">
-							<div className="flex justify-between items-center rounded-lg p-2  hover:text-white hover:bg-gradient-to-r hover:from-[#8f2add] hover:to-[#8f2addd0] h-[80px] bg-[#9d2cf317] text-[#7108c2fb]">
+							<div className="flex justify-between items-center rounded-lg p-2  h-[80px] bg-[#0039CE1A] text-black">
 								<div className="flex items-center gap-2">
 									{/* <div className="w-[40px] h-[40px] rounded-full bg-orange-500"></div> */}
 									<div>
@@ -308,7 +308,7 @@ const page = () => {
 								<div className="text-xs font-medium">$0.00</div>
 							</div>
 
-							<div className="flex justify-between items-center rounded-lg p-2  hover:text-white hover:bg-gradient-to-r hover:from-[#8f2add] hover:to-[#3069fc] h-[80px] bg-[#9d2cf317] text-[#7108c2fb]">
+							<div className="flex justify-between items-center rounded-lg p-2  h-[80px] bg-[#0039CE1A] text-black">
 								<div className="flex items-center gap-2">
 									{/* <div className="w-[40px] h-[40px] rounded-full bg-orange-500"></div> */}
 									<div>
@@ -319,7 +319,7 @@ const page = () => {
 								<div className="text-xs font-medium">$0.00</div>
 							</div>
 
-							<div className="flex justify-between items-center rounded-lg p-2  hover:text-white hover:bg-gradient-to-r hover:from-[#8f2add] hover:to-[#3069fc] h-[80px] bg-[#9d2cf317] text-[#7108c2fb]">
+							<div className="flex justify-between items-center rounded-lg p-2  hover:text-white  h-[80px] bg-[#0039CE1A] text-black">
 								<div className="flex items-center gap-2">
 									{/* <div className="w-[40px] h-[40px] rounded-full bg-orange-500"></div> */}
 									<div>

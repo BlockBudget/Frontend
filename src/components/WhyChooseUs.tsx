@@ -2,9 +2,9 @@ import { PiggyBank } from "lucide-react";
 
 const WhyChooseUs = () => {
 	return (
-		<div className=" py-10">
+		<div className="mx-auto w-11/12 py-20">
 			{/* Why Choose Us Section */}
-			<section className="max-w-7xl mx-auto mb-16">
+			<section className=" mx-auto mb-16">
 				<h2 className="text-3xl font-medium text-gray-900 mb-3">
 					Why Choose Us
 				</h2>
@@ -13,7 +13,7 @@ const WhyChooseUs = () => {
 				</p>
 				<div className="grid md:grid-cols-5 text-center gap-4">
 					<div className="px-3 py-5 border col-span-1 rounded-lg  shadow-md hover:shadow-lg space-y-4 transition">
-						<div className="flex items-center justify-center mb-12 m-auto w-[40px] h-[40px] rounded-full bg-[#0039CE] shadow-sm">
+						<div className="flex items-center justify-center mb-12 m-auto w-[40px] h-[40px] rounded-full bg-[#003aced7]  shadow-sm">
 							<PiggyBank className="text-white" />
 						</div>
 						<h3 className="text-xl font-semibold text-gray-800 mb-2">
@@ -24,7 +24,7 @@ const WhyChooseUs = () => {
 						</p>
 					</div>
 					<div className="px-3 py-5 border rounded-lg col-span-1 shadow-md hover:shadow-lg space-y-4 transition">
-						<div className="flex items-center justify-center mb-12 m-auto w-[40px] h-[40px] rounded-full bg-[#0039CE] shadow-sm">
+						<div className="flex items-center justify-center mb-12 m-auto w-[40px] h-[40px] rounded-full bg-[#003aced7] shadow-sm">
 							<PiggyBank className="text-white" />
 						</div>
 						<h3 className="text-xl font-semibold text-gray-800 mb-2">
@@ -35,7 +35,7 @@ const WhyChooseUs = () => {
 						</p>
 					</div>
 					<div className="px-3 py-5 border rounded-lg col-span-1 shadow-md hover:shadow-lg space-y-4 transition">
-						<div className="flex items-center justify-center m-auto w-[40px] mb-12 h-[40px] rounded-full bg-[#0039CE] shadow-sm">
+						<div className="flex items-center justify-center m-auto w-[40px] mb-12 h-[40px] rounded-full bg-[#003aced7]  shadow-sm">
 							<PiggyBank className="text-white" />
 						</div>
 						<h3 className="text-xl font-semibold text-gray-800 mb-2">
@@ -54,7 +54,7 @@ const WhyChooseUs = () => {
 			</section>
 
 			{/* How It Works Section */}
-			<section className="max-w-7xl mx-auto">
+			<section className="py-4">
       <h2 className="text-3xl capitalize font-medium text-gray-900 mb-3">
 					How it works
 				</h2>
@@ -97,7 +97,7 @@ const WhyChooseUs = () => {
 							},
 						].map((item, index) => (
 							<div key={index} className="flex items-start gap-4">
-								<div className="flex items-center justify-center  w-12 h-12 bg-blue-600 text-white font-bold rounded-full">
+								<div className="flex items-center justify-center  w-12 h-12 bg-[#003aced7]  text-white font-bold rounded-full">
 									{index + 1}
 								</div>
 								<div className="bg-[#FFFFFF] p-2 shadow-md border rounded-lg hover:shadow-lg w-4/5">
