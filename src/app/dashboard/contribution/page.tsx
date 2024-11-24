@@ -32,10 +32,10 @@ const ContributionList = () => {
 	};
 
 	return (
-		<div className="min-h-screen  text-white">
+		<div className="min-h-screen  text-[#000]">
 			<div className="flex justify-between mb-20">
 				<h1 className="text-2xl font-bold ">All Contributions</h1>
-				<Link href="/dashboard/create-contribution" className="px-6 py-2  border bg-[#0E131E] border-gray-500 text-sm text-white rounded-xl shadow-md ">
+				<Link href="/dashboard/create-contribution" className="px-6 py-2  border bg-[#003ace8f]  text-sm text-black rounded-xl shadow-md ">
 					Create Contribution
 				</Link>
 			</div>
@@ -44,7 +44,7 @@ const ContributionList = () => {
 					<div
 						key={contribution.id}
 						
-						className="flex justify-between items-center bg-[#0E131E] hover:bg-[#0e131a] px-6 py-4 rounded-lg cursor-pointer shadow-md"
+						className="flex justify-between items-center bg-[] hover:bg-[#0039CE1A] px-6 py-4 rounded-lg cursor-pointer shadow-md"
 					>
 						<div>
 							<h2 className="text-lg font-semibold">{contribution.name}</h2>
@@ -56,8 +56,8 @@ const ContributionList = () => {
 							<p>Target Savings</p>
 							<span className="text-lg font-bold">{contribution.total}</span>
 							</div>
-						<button className="px-6 py-2  border bg-[#0E131E] border-gray-500 text-sm text-white rounded-xl shadow-md " onClick={()=>handleClick(contribution.id)}>
-							view details
+						<button className="px-6 py-2  font-medium border bg-[#003ace8f]  text-sm text-black rounded-xl shadow-md " onClick={()=>handleClick(contribution.id)}>
+							View details
 						</button>
 					</div>
 				))}
