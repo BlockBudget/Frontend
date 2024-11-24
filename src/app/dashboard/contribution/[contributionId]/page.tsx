@@ -1,21 +1,79 @@
 "use client";
+import { abi2 } from "@/context/abi";
+import { contractAddress2 } from "@/context/contractAddress";
 import { abi } from "@/context/abi";
 import { contractAddress } from "@/context/contractAddress";
 import { Command, Minus, PiggyBank, Plus, Target, X } from "lucide-react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import toast from "react-hot-toast";
 import { isAddress } from "viem";
-import { useWriteContract } from "wagmi";
+import { useWriteContract, useReadContract, useAccount } from "wagmi";
 import {} from "viem";
 import WhitelistModal from "@/components/WhitelistModal";
 import ProgressBar from "@/components/ProgressBar";
+
 
 const SavingsDashboard = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [userAddress, setUserAddress] = useState("");
 	const [campaignId, setCampaignId] = useState("");
 	const { writeContract, isSuccess } = useWriteContract();
+	const [isPayNowModalOpen, setIsPayNowModalOpen] = useState(false);
+	const [tokenAmount, setTokenAmount] = useState("");
+	const [userContractAddress, setUserContractAddress] = useState("" as `0x${string}`);
+	const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
+
+	const { isConnected, address } = useAccount();
+	const {writeContractAsync,isPending} = useWriteContract();
+
+
+	const { data:userAddy, isSuccess: success, error} = useReadContract({
+		abi:abi2,
+		address: contractAddress2,
+		functionName: 'getUserBudget',
+		args: [address],
+		account: address,
+	  });
+
+	
+	  useEffect(() => {
+  
+		if (userAddy && userAddy !== '0x0000000000000000000000000000000000000000') {
+		  setUserContractAddress(userAddress as `0x${string}`);
+	
+		}
+	  }, [userAddress]);
+
+
+	  const handlePayNow = async () => {
+		console.log(campaignId, "campaignId");
+
+		try {
+			const tx = await writeContractAsync({
+				address: contractAddress2,
+				abi: abi2,
+				functionName: "contributeToCompaign",
+				account: address,
+				args: [campaignId], 
+			  });
+			toast.success(`Paying ${tokenAmount} tokens`);
+			console.log(tx);
+			// setIsPayNowModalOpen(false);
+			setTokenAmount("");
+		} catch (error: any) {
+			console.log(error);
+		}
+	};
+	
+
+
+	const { data: mainAddress } = useReadContract({
+		abi: abi,
+		address: contractAddress,
+		functionName: "getContributions",
+		args: [campaignId],
+	});
 
 	const handleAddUsers = (addresses: any) => {
 		try {
@@ -43,6 +101,24 @@ const SavingsDashboard = () => {
 			toast.error("Failed to whitelist addresses. Check your inputs:", error);
 		}
 	};
+
+	const handleWithdraw = async () => {
+		try {
+			const tx = await writeContract({
+				abi: abi,
+				address: contractAddress,
+				functionName: "withdrawContribution",
+				args: [campaignId],
+			});
+			toast.success("Withdrawal successful!");
+			console.log(tx);
+			setIsWithdrawModalOpen(false);
+		} catch (error: any) {
+			toast.error("Failed to withdraw. Please try again.");
+			console.log(error);
+		}
+	};
+
 	const completionPercentage = 39;
 	return (
 		<>
@@ -134,10 +210,16 @@ const SavingsDashboard = () => {
 							>
 								Add Contributors
 							</button>
-							<button className="px-6 py-2 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black rounded-xl shadow-md ">
+							<button
+								onClick={() => setIsPayNowModalOpen(true)}
+								className="px-6 py-2 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black rounded-xl shadow-md "
+							>
 								Pay Now
 							</button>
-							<button className="px-6 py-2 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black rounded-xl hover:">
+							<button
+								onClick={() => setIsWithdrawModalOpen(true)}
+								className="px-6 py-2 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black rounded-xl shadow-md "
+							>
 								Withdraw
 							</button>
 						</div>
@@ -195,6 +277,55 @@ const SavingsDashboard = () => {
 					setIsModalOpen={setIsModalOpen}
 					handleAddUsers={handleAddUsers}
 				/>
+			)}
+			{isPayNowModalOpen && (
+				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+					<div className="bg-white p-6 rounded-lg shadow-lg">
+						<h2 className="text-lg text-black font-semibold mb-4">Confirm Payment</h2>
+						{/* <input
+							type="number"
+							value={tokenAmount}
+							onChange={(e) => setTokenAmount(e.target.value)}
+							placeholder="Enter token amount"
+							className="w-full p-2 border rounded text-black mb-4"
+						/> */}
+						<div className="flex justify-end space-x-4">
+							<button
+								onClick={() => setIsPayNowModalOpen(false)}
+								className="px-4 py-2 bg-red-500 text-white rounded"
+							>
+								Cancel
+							</button>
+							<button
+								onClick={handlePayNow}
+								className="px-4 py-2 bg-[#003aceaf] text-white rounded"
+							>
+								Pay
+							</button>
+						</div>
+					</div>
+				</div>
+			)}
+			{isWithdrawModalOpen && (
+				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+					<div className="bg-white p-6 rounded-lg shadow-lg">
+						<h2 className="text-lg text-black font-semibold mb-4">Confirm Withdrawal</h2>
+						<div className="flex justify-end space-x-4">
+							<button
+								onClick={() => setIsWithdrawModalOpen(false)}
+								className="px-4 py-2 bg-red-500 text-white rounded"
+							>
+								Cancel
+							</button>
+							<button
+								onClick={handleWithdraw}
+								className="px-4 py-2 bg-[#003aceaf] text-white rounded"
+							>
+								Proceed
+							</button>
+						</div>
+					</div>
+				</div>
 			)}
 		</>
 	);
