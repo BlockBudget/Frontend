@@ -9,14 +9,13 @@ import { isAddress } from "viem";
 import { useWriteContract } from "wagmi";
 import {} from "viem";
 import WhitelistModal from "@/components/WhitelistModal";
+import ProgressBar from "@/components/ProgressBar";
 
 const SavingsDashboard = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [userAddress, setUserAddress] = useState("");
 	const [campaignId, setCampaignId] = useState("");
 	const { writeContract, isSuccess } = useWriteContract();
-
-
 
 	const handleAddUsers = (addresses: any) => {
 		try {
@@ -44,56 +43,79 @@ const SavingsDashboard = () => {
 			toast.error("Failed to whitelist addresses. Check your inputs:", error);
 		}
 	};
+	const completionPercentage = 39;
 	return (
 		<>
 			<div className="flex justify-end w-11/12 mb-3 m-auto">
 				<Link href="/dashboard" className=" flex space-x-2">
-					<PiggyBank className="text-white " size={20} />{" "}
-					<span className="text-white font-montserrat font-semibold text-base">
+					<PiggyBank className="text-black " size={20} />{" "}
+					<span className="text-black font-montserrat font-semibold text-base">
 						Savings
 					</span>
 				</Link>
 			</div>
 
-			<div className="min-h-screen text-gray-300 p-6">
+			<div className="min-h-screen text-black p-6">
 				<div className="max-w-6xl mx-auto">
 					<div className="text-center mb-10">
-						<h1 className="text-2xl font-semibold text-white">
+						<h1 className="text-2xl font-semibold ">
 							December Savings
 						</h1>
-						<p className="text-sm text-gray-400 w-11/12 m-auto mt-3 flex  md:flex-row flex-col justify-between">
+						<p className="text-sm text-black w-11/12 m-auto mt-3 flex  md:flex-row flex-col justify-between">
 							<span>Created by James Henry</span>
 							<span>Close date: Jan 24, 2025</span>
 							<span>Distribution method: Distribute at End of Period</span>
 						</p>
 					</div>
-
+					{/* Progress Bar */}
+					<ProgressBar percentage={completionPercentage} />
 					<div className="grid grid-cols-3 gap-6 mb-10">
-						<div className="bg-[#00000052] md:col-span-1 col-span-3 border-2 space-x-3 flex border-[#344054] p-6 rounded-lg shadow-md text-center">
-							<div className="bg-[#FFFFFF] shadow-sm p-3 rounded-full">
-								<Target className="text-[#1E1E1E]" size={27} />
+						<div className="bg-white overflow-hidden relative md:col-span-1 col-span-3 border-2 space-x-3 flex p-6 rounded-lg shadow-md text-center">
+							<div className=" flex gap-4 py-5">
+							<div className="bg-[#003aceda] shadow-sm p-3 rounded-full">
+								<Target className="text-white" size={27} />
 							</div>
 							<div>
-								<h3 className="text-sm text-gray-400">Target Savings</h3>
-								<p className="text-2xl font-bold text-white">₦632,000</p>
+								<h3 className="text-sm text-gray-800">Target Savings</h3>
+								<p className="text-2xl font-bold text-black">₦632,000</p>
+							</div>
+							</div>
+							<div className="flex items-center left-48 top-0 justify-center w-52 h-52 absolute rounded-full bg-[#003ace11]">
+								<div className="bg-[#003ace28] w-44 relative h-44 rounded-full">
+									<div className="bg-[#003ace59] absolute left-5 top-4 w-36 h-36 rounded-full"></div>
+								</div>
 							</div>
 						</div>
-						<div className="bg-[#00000052]  md:col-span-1 col-span-3 border-2 space-x-3 flex border-[#344054] p-6 rounded-lg shadow-md text-center">
-							<div className="bg-[#FFFFFF] shadow-sm p-3 rounded-full">
-								<PiggyBank className="text-[#1E1E1E]" size={27} />
+						<div className="bg-white overflow-hidden relative md:col-span-1 col-span-3 border-2 space-x-3 flex p-6 rounded-lg shadow-md text-center">
+						<div className=" flex gap-4 py-5">
+							<div className="bg-[#003aceda] shadow-sm p-3 rounded-full">
+								<PiggyBank className="text-white" size={27} />
 							</div>
 							<div>
-								<h3 className="text-sm text-gray-400">Total Accumulated</h3>
-								<p className="text-2xl font-bold text-white">₦632,000</p>
+								<h3 className="text-sm text-gray-800">Total Accumulated</h3>
+								<p className="text-2xl font-bold text-black">₦632,000</p>
+							</div>
+							</div>
+							<div className="flex items-center left-48 top-0 justify-center w-52 h-52 absolute rounded-full bg-[#003ace11]">
+								<div className="bg-[#003ace28] w-44 relative h-44 rounded-full">
+									<div className="bg-[#003ace59] absolute left-5 top-4 w-36 h-36 rounded-full"></div>
+								</div>
 							</div>
 						</div>
-						<div className="bg-[#00000052]  md:col-span-1 col-span-3 border-2 space-x-3 flex border-[#344054] p-6 rounded-lg shadow-md text-center">
-							<div className="bg-[#FFFFFF] shadow-sm p-3 rounded-full">
-								<Command className="text-[#1E1E1E]" size={27} />
+						<div className="bg-white overflow-hidden relative  md:col-span-1 col-span-3 border-2 space-x-3 flex p-6 rounded-lg shadow-md text-center">
+						<div className=" flex gap-4 py-5">
+							<div className="bg-[#003aceda] shadow-sm p-3 rounded-full">
+								<Command className="text-white" size={27} />
 							</div>
 							<div>
-								<h3 className="text-sm text-gray-400">My Contributions</h3>
-								<p className="text-2xl font-bold text-white">₦632,000</p>
+								<h3 className="text-sm text-gray-800">My Contributions</h3>
+								<p className="text-2xl font-bold text-black">₦632,000</p>
+							</div>
+							</div>
+							<div className="flex items-center left-48 top-0 justify-center w-52 h-52 absolute rounded-full bg-[#003ace11]">
+								<div className="bg-[#003ace28] w-44 relative h-44 rounded-full">
+									<div className="bg-[#003ace59] absolute left-5 top-4 w-36 h-36 rounded-full"></div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -108,14 +130,14 @@ const SavingsDashboard = () => {
 						<div className="space-x-4">
 							<button
 								onClick={() => setIsModalOpen(true)}
-								className="px-6 py-2 border bg-[#0E131E] border-gray-500 text-sm text-white rounded-xl shadow-md "
+								className="px-6 py-2 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium text-sm text-black rounded-xl shadow-md "
 							>
 								Add Contributors
 							</button>
-							<button className="px-6 py-2 border bg-[#0E131E] border-gray-500 text-sm text-white rounded-xl shadow-md ">
+							<button className="px-6 py-2 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black rounded-xl shadow-md ">
 								Pay Now
 							</button>
-							<button className="px-6 py-2 border bg-[#0E131E] border-gray-500 text-sm text-gray-300 rounded-xl hover:border-white">
+							<button className="px-6 py-2 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black rounded-xl hover:">
 								Withdraw
 							</button>
 						</div>

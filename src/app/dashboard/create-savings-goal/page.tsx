@@ -12,7 +12,7 @@ import {
 import { parseEther } from "viem";
 import { useRouter } from "next/navigation";
 
-function CreateLockedSavings() {
+function CreateSavingsGoal() {
 	const [accountType, setAccountType] = useState("");
 	const [interestType, setInterestType] = useState("");
 	const [lockDuration, setLockDuration] = useState("");
@@ -71,27 +71,27 @@ function CreateLockedSavings() {
 		<>
 			<div className="w-full m-auto">
 				<Link href="/dashboard" className="flex space-x-2">
-					<IndentDecrease className="text-black " size={20} />{" "}
-					<span className="text-black font-montserrat font-semibold text-sm">
+					<IndentDecrease className="text-white " size={20} />{" "}
+					<span className="text-white font-montserrat font-semibold text-sm">
 						Back
 					</span>
 				</Link>
 			</div>
-			<div className="min-h-screen flex items-center -mt-2 justify-center p-6">
-				<div className="w-full relative max-w-lg p-8  overflow-hidden text-black">
-					<h2 className="text-2xl font-montserrat font-semibold text-center text-black mb-8">
-						Create a new locked savings
+			<div className="min-h-screen flex items-center -mt-12 justify-center p-6">
+				<div className="w-full relative max-w-lg bg-[#00000052] border-2 border-gray-700 rounded-[48px] p-8 shadow-lg overflow-hidden text-gray-300">
+					<h2 className="text-2xl font-montserrat font-semibold text-center text-white mb-8">
+						Create a new savings goal
 					</h2>
 
 					<form className="space-y-5 relative z-50" onSubmit={handleSubmit}>
 						<div>
-							<label className="block mb-1 text-sm font-medium text-[#0000]">
+							<label className="block mb-1 text-sm font-medium text-[#FFFFFF]">
 								Account Type
 							</label>
 							<select
 								value={accountType}
 								onChange={(e) => setAccountType(e.target.value)}
-								className="w-full px-4 py-2 bg-transparent border border-[#DADADA] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+								className="w-full px-4 py-1 bg-[#131418] border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
 							>
 								<option value="">Select Account Type</option>
 								<option value="0">Savings</option>
@@ -101,13 +101,13 @@ function CreateLockedSavings() {
 						</div>
 
 						<div>
-							<label className="block mb-1 text-sm font-medium text-[#0000]">
+							<label className="block mb-1 text-sm font-medium text-[#FFFFFF]">
 								Interest Type
 							</label>
 							<select
 								value={interestType}
 								onChange={(e) => setInterestType(e.target.value)}
-								className="w-full px-4 py-2 bg-transparent border border-[#DADADA] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+								className="w-full px-4 py-1 bg-[#131418] border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
 							>
 								<option value="">Select Interest Type</option>
 								<option value="0">Fixed</option>
@@ -117,13 +117,13 @@ function CreateLockedSavings() {
 						</div>
 
 						<div>
-							<label className="block mb-1 text-sm font-medium text-[#0000]">
+							<label className="block mb-1 text-sm font-medium text-[#FFFFFF]">
 								Lock Duration
 							</label>
 							<select
 								value={lockDuration}
 								onChange={(e) => setLockDuration(e.target.value)}
-								className="w-full px-4 py-2 bg-transparent border border-[#DADADA] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+								className="w-full px-4 py-1 bg-[#131418] border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
 							>
 								<option value="">Select Lock Duration</option>
 								<option value="1">1 Month</option>
@@ -132,7 +132,7 @@ function CreateLockedSavings() {
 							</select>
 						</div>
 						<div>
-							<label className="block mb-1 text-sm font-medium text-[#0000]">
+							<label className="block mb-1 text-sm font-medium text-[#FFFFFF]">
 								Initial Deposit
 							</label>
 							<input
@@ -140,13 +140,13 @@ function CreateLockedSavings() {
 								placeholder="Enter initial deposit"
 								value={initialDeposit}
 								onChange={(e) => setInitialDeposit(e.target.value)}
-								className="w-full px-4 py-2 placeholder:text-sm border border-[#DADADA] rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+								className="w-full px-4 py-1 placeholder:text-sm bg-[#131418] border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
 							/>
 						</div>
 
 						<button
 							type="submit"
-							className="w-full py-2 mt-4 bg-gradient-to-r from-[#9C2CF3] to-[#3A6FF9] [border-[#DADADA]] border text-white font-semibold rounded-full hover:bg-[#131418] transition duration-200"
+							className="w-full py-2 mt-4 bg-[#131418] border-gray-700 border text-white font-semibold rounded-full hover:bg-[#131418] transition duration-200"
 						>
 							{isPending ? "Confirming..." : "Create Savings"}
 						</button>
@@ -161,4 +161,4 @@ function CreateLockedSavings() {
 	);
 }
 
-export default CreateLockedSavings;
+export default CreateSavingsGoal;

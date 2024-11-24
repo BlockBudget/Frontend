@@ -1,22 +1,45 @@
 import { useState, useEffect } from 'react';
 import { useAccount, useReadContract } from 'wagmi';
-import { abi } from "@/context/abi";
-import { contractAddress } from "@/context/contractAddress";
+import { abi2 } from "@/context/abi";
+import { contractAddress2 } from "@/context/contractAddress";
 
 export const useUserProfile = () => {
   const { isConnected, address } = useAccount();
   const [userProfile, setUserProfile] = useState<any>();
   const [loading, setLoading] = useState(true);
+  const [userContractAddress, setUserContractAddress] = useState("" as `0x${string}`);
 
-  const { data, isSuccess }:any = useReadContract({
-    abi:abi,
-    address: contractAddress,
-    functionName: "getUserProfile",
+  const { data: userAddress, isSuccess: success, error} = useReadContract({
+    abi:abi2,
+    address: contractAddress2,
+    functionName: 'getUserBudget',
     args: [address],
+    account: address,
   });
 
   useEffect(() => {
+  
+    if (userAddress && userAddress !== '0x0000000000000000000000000000000000000000') {
+      setUserContractAddress(userAddress as `0x${string}`);
+
+    }
+  }, [userAddress]);
+ 
+
+
+  const { data, isSuccess, }:any = useReadContract({
+    abi:abi2,
+    address: userContractAddress,
+    functionName: "getUserProfile",
+    args: [address],
+    account: address,
+  });
+
+  console.log(data);
+  useEffect(() => {
     if (isConnected && isSuccess && data) {
+      console.log(data);
+      
       const mappedProfile = {
         name: data[0],
         userAddress: data[1],
@@ -30,5 +53,6 @@ export const useUserProfile = () => {
     }
   }, [isConnected, data, isSuccess]);
 
-  return { isConnected, userProfile, loading };
+
+  return { isConnected, userAddress, userProfile, loading };
 };

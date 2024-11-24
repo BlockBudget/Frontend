@@ -1,77 +1,177 @@
 "use client";
 
-import React, { useState } from "react";
-import { abi } from "@/context/abi";
-import { contractAddress } from "@/context/contractAddress";
-import { useWriteContract } from "wagmi";
+import { useEffect, useState } from "react";
+import { abi2 } from "@/context/abi";
+import { contractAddress2 } from "@/context/contractAddress";
+import {
+	useWriteContract,
+	useReadContract,
+	useWaitForTransactionReceipt,
+} from "wagmi";
 import { useAccount } from "wagmi";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { IndentDecrease } from "lucide-react";
+import { useUserProfile } from "@/hooks/RegisteredUser";
 
-function RegisterUser() {
-	const { writeContract, isPending, isSuccess, isError } = useWriteContract();
-	const { address } = useAccount();
+
+const LoginForm = () => {
+	const { writeContractAsync } = useWriteContract();
+	const { address, isConnected } = useAccount();
 	const [userName, setUserName] = useState("");
 	const router = useRouter();
+	const [isLoading, setIsLoading] = useState(false);
+	const [hasWallet, setHasWallet] = useState(false);
+	const [txHash, setTxHash] = useState("" as `0x${string}`);
+	const { userAddress }:any = useUserProfile();
+	
 
-	const handleCreateUser = (e: any) => {
+	const { isLoading: isConfirming, isSuccess: isConfirmed } =
+		useWaitForTransactionReceipt({
+			hash: txHash,
+		});
+
+	// Effect to handle successful confirmation
+	useEffect(() => {
+		if (isConfirmed) {
+			setIsLoading(false);
+			toast.success("Operation successful!");
+			if (hasWallet) {
+				router.push("/dashboard");
+			} else {
+				setHasWallet(true);
+			}
+		}
+	}, [isConfirmed, router, hasWallet]);
+
+	const handleCreateWallet = async (e: any) => {
 		e.preventDefault();
+		if (!isConnected) {
+			toast.error("Please connect your wallet!");
+			return;
+		}
+		setIsLoading(true);
+
 		try {
-			writeContract({
-				abi: abi,
-				address: contractAddress,
+			const tx = await writeContractAsync({
+				abi: abi2,
+				address: contractAddress2,
+				functionName: "createBlockBudget",
+				account: address,
+			});
+
+			setTxHash(tx as `0x${string}`);
+		} catch (error: any) {
+			setIsLoading(false);
+			console.log(error);
+
+			toast.error("Wallet creation failed. Please try again.", error);
+		}
+	};
+
+	const handleCreateUser = async (e: any) => {
+		e.preventDefault();
+		if (!isConnected) {
+			toast.error("Please connect your wallet!");
+			return;
+		}
+		if (!hasWallet) {
+			toast.error("Please create a wallet first!");
+			return;
+		}
+		setIsLoading(true);
+
+		try {
+			if (userName === "") {
+				toast.error("Please enter your name!");
+				setIsLoading(false);
+				return;
+			}
+
+			const tx = await writeContractAsync({
+				abi: abi2,
+				address: userAddress,
 				functionName: "registerUser",
 				args: [userName],
 				account: address,
 			});
-			if (isSuccess) {
-				toast.success("Registered successfully!", {
-					icon: "✅",
-				});
-			}
-			router.push("/dashboard");
-		} catch (error) {
-			toast.error("Registration Failed. Please try again.", {
-				icon: "❌",
-			});
+
+			setTxHash(tx as `0x${string}`);
+		} catch (error: any) {
+			setIsLoading(false);
+			console.log(error);
+			toast.error("Registration Failed. Please try again.");
 		}
 	};
-	return (
-		<>
-			<div className="min-h-screen flex items-center -mt-12 justify-center p-6">
-				<div className="w-full relative max-w-lg bg-[#00000] border-2 border-gray-700 rounded-[48px] p-8 shadow-lg overflow-hidden text-gray-300">
-					<h2 className="text-2xl font-montserrat font-semibold text-center text-white mb-8">
-						Create Account
-					</h2>
+	
 
-					<form onSubmit={handleCreateUser} className="space-y-5 relative z-50">
-						<div>
-							<label className="block mb-1 text-sm font-medium text-[#FFFFFF]">
+	return (
+		<div className="min-h-screen flex items-center gap-8 justify-center">
+			<div className="p-8 w-full max-w-md">
+				<div className="">
+					<Link href="/" className="flex left-10 top-10 absolute space-x-2">
+						<IndentDecrease className="text-black " size={20} />{" "}
+						<span className="text-black font-montserrat font-semibold text-sm">
+							Back
+						</span>
+					</Link>
+				</div>
+				<h2 className="text-2xl font-bold mb-6 text-center">
+					{hasWallet ? "Create your Account" : "Create your Wallet"}
+				</h2>
+
+				{!hasWallet ? (
+					// Wallet Creation Step
+					<div className="text-center">
+						<p className="mb-4 text-gray-600">
+							First, create your wallet to get started
+						</p>
+						<button
+							onClick={handleCreateWallet}
+							disabled={isLoading}
+							className={`w-full bg-[#003aceda] ${
+								isLoading ? "bg-[#003ace9c]" : "bg-[#003aceda]"
+							} hover:bg-[#003aceda] text-white font-medium py-2 px-4 rounded-md focus:outline-none`}
+						>
+							{isLoading ? "Creating..." : "Create Wallet"}
+						</button>
+					</div>
+				) : (
+					// Registration Form
+					<form onSubmit={handleCreateUser}>
+						<div className="mb-4">
+							<label
+								htmlFor="name"
+								className="block text-gray-700 font-medium mb-2"
+							>
 								Account name
 							</label>
 							<input
+								type="text"
+								id="name"
+								name="name"
 								value={userName}
 								onChange={(e) => setUserName(e.target.value)}
-								type="text"
+								className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none"
 								placeholder="Enter your name"
-								className="w-full px-4 py-2 placeholder:text-sm bg-[#131418] border border-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
 							/>
 						</div>
 
 						<button
 							type="submit"
-							disabled={isPending}
-							className={`w-full py-2 mt-4 border border-gray-700 ${
-								isPending ? "bg-[#1f2024]" : "bg-[#131418]"
-							}  shadow-sm  text-white font-semibold rounded-full hover:bg-[#131418]  transition duration-200`}
+							disabled={isLoading}
+							className={`w-full bg-[#003aceda] ${
+								isLoading ? "bg-[#003ace9c]" : "bg-[#003aceda]"
+							} hover:bg-[#003aceda] text-white font-medium py-2 px-4 rounded-md focus:outline-none`}
 						>
-							{isPending ? "loading..." : "Create Account"}
+							{isLoading ? "Creating..." : "Create Account"}
 						</button>
 					</form>
-				</div>
+				)}
 			</div>
-		</>
+		</div>
 	);
-}
+};
 
-export default RegisterUser;
+export default LoginForm;

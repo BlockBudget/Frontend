@@ -8,12 +8,12 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ percentage }) => {
   return (
     <div className="my-9 relative">
       {/* Outer Progress Bar Container */}
-      <div className="w-full h-[19px] bg-transparent justify-center items-center rounded-full border-2 border-gray-700">
+      <div className="w-full h-[19px] bg-transparent justify-center items-center rounded-full border-2 border-[#003ace9f]">
         {/* Inner Bar */}
         <div
-          className="bg-gray-200 h-[9px] rounded-full border-2 border-white mt-[2px] ml-[2px]"
+          className="bg-[#003acec2] h-[16px] rounded-full border-2 border-white ml-1"
           style={{ width: `${percentage}%` }}
-        ></div>
+        ></div> 
         {/* Percentage Text */}
         <p
           className="text-sm absolute top-[18px] transform -translate-x-1/2"

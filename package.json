@@ -20,6 +20,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
     "react-hot-toast": "^2.4.1",
+    "recharts": "^2.13.3",
     "viem": "^2.21.44",
     "wagmi": "^2.12.30"
   },
