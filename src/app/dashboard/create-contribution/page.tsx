@@ -3,10 +3,10 @@ import { IndentDecrease } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { useState, useEffect } from "react";
-import { contractAddress } from "@/context/contractAddress";
+import { contractAddress, contractAddress2 } from "@/context/contractAddress";
 import toast from "react-hot-toast";
-import { abi } from "@/context/abi";
-import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { abi, abi2 } from "@/context/abi";
+import { useWriteContract, useWaitForTransactionReceipt, useAccount, useReadContract } from "wagmi";
 import { parseEther } from "viem";
 
 function CreateSavingsGroup() {
@@ -16,8 +16,24 @@ function CreateSavingsGroup() {
 	const [duration, setDuration] = useState("");
 	const [isPrivate, setIsPrivate] = useState(true);
 	const [txHash, setTxHash] = useState<`0x${string}` | null>(null);
-
+	
+	const { isConnected, address } = useAccount();
 	const { writeContractAsync, isPending } = useWriteContract();
+	const [userContractAddress, setUserContractAddress] = useState("" as `0x${string}`);
+
+	const { data: userAddress, isSuccess: success, error} = useReadContract({
+		abi:abi2,
+		address: contractAddress2,
+		functionName: 'getUserBudget',
+		args: [address],
+		account: address,
+	  });
+
+	  useEffect(() => {
+		if (userAddress && userAddress !== '0x0000000000000000000000000000000000000000') {
+		  setUserContractAddress(userAddress as `0x${string}`);
+		}
+	  }, [userAddress]);
 
 	const handleCreateNewContribution = async (e: any) => {
 		try {
@@ -26,8 +42,8 @@ function CreateSavingsGroup() {
 			const durationTimestamp = Math.floor(new Date(duration).getTime() / 1000);
 
 			const tx = await writeContractAsync({
-				address: contractAddress,
-				abi: abi,
+				address: userContractAddress,
+				abi: abi2,
 				functionName: "createCampaign",
 				args: [
 					savingsName,
@@ -38,7 +54,6 @@ function CreateSavingsGroup() {
 				],
 			});
 
-			console.log(tx);
 			setTxHash(tx);
 			toast.success("Campaign Submitted. Waiting for confirmation...");
 		} catch (error) {
