@@ -1,17 +1,16 @@
 "use client";
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
-import { WalletIcon, ArrowUpRight, ArrowDownRight, Copy, Send, Plus, CreditCard, History } from 'lucide-react';
+import { useState } from 'react';
+import { WalletIcon, Send, ArrowUpRight, ArrowDownRight, Copy, Plus, CreditCard, History } from 'lucide-react';
+import Receive from '@/components/Receive';
+import SendFund from '@/components/Send';
 
 const WalletDashboard = () => {
-  const mockPriceHistory = [
-    { date: 'Jan', price: 4000 },
-    { date: 'Feb', price: 3000 },
-    { date: 'Mar', price: 5000 },
-    { date: 'Apr', price: 4800 },
-    { date: 'May', price: 6000 },
-    { date: 'Jun', price: 5500 },
-  ];
-
+  const [isSendModalOpen, setIsSendModalOpen] = useState(false);
+  const [isReceiveModalOpen, setIsReceiveModalOpen] = useState(false);
+  const [isBuyModalOpen, setIsBuyModalOpen] = useState(false);
+  const [amount, setAmount] = useState('');
+  const [recipient, setRecipient] = useState('');
+ 
   const recentTransactions = [
     { type: 'Received', amount: '0.245 ETH', date: '2024-03-15', from: '0x1234...5678' },
     { type: 'Sent', amount: '0.1 ETH', date: '2024-03-14', to: '0x8765...4321' },
@@ -35,11 +34,11 @@ const WalletDashboard = () => {
         <p className="text-white/80 text-lg">≈ $4,578.23 USD</p>
         
         <div className="grid grid-cols-3 gap-4 mt-6">
-          <button className="flex items-center justify-center gap-2 bg-white/20 rounded-xl p-3 hover:bg-white/30 transition">
+          <button onClick={() => setIsSendModalOpen(true)} className="flex items-center justify-center gap-2 bg-white/20 rounded-xl p-3 hover:bg-white/30 transition">
             <Send className="w-5 h-5" />
             <span>Send</span>
           </button>
-          <button className="flex items-center justify-center gap-2 bg-white/20 rounded-xl p-3 hover:bg-white/30 transition">
+          <button onClick={() => setIsReceiveModalOpen(true)} className="flex items-center justify-center gap-2 bg-white/20 rounded-xl p-3 hover:bg-white/30 transition">
             <Plus className="w-5 h-5" />
             <span>Receive</span>
           </button>
@@ -49,50 +48,9 @@ const WalletDashboard = () => {
           </button>
         </div>
       </div>
-
-      {/* Price Chart */}
-      <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="font-semibold">Price History</h3>
-          <div className="flex gap-2">
-            <button className="bg-purple-100 text-purple-600 px-3 py-1 rounded-lg text-sm">1D</button>
-            <button className="text-gray-500 px-3 py-1 rounded-lg text-sm">1W</button>
-            <button className="text-gray-500 px-3 py-1 rounded-lg text-sm">1M</button>
-          </div>
-        </div>
-        <div className="bg-gradient-to-b from-purple-50 to-white p-4 rounded-xl">
-          <ResponsiveContainer width="100%" height={200}>
-            <AreaChart data={mockPriceHistory}>
-              <defs>
-                <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#6B5AED" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#6B5AED" stopOpacity={0}/>
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-              <XAxis 
-                dataKey="date" 
-                axisLine={false}
-                tickLine={false}
-                tick={{ fill: '#6B7280' }}
-              />
-              <YAxis 
-                axisLine={false}
-                tickLine={false}
-                tick={{ fill: '#6B7280' }}
-              />
-              <Area 
-                type="monotone"
-                dataKey="price"
-                stroke="#6B5AED"
-                strokeWidth={2}
-                fill="url(#colorPrice)"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
+      {isSendModalOpen && <SendFund setIsSendModalOpen= {setIsSendModalOpen} amount= {amount} setAmount= {setAmount} recipient={recipient} setRecipient={setRecipient} /> }
+      {isReceiveModalOpen && <Receive setIsReceiveModalOpen= {setIsReceiveModalOpen} /> }
+    
       {/* Recent Transactions */}
       <div className="bg-white rounded-2xl p-6 shadow-sm">
         <div className="flex justify-between items-center mb-4">
@@ -131,6 +89,8 @@ const WalletDashboard = () => {
           ))}
         </div>
       </div>
+
+     
     </div>
   );
 };

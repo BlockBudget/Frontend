@@ -26,6 +26,7 @@ export const useUserProfile = () => {
   }, [userAddress]);
  
 
+
   const { data, isSuccess, }:any = useReadContract({
     abi:abi2,
     address: userContractAddress,
@@ -37,6 +38,8 @@ export const useUserProfile = () => {
   console.log(data);
   useEffect(() => {
     if (isConnected && isSuccess && data) {
+      console.log(data);
+      
       const mappedProfile = {
         name: data[0],
         userAddress: data[1],
@@ -51,5 +54,5 @@ export const useUserProfile = () => {
   }, [isConnected, data, isSuccess]);
 
 
-  return { isConnected, userProfile, loading };
+  return { isConnected, userAddress, userProfile, loading };
 };
