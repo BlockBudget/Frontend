@@ -78,11 +78,11 @@ const SavingsDashboard = () => {
 				{/* Welcome Header */}
 				<div className="mb-8 flex gap-4">
 					<div className="bg-white bg-gradient-to-r from-[#9C2CF399] to-[#3A6FF999] overflow-hidden relative  md:w-[512px] h-[215px] border-2 space-x-3 flex p-6 rounded-lg shadow-md justify-center text-center">
-						<div className="  py-5">
+						<div className="text-white py-5">
 							<p className="text-sm font-bold my-3">Available for withdrawal</p>
-							<h3 className="text-2xl text-gray-800 my-3">₦63,000</h3>
+							<h3 className="text-sm  my-3">₦63,000</h3>
 
-							<button className="bg-white text-purple-700 font-medium py-2 px-4 rounded-lg shadow-md">
+							<button className=" text-white font-medium py-2 px-4 bg-purple-700 shadow-md w-72 rounded-full">
 								Withdraw
 							</button>
 						</div>
@@ -90,7 +90,8 @@ const SavingsDashboard = () => {
 					</div>
 
 					<div className="bg-white p-6 rounded-lg shadow-md md:w-[725px]">
-						<p className="text-sm font-semibold text-gray-500">December Savings</p>
+						<p className="text-xl font-bold text-black">December Savings</p>
+						<p className="text-black text-sm"><span className="text-black font-bold">Close date:</span> Jan 24, 2025</p>
 						<div className="my-4">
 							<div className="text-black">
 								<ProgressBar percentage={completionPercentage} />
@@ -140,8 +141,8 @@ const SavingsDashboard = () => {
 								<Command className="text-white" size={27} />
 							</div>
 							<div>
-								<h3 className="text-sm text-gray-800">My Contributions</h3>
-								<p className="text-2xl font-bold text-black">₦632,000</p>
+								<h3 className="text-sm text-black">My Contributions</h3>
+								<p className="text-2xl font-bold text-white">₦632,000</p>
 							</div>
 						</div>
 						<div className="flex items-center left-48 top-0 justify-center w-52 h-52 absolute rounded-full bg-[#003ace11]">
@@ -200,15 +201,16 @@ const SavingsDashboard = () => {
 					{/* Member Contributions */}
 					<div className="md:w-[404px] bg-white  rounded-lg shadow-md ">
 						<p className="w-full text-white rounded-full text-base bg-gradient-to-r from-[#9C2CF399] to-[#3A6FF999] py-3 font-bold  justify-center text-center">Whitelist member contributions</p>
-						<div className="mt-4 space-y-2 p-6">
-							{["Brooklyn Simmons", "Brooklyn Simmons", "Brooklyn Simmons", "Brooklyn Simmons", "John Doe"].map((name, index) => (
-								<div key={index} className="flex justify-between items-center mb-8 text-gray-600">
+						<div className="mt-4 space-y-8 p-6">
+							{["john paul", "john paul", "john paul", "john paul", "John Doe"].map((name, index) => (
+								<div key={index} className="flex justify-between items-center text-gray-600">
 									<span>{name}</span>
 									<span>₦100,000,000</span>
 								</div>
 							))}
 						</div>
-						<button className="w-full mt-14 bg-purple-600 text-white py-2  rounded-full ">
+
+						<button className="w-full mt-14 bg-gradient-to-r from-[#9C2CF399] to-[#3A6FF999] text-white py-2  rounded-full ">
 							Add New Member
 						</button>
 					</div>
