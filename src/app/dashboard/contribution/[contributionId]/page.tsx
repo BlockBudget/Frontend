@@ -1,6 +1,25 @@
+
+
+
+
+
+
+
+
+
 "use client";
 import { abi2 } from "@/context/abi";
 import { contractAddress2 } from "@/context/contractAddress";
+import {
+	AreaChart,
+	Area,
+	XAxis,
+	YAxis,
+	Tooltip,
+	CartesianGrid,
+	ResponsiveContainer,
+} from "recharts";
+
 import { abi } from "@/context/abi";
 import { contractAddress } from "@/context/contractAddress";
 import { Command, Minus, PiggyBank, Plus, Target, X } from "lucide-react";
@@ -75,6 +94,15 @@ const SavingsDashboard = () => {
 		args: [campaignId],
 	});
 
+	const mockPriceHistory = [
+		{ date: "Jan", price: 4000 },
+		{ date: "Feb", price: 3000 },
+		{ date: "Mar", price: 5000 },
+		{ date: "Apr", price: 4800 },
+		{ date: "May", price: 6000 },
+		{ date: "Jun", price: 5500 },
+	];
+
 	const handleAddUsers = (addresses: any) => {
 		try {
 			if (userAddress.trim() === "") {
@@ -122,32 +150,37 @@ const SavingsDashboard = () => {
 	const completionPercentage = 39;
 	return (
 		<>
-			<div className="flex justify-end w-11/12 mb-3 m-auto">
-				<Link href="/dashboard" className=" flex space-x-2">
-					<PiggyBank className="text-black " size={20} />{" "}
-					<span className="text-black font-montserrat font-semibold text-base">
-						Savings
-					</span>
-				</Link>
-			</div>
+			<div className="min-h-screen  from-white to-gray-100 p-6">
+				{/* Welcome Header */}
+				<div className="mb-8 flex gap-4">
+					<div className="bg-white bg-gradient-to-r from-[#9C2CF399] to-[#3A6FF999] overflow-hidden relative  md:w-[512px] h-[215px] border-2 space-x-3 flex p-6 rounded-lg shadow-md justify-center text-center">
+						<div className="text-white py-5">
+							<p className="text-sm font-bold my-3">Available for withdrawal</p>
+							<h3 className="text-sm  my-3">₦63,000</h3>
 
-			<div className="min-h-screen text-black p-6">
-				<div className="max-w-6xl mx-auto">
-					<div className="text-center mb-10">
-						<h1 className="text-2xl font-semibold ">
-							December Savings
-						</h1>
-						<p className="text-sm text-black w-11/12 m-auto mt-3 flex  md:flex-row flex-col justify-between">
-							<span>Created by James Henry</span>
-							<span>Close date: Jan 24, 2025</span>
-							<span>Distribution method: Distribute at End of Period</span>
-						</p>
+							<button className=" text-white font-medium py-2 px-4 bg-purple-700 shadow-md w-72 rounded-full">
+								Withdraw
+							</button>
+						</div>
+
 					</div>
-					{/* Progress Bar */}
-					<ProgressBar percentage={completionPercentage} />
-					<div className="grid grid-cols-3 gap-6 mb-10">
-						<div className="bg-white overflow-hidden relative md:col-span-1 col-span-3 border-2 space-x-3 flex p-6 rounded-lg shadow-md text-center">
-							<div className=" flex gap-4 py-5">
+
+					<div className="bg-white p-6 rounded-lg shadow-md md:w-[725px]">
+						<p className="text-xl font-bold text-black">December Savings</p>
+						<p className="text-black text-sm"><span className="text-black font-bold">Close date:</span> Jan 24, 2025</p>
+						<div className="my-4">
+							<div className="text-black">
+								<ProgressBar percentage={completionPercentage} />
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				{/* Main Section */}
+				<div className="grid grid-cols-3 gap-6 mb-10">
+					<div className="bg-white overflow-hidden relative md:col-span-1 col-span-3 border-2 space-x-3 flex p-6 rounded-lg shadow-md text-center">
+						<div className=" flex gap-4 py-5">
 							<div className="bg-[#003aceda] shadow-sm p-3 rounded-full">
 								<Target className="text-white" size={27} />
 							</div>
@@ -155,14 +188,14 @@ const SavingsDashboard = () => {
 								<h3 className="text-sm text-gray-800">Target Savings</h3>
 								<p className="text-2xl font-bold text-black">₦632,000</p>
 							</div>
-							</div>
-							<div className="flex items-center left-48 top-0 justify-center w-52 h-52 absolute rounded-full bg-[#003ace11]">
-								<div className="bg-[#003ace28] w-44 relative h-44 rounded-full">
-									<div className="bg-[#003ace59] absolute left-5 top-4 w-36 h-36 rounded-full"></div>
-								</div>
+						</div>
+						<div className="flex items-center left-48 top-0 justify-center w-52 h-52 absolute rounded-full bg-[#003ace11]">
+							<div className="bg-[#003ace28] w-44 relative h-44 rounded-full">
+								<div className="bg-[#003ace59] absolute left-5 top-4 w-36 h-36 rounded-full"></div>
 							</div>
 						</div>
-						<div className="bg-white overflow-hidden relative md:col-span-1 col-span-3 border-2 space-x-3 flex p-6 rounded-lg shadow-md text-center">
+					</div>
+					<div className="bg-white overflow-hidden relative md:col-span-1 col-span-3 border-2 space-x-3 flex p-6 rounded-lg shadow-md text-center">
 						<div className=" flex gap-4 py-5">
 							<div className="bg-[#003aceda] shadow-sm p-3 rounded-full">
 								<PiggyBank className="text-white" size={27} />
@@ -171,31 +204,74 @@ const SavingsDashboard = () => {
 								<h3 className="text-sm text-gray-800">Total Accumulated</h3>
 								<p className="text-2xl font-bold text-black">₦632,000</p>
 							</div>
-							</div>
-							<div className="flex items-center left-48 top-0 justify-center w-52 h-52 absolute rounded-full bg-[#003ace11]">
-								<div className="bg-[#003ace28] w-44 relative h-44 rounded-full">
-									<div className="bg-[#003ace59] absolute left-5 top-4 w-36 h-36 rounded-full"></div>
-								</div>
+						</div>
+						<div className="flex items-center left-48 top-0 justify-center w-52 h-52 absolute rounded-full bg-[#003ace11]">
+							<div className="bg-[#003ace28] w-44 relative h-44 rounded-full">
+								<div className="bg-[#003ace59] absolute left-5 top-4 w-36 h-36 rounded-full"></div>
 							</div>
 						</div>
-						<div className="bg-white overflow-hidden relative  md:col-span-1 col-span-3 border-2 space-x-3 flex p-6 rounded-lg shadow-md text-center">
+					</div>
+					<div className="bg-white overflow-hidden relative  md:col-span-1 col-span-3 border-2 space-x-3 flex p-6 rounded-lg shadow-md text-center">
 						<div className=" flex gap-4 py-5">
 							<div className="bg-[#003aceda] shadow-sm p-3 rounded-full">
 								<Command className="text-white" size={27} />
 							</div>
 							<div>
-								<h3 className="text-sm text-gray-800">My Contributions</h3>
-								<p className="text-2xl font-bold text-black">₦632,000</p>
+								<h3 className="text-sm text-black">My Contributions</h3>
+								<p className="text-2xl font-bold text-white">₦632,000</p>
 							</div>
-							</div>
-							<div className="flex items-center left-48 top-0 justify-center w-52 h-52 absolute rounded-full bg-[#003ace11]">
-								<div className="bg-[#003ace28] w-44 relative h-44 rounded-full">
-									<div className="bg-[#003ace59] absolute left-5 top-4 w-36 h-36 rounded-full"></div>
-								</div>
+						</div>
+						<div className="flex items-center left-48 top-0 justify-center w-52 h-52 absolute rounded-full bg-[#003ace11]">
+							<div className="bg-[#003ace28] w-44 relative h-44 rounded-full">
+								<div className="bg-[#003ace59] absolute left-5 top-4 w-36 h-36 rounded-full"></div>
 							</div>
 						</div>
 					</div>
+				</div>
 
+				<div className="flex md:flex-row flex-col justify-between items-center my-10">
+
+					<div className="space-x-4">
+						<button
+							onClick={() => setIsModalOpen(true)}
+							className="px-6 md:w-[405px] rounded-full py-3 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium text-sm text-black  shadow-md "
+						>
+							Add Contributors
+						</button>
+						<button className="px-6 md:w-[405px] rounded-full py-3 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black  shadow-md ">
+							Pay Now
+						</button>
+						{/* <button className="px-6 py-2 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black rounded-xl hover:">
+							Withdraw
+						</button> */}
+					</div>
+				</div>
+
+				{/* Savings Metrics */}
+				<div className="flex gap-2">
+					<div className="md:w-[834px] bg-white p-6 rounded-lg shadow-md mt-8">
+						<h3 className="text-lg font-bold text-gray-800">Pool savings metrics</h3>
+						<ResponsiveContainer width="100%" height={300}>
+							<AreaChart data={mockPriceHistory}>
+								<defs>
+									<linearGradient id="colorSavings" x1="0" y1="0" x2="0" y2="1">
+										<stop offset="5%" stopColor="#6B5AED" stopOpacity={0.8} />
+										<stop offset="95%" stopColor="#6B5AED" stopOpacity={0.1} />
+									</linearGradient>
+								</defs>
+								<CartesianGrid strokeDasharray="3 3" />
+								<XAxis dataKey="date" />
+								<YAxis />
+								<Tooltip />
+								<Area
+									type="monotone"
+									dataKey="price"
+									stroke="#6B5AED"
+									fillOpacity={1}
+									fill="url(#colorSavings)"
+								/>
+							</AreaChart>
+						</ResponsiveContainer>
 					<div className="flex md:flex-row flex-col justify-between items-center my-10">
 						<p className="text-gray-400">
 							<span className="font-semibold text-white">
@@ -269,8 +345,11 @@ const SavingsDashboard = () => {
 							</tbody>
 						</table>
 					</div>
+
+					
 				</div>
 			</div>
+
 			{/* Modal */}
 			{isModalOpen && (
 				<WhitelistModal
@@ -327,8 +406,10 @@ const SavingsDashboard = () => {
 					</div>
 				</div>
 			)}
+
 		</>
 	);
 };
 
 export default SavingsDashboard;
+
