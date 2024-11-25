@@ -3,11 +3,11 @@ import { IndentDecrease } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { useState, useEffect } from "react";
-import { contractAddress, contractAddress2 } from "@/context/contractAddress";
 import toast from "react-hot-toast";
-import { abi, abi2 } from "@/context/abi";
+import { abi2 } from "@/context/abi";
 import { useWriteContract, useWaitForTransactionReceipt, useAccount, useReadContract } from "wagmi";
 import { parseEther } from "viem";
+import { useRouter } from "next/navigation";
 import { useUserProfile } from "@/hooks/RegisteredUser";
 
 function CreateSavingsGroup() {
@@ -17,19 +17,29 @@ function CreateSavingsGroup() {
 	const [duration, setDuration] = useState("");
 	const [isPrivate, setIsPrivate] = useState(true);
 	const [txHash, setTxHash] = useState<`0x${string}` | null>(null);
-	const { userAddress } = useUserProfile();
+	const { userAddress }:any = useUserProfile();
+	const [isLoading, setIsLoading] = useState(false);
+	const router = useRouter();
 	
-	const { isConnected, address } = useAccount();
 	const { writeContractAsync, isPending } = useWriteContract();
 
-	const handleCreateNewContribution = async (e: any) => {
-		try {
-			e.preventDefault();
-			console.log(userAddress);
-			const targetAmountToReach = parseEther(targetAmount);
-			const durationTimestamp = Math.floor(new Date(duration).getTime() / 1000);
-			console.log(durationTimestamp);
+	const convertMonthsToDays = (months: number): number => {
+		// Approximate days per month
+		return months * 30;
+	};
 
+	const handleCreateNewContribution = async (e: any) => {
+		e.preventDefault();
+		setIsLoading(true);
+		if (description == "") {
+			toast.error("Description cannot  be Empty!");
+			return;
+		  }
+		  
+		try {
+			const targetAmountToReach = parseEther(targetAmount);
+			const durationInDays = convertMonthsToDays(Number(duration));
+			console.log(durationInDays);
 			const tx = await writeContractAsync({
 				address: userAddress,
 				abi: abi2,
@@ -38,7 +48,7 @@ function CreateSavingsGroup() {
 					savingsName,
 					description,
 					targetAmountToReach,
-					durationTimestamp,
+					durationInDays,
 					isPrivate,
 				],
 			});
@@ -46,6 +56,7 @@ function CreateSavingsGroup() {
 			setTxHash(tx);
 			toast.success("Campaign Submitted. Waiting for confirmation...");
 		} catch (error) {
+			setIsLoading(false);
 			console.error("Error creating invoice:", error);
 			toast.error("Error creating invoice: " + error);
 		}
@@ -58,7 +69,9 @@ function CreateSavingsGroup() {
 
 	useEffect(() => {
 		if (isConfirmed) {
+			setIsLoading(false);
 			toast.success("New Campaign Created Successfully");
+			router.push("/dashboard/contribution")
 		}
 	}, [isConfirmed]);
 	return (
@@ -149,20 +162,23 @@ function CreateSavingsGroup() {
 							<label className="block mb-1 text-sm font-medium text-[#000]">
 								Duration
 							</label>
-							<div className="flex space-x-4">
-								<input
-									value={duration}
-									onChange={(e) => setDuration(e.target.value)}
-									type="date"
-									className="w-full px-4 py-2  border border-[#DADADA]  rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-								/>
-							</div>
+							<select
+								value={duration}
+								onChange={(e) => setDuration(e.target.value)}
+								className="w-full px-4 py-2  border border-[#DADADA]  rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+							>
+								<option value="">Select Lock Duration</option>
+								<option value="1">1 Month</option>
+								<option value="6">6 Months</option>
+								<option value="12">1 Year</option>
+							</select>
+							
 						</div>
 
 						<button
 							onClick={handleCreateNewContribution}
 							type="submit"
-							className="w-full py-2 mt-4 bg-gradient-to-r from-[#9d2cf3cc] to-[#9d2cf3a4]  text-white border border-[#DADADA]  font-semibold rounded-xl hover:bg-[#131418]  transition duration-200"
+							className="w-full py-2 mt-4 bg-gradient-to-r from-[#2c50f3cc] to-[#2c50f39d]  text-white border border-[#DADADA]  font-semibold rounded-xl hover:bg-[#131418]  transition duration-200"
 						>
 							Create Group
 						</button>

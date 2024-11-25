@@ -9,7 +9,6 @@ import React from "react";
 
 const ContributionList = () => {
 	const router = useRouter();
-	const account = useAccount();
 	const { isConnected, address } = useAccount();
 	const [userContractAddress, setUserContractAddress] = useState("" as `0x${string}`);
 
@@ -33,11 +32,21 @@ const ContributionList = () => {
 		address: userContractAddress,
 		args: [address],
 		functionName: 'getCampaignsOfUser',
-		account: account.address,
+		account: address,
 	  });
 
+	 
+		const {data:details} = useReadContract({
+		  abi: abi2,
+		  address: userContractAddress,
+		  args: ['0x446959a7c0bd6d90f7bd3c4717e55bb49493487975823901a37f0a77fe251514'],
+		  functionName: 'getCampaignDetails',
+		  account: address,
+		});
+	
+
 	console.log(allContributions)
-	console.log(isSuccess)
+	console.log(details)
 
 	const contributions = [
 		{
@@ -89,7 +98,7 @@ const ContributionList = () => {
 							<p>Target Savings</p>
 							<span className="text-lg font-bold">{contribution.total}</span>
 							</div>
-						<button className="px-6 py-2  font-medium border bg-[#003ace8f]  text-sm text-black rounded-xl shadow-md " onClick={()=>handleClick(contribution.id)}>
+						<button className="px-6 py-2  font-medium border bg-[#003ace8f]  text-sm text-black rounded-xl shadow-md " onClick={()=>handleClick("0x446959a7c0bd6d90f7bd3c4717e55bb49493487975823901a37f0a77fe251514")}>
 							View details
 						</button>
 					</div>

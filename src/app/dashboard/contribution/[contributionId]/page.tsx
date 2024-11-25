@@ -1,12 +1,4 @@
 
-
-
-
-
-
-
-
-
 "use client";
 import {
 	AreaChart,
@@ -18,23 +10,29 @@ import {
 	ResponsiveContainer,
 } from "recharts";
 
-import { abi } from "@/context/abi";
-import { contractAddress } from "@/context/contractAddress";
+import { abi, abi2 } from "@/context/abi";
+import { contractAddress2 } from "@/context/contractAddress";
 import { Command, Minus, PiggyBank, Plus, Target, X } from "lucide-react";
-import Link from "next/link";
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { isAddress } from "viem";
-import { useWriteContract } from "wagmi";
+import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { } from "viem";
 import WhitelistModal from "@/components/WhitelistModal";
+import { useParams } from 'next/navigation'
 import ProgressBar from "@/components/ProgressBar";
+import { formatEther } from "viem";
 
 const SavingsDashboard = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [userAddress, setUserAddress] = useState("");
+	const [userAddress1, setUserAddress] = useState("");
 	const [campaignId, setCampaignId] = useState("");
-	const { writeContract, isSuccess } = useWriteContract();
+	const { writeContract } = useWriteContract();
+	const params = useParams()
+	const { isConnected, address } = useAccount();
+	const [campaignDetail, setCampaignDetails] = useState<any>();
+
 
 	const mockPriceHistory = [
 		{ date: "Jan", price: 4000 },
@@ -45,21 +43,71 @@ const SavingsDashboard = () => {
 		{ date: "Jun", price: 5500 },
 	];
 
+	const [userContractAddress, setUserContractAddress] = useState("" as `0x${string}`);
+	
+
+	const { data: userAddress, isSuccess: success, error} = useReadContract({
+		abi:abi2,
+		address: contractAddress2,
+		functionName: 'getUserBudget',
+		args: [address],
+		account: address,
+	  });
+
+
+	  useEffect(() => {
+		if (userAddress && userAddress !== '0x0000000000000000000000000000000000000000') {
+		  setUserContractAddress(userAddress as `0x${string}`);
+		}
+	  }, [userAddress]);
+
+
+	const {data:details, isSuccess}:any = useReadContract({
+		abi: abi2,
+		address: userContractAddress,
+		args: [params.contributionId],
+		functionName: 'getCampaignDetails',
+		account: address,
+	  });
+
+	  useEffect(()=>{
+		if (isConnected && isSuccess && details) {
+      
+			const campaignDetails = {
+				name: details[0],
+				description: details[1],
+				owner: details[2],
+				targetAmount: formatEther(details[3]),
+				deadline: details[4],
+				totalContributed: formatEther(details[5]),
+				contributorCount: details[6],
+				isActive: details[7],
+				isPrivate: details[8],
+			};
+			setCampaignDetails(campaignDetails);
+		
+		  } 
+	  },[details,isSuccess ]);
+
+console.log(campaignDetail);
+
+
+	  
 	const handleAddUsers = (addresses: any) => {
 		try {
-			if (userAddress.trim() === "") {
+			if (userAddress1.trim() === "") {
 				toast.error("Please enter an address!");
 				return;
-			} else if (!isAddress(userAddress)) {
+			} else if (!isAddress(userAddress1)) {
 				toast.error("Please enter a valid address!");
 			}
 			writeContract({
 				abi: abi,
-				address: contractAddress,
+				address: contractAddress2,
 				functionName: "whitelistAddresses",
 				args: [
 					campaignId ? campaignId : null,
-					userAddress ? userAddress.split(",").map((addr) => addr.trim()) : [],
+					userAddress1 ? userAddress1.split(",").map((addr) => addr.trim()) : [],
 				],
 			});
 			if (isSuccess) {
@@ -77,12 +125,12 @@ const SavingsDashboard = () => {
 			<div className="min-h-screen  from-white to-gray-100 p-6">
 				{/* Welcome Header */}
 				<div className="mb-8 flex gap-4">
-					<div className="bg-white bg-gradient-to-r from-[#9C2CF399] to-[#3A6FF999] overflow-hidden relative  md:w-[512px] h-[215px] border-2 space-x-3 flex p-6 rounded-lg shadow-md justify-center text-center">
+					<div className="bg-white bg-gradient-to-r from-[#003aceb7] to-[#003ace8f]  overflow-hidden relative  md:w-[512px] h-[215px] border-2 space-x-3 flex p-6 rounded-lg shadow-md justify-center text-center">
 						<div className="text-white py-5">
 							<p className="text-sm font-bold my-3">Available for withdrawal</p>
-							<h3 className="text-sm  my-3">₦63,000</h3>
+							<h3 className="text-sm  my-3">$ {campaignDetail?.totalContributed ?campaignDetail?.totalContributed : "0.00" }</h3>
 
-							<button className=" text-white font-medium py-2 px-4 bg-purple-700 shadow-md w-72 rounded-full">
+							<button className=" text-white font-medium py-2 px-4 bg-gradient-to-r from-[#003aceda] to-[#003aceaf] shadow-md w-72 rounded-full">
 								Withdraw
 							</button>
 						</div>
@@ -90,8 +138,8 @@ const SavingsDashboard = () => {
 					</div>
 
 					<div className="bg-white p-6 rounded-lg shadow-md md:w-[725px]">
-						<p className="text-xl font-bold text-black">December Savings</p>
-						<p className="text-black text-sm"><span className="text-black font-bold">Close date:</span> Jan 24, 2025</p>
+						<p className="text-xl font-bold text-black">{campaignDetail?.name} Contribution</p>
+						<p className="text-black text-sm"><span className="text-black font-bold">Close date:</span> {new Date(Number(campaignDetail?.deadline) * 1000).toDateString() }</p>
 						<div className="my-4">
 							<div className="text-black">
 								<ProgressBar percentage={completionPercentage} />
@@ -110,7 +158,7 @@ const SavingsDashboard = () => {
 							</div>
 							<div>
 								<h3 className="text-sm text-gray-800">Target Savings</h3>
-								<p className="text-2xl font-bold text-black">₦632,000</p>
+								<p className="text-2xl font-bold text-black">$ {campaignDetail?.targetAmount}</p>
 							</div>
 						</div>
 						<div className="flex items-center left-48 top-0 justify-center w-52 h-52 absolute rounded-full bg-[#003ace11]">
@@ -126,7 +174,7 @@ const SavingsDashboard = () => {
 							</div>
 							<div>
 								<h3 className="text-sm text-gray-800">Total Accumulated</h3>
-								<p className="text-2xl font-bold text-black">₦632,000</p>
+								<p className="text-2xl font-bold text-black">$ {campaignDetail?.totalContributed ?campaignDetail?.totalContributed : "0.00" }</p>
 							</div>
 						</div>
 						<div className="flex items-center left-48 top-0 justify-center w-52 h-52 absolute rounded-full bg-[#003ace11]">
@@ -165,9 +213,9 @@ const SavingsDashboard = () => {
 						<button className="px-6 md:w-[405px] rounded-full py-3 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black  shadow-md ">
 							Pay Now
 						</button>
-						{/* <button className="px-6 py-2 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black rounded-xl hover:">
-							Withdraw
-						</button> */}
+						<button className="px-6 py-2 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black rounded-xl hover:">
+							Refund
+						</button>
 					</div>
 				</div>
 
