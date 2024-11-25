@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 "use client";
 import { abi2 } from "@/context/abi";
 import { contractAddress2 } from "@/context/contractAddress";
@@ -20,7 +11,7 @@ import {
 	ResponsiveContainer,
 } from "recharts";
 
-import { abi } from "@/context/abi";
+
 import { contractAddress } from "@/context/contractAddress";
 import { Command, Minus, PiggyBank, Plus, Target, X } from "lucide-react";
 import Link from "next/link";
@@ -74,11 +65,11 @@ const SavingsDashboard = () => {
 				abi: abi2,
 				functionName: "contributeToCompaign",
 				account: address,
-				args: [campaignId], 
-			  });
+				args: [campaignId, tokenAmount],
+			});
 			toast.success(`Paying ${tokenAmount} tokens`);
 			console.log(tx);
-			// setIsPayNowModalOpen(false);
+			setIsPayNowModalOpen(false);
 			setTokenAmount("");
 		} catch (error: any) {
 			console.log(error);
@@ -88,7 +79,7 @@ const SavingsDashboard = () => {
 
 
 	const { data: mainAddress } = useReadContract({
-		abi: abi,
+		abi: abi2,
 		address: contractAddress,
 		functionName: "getContributions",
 		args: [campaignId],
@@ -112,7 +103,7 @@ const SavingsDashboard = () => {
 				toast.error("Please enter a valid address!");
 			}
 			writeContract({
-				abi: abi,
+				abi: abi2,
 				address: contractAddress,
 				functionName: "whitelistAddresses",
 				args: [
@@ -133,7 +124,7 @@ const SavingsDashboard = () => {
 	const handleWithdraw = async () => {
 		try {
 			const tx = await writeContract({
-				abi: abi,
+				abi: abi2,
 				address: contractAddress,
 				functionName: "withdrawContribution",
 				args: [campaignId],
@@ -153,7 +144,7 @@ const SavingsDashboard = () => {
 			<div className="min-h-screen  from-white to-gray-100 p-6">
 				{/* Welcome Header */}
 				<div className="mb-8 flex gap-4">
-					<div className="bg-white bg-gradient-to-r from-[#9C2CF399] to-[#3A6FF999] overflow-hidden relative  md:w-[512px] h-[215px] border-2 space-x-3 flex p-6 rounded-lg shadow-md justify-center text-center">
+					<div className="bg-white bg-gradient-to-r from-[#003acecc] to-[#003ace86] overflow-hidden relative  md:w-[512px] h-[215px] border-2 space-x-3 flex p-6 rounded-lg shadow-md justify-center text-center">
 						<div className="text-white py-5">
 							<p className="text-sm font-bold my-3">Available for withdrawal</p>
 							<h3 className="text-sm  my-3">₦63,000</h3>
@@ -238,7 +229,10 @@ const SavingsDashboard = () => {
 						>
 							Add Contributors
 						</button>
-						<button className="px-6 md:w-[405px] rounded-full py-3 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black  shadow-md ">
+						<button
+							onClick={() => setIsPayNowModalOpen(true)}
+							className="px-6 md:w-[405px] rounded-full py-3 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black  shadow-md "
+						>
 							Pay Now
 						</button>
 						{/* <button className="px-6 py-2 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black rounded-xl hover:">
@@ -272,81 +266,24 @@ const SavingsDashboard = () => {
 								/>
 							</AreaChart>
 						</ResponsiveContainer>
-					<div className="flex md:flex-row flex-col justify-between items-center my-10">
-						<p className="text-gray-400">
-							<span className="font-semibold text-white">
-								Next payment due:
-							</span>{" "}
-							Oct 4, 2024
-						</p>
-						<div className="space-x-4">
-							<button
-								onClick={() => setIsModalOpen(true)}
-								className="px-6 py-2 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium text-sm text-black rounded-xl shadow-md "
-							>
-								Add Contributors
-							</button>
-							<button
-								onClick={() => setIsPayNowModalOpen(true)}
-								className="px-6 py-2 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black rounded-xl shadow-md "
-							>
-								Pay Now
-							</button>
-							<button
-								onClick={() => setIsWithdrawModalOpen(true)}
-								className="px-6 py-2 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black rounded-xl shadow-md "
-							>
-								Withdraw
-							</button>
+					</div>
+
+					{/* Member Contributions */}
+					<div className="md:w-[404px] bg-white  rounded-lg shadow-md ">
+						<p className="w-full text-white rounded-full text-base bg-gradient-to-r from-[#9C2CF399] to-[#3A6FF999] py-3 font-bold  justify-center text-center">Whitelist member contributions</p>
+						<div className="mt-4 space-y-8 p-6">
+							{["john paul", "john paul", "john paul", "john paul", "John Doe"].map((name, index) => (
+								<div key={index} className="flex justify-between items-center text-gray-600">
+									<span>{name}</span>
+									<span>₦100,000,000</span>
+								</div>
+							))}
 						</div>
-					</div>
 
-					<div className="overflow-x-auto bg-[#00000052] p-5 rounded-lg shadow-md border-2 border-[#344054]">
-						<table className="min-w-full text-sm text-left text-[#FFFFFF]">
-							<thead className="bg-[#131418] text-gray-300">
-								<tr>
-									<th className="px-4 py-3">S/N</th>
-									<th className="px-4 py-3">Group Name</th>
-									<th className="px-4 py-3">Amount Contributed</th>
-									<th className="px-4 py-3">Outstanding Payment</th>
-								</tr>
-							</thead>
-							<tbody>
-								{[
-									{
-										id: 1,
-										name: "December Savings",
-										contributed: "₦500,000",
-										outstanding: "none",
-									},
-									{
-										id: 2,
-										name: "December Savings",
-										contributed: "₦400,000",
-										outstanding: "₦100,000",
-									},
-									{
-										id: 3,
-										name: "December Savings",
-										contributed: "₦450,000",
-										outstanding: "₦50,000",
-									},
-								].map((item) => (
-									<tr
-										key={item.id}
-										className="border-t border-[#EAECF0] bg-transparent hover:bg-[#2D3748]"
-									>
-										<td className="px-4 py-3">{item.id}</td>
-										<td className="px-4 py-3">{item.name}</td>
-										<td className="px-4 py-3">{item.contributed}</td>
-										<td className="px-4 py-3">{item.outstanding}</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
+						<button className="w-full mt-14 bg-gradient-to-r from-[#9C2CF399] to-[#3A6FF999] text-white py-2  rounded-full ">
+							Add New Member
+						</button>
 					</div>
-
-					
 				</div>
 			</div>
 
@@ -361,13 +298,13 @@ const SavingsDashboard = () => {
 				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
 					<div className="bg-white p-6 rounded-lg shadow-lg">
 						<h2 className="text-lg text-black font-semibold mb-4">Confirm Payment</h2>
-						{/* <input
+						<input
 							type="number"
 							value={tokenAmount}
 							onChange={(e) => setTokenAmount(e.target.value)}
 							placeholder="Enter token amount"
 							className="w-full p-2 border rounded text-black mb-4"
-						/> */}
+						/>
 						<div className="flex justify-end space-x-4">
 							<button
 								onClick={() => setIsPayNowModalOpen(false)}
@@ -406,10 +343,12 @@ const SavingsDashboard = () => {
 					</div>
 				</div>
 			)}
-
 		</>
 	);
 };
+
+
+
 
 export default SavingsDashboard;
 
