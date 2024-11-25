@@ -22,28 +22,41 @@ const LoginForm = () => {
 	const [userName, setUserName] = useState("");
 	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
+	const [isLoading1, setIsLoading1] = useState(false);
 	const [hasWallet, setHasWallet] = useState(false);
-	const [txHash, setTxHash] = useState("" as `0x${string}`);
+	const [walletTxHash, setWalletTxHash] = useState("" as `0x${string}`);
+	const [userTxHash, setUserTxHash] = useState("" as `0x${string}`);
 	const { userAddress }:any = useUserProfile();
 	
 
-	const { isLoading: isConfirming, isSuccess: isConfirmed } =
-		useWaitForTransactionReceipt({
-			hash: txHash,
-		});
+	 const { isSuccess: isWalletTxConfirmed } = useWaitForTransactionReceipt({
+		hash: walletTxHash || undefined,
+	  });
+	
+	  const { isSuccess: isUserTxConfirmed } = useWaitForTransactionReceipt({
+		hash: userTxHash || undefined,
+	  });
 
-	// Effect to handle successful confirmation
-	useEffect(() => {
-		if (isConfirmed) {
-			setIsLoading(false);
-			toast.success("Operation successful!");
-			if (hasWallet) {
-				router.push("/dashboard");
-			} else {
-				setHasWallet(true);
-			}
-		}
-	}, [isConfirmed, router, hasWallet]);
+	// Effect for wallet creation confirmation
+  useEffect(() => {
+    if (isWalletTxConfirmed && walletTxHash) {
+      setIsLoading1(false);
+      setHasWallet(true);
+      toast.success("Wallet created successfully!");
+      setWalletTxHash("" as `0x${string}`);
+    }
+  }, [isWalletTxConfirmed, walletTxHash]);
+
+  // Effect for user creation confirmation
+  useEffect(() => {
+    if (isUserTxConfirmed && userTxHash) {
+      setIsLoading(false);
+      toast.success("Account created successfully!");
+      router.push("/dashboard");
+      setUserTxHash("" as `0x${string}`);
+    }
+  }, [isUserTxConfirmed, userTxHash, router]);
+	
 
 	const handleCreateWallet = async (e: any) => {
 		e.preventDefault();
@@ -51,7 +64,7 @@ const LoginForm = () => {
 			toast.error("Please connect your wallet!");
 			return;
 		}
-		setIsLoading(true);
+		setIsLoading1(true);
 
 		try {
 			const tx = await writeContractAsync({
@@ -61,14 +74,15 @@ const LoginForm = () => {
 				account: address,
 			});
 
-			setTxHash(tx as `0x${string}`);
+			setWalletTxHash(tx as `0x${string}`);
 		} catch (error: any) {
-			setIsLoading(false);
+			setIsLoading1(false);
 			console.log(error);
-
 			toast.error("Wallet creation failed. Please try again.", error);
 		}
 	};
+
+	
 
 	const handleCreateUser = async (e: any) => {
 		e.preventDefault();
@@ -80,15 +94,19 @@ const LoginForm = () => {
 			toast.error("Please create a wallet first!");
 			return;
 		}
+		if (userName === "") {
+			toast.error("Please enter your name!");
+			setIsLoading(false);
+			
+			
+			return;
+		}
+		
 		setIsLoading(true);
 
 		try {
-			if (userName === "") {
-				toast.error("Please enter your name!");
-				setIsLoading(false);
-				return;
-			}
-
+			
+			if(userAddress){
 			const tx = await writeContractAsync({
 				abi: abi2,
 				address: userAddress,
@@ -97,13 +115,18 @@ const LoginForm = () => {
 				account: address,
 			});
 
-			setTxHash(tx as `0x${string}`);
+			setUserTxHash(tx as `0x${string}`);
+		}
 		} catch (error: any) {
 			setIsLoading(false);
 			console.log(error);
+			
 			toast.error("Registration Failed. Please try again.");
 		}
 	};
+
+
+	
 	
 
 	return (
@@ -121,7 +144,7 @@ const LoginForm = () => {
 					{hasWallet ? "Create your Account" : "Create your Wallet"}
 				</h2>
 
-				{!hasWallet ? (
+				{!hasWallet ? ( 
 					// Wallet Creation Step
 					<div className="text-center">
 						<p className="mb-4 text-gray-600">
@@ -129,17 +152,17 @@ const LoginForm = () => {
 						</p>
 						<button
 							onClick={handleCreateWallet}
-							disabled={isLoading}
+							disabled={isLoading1}
 							className={`w-full bg-[#003aceda] ${
-								isLoading ? "bg-[#003ace9c]" : "bg-[#003aceda]"
+								isLoading1 ? "bg-[#003ace9c]" : "bg-[#003aceda]"
 							} hover:bg-[#003aceda] text-white font-medium py-2 px-4 rounded-md focus:outline-none`}
 						>
-							{isLoading ? "Creating..." : "Create Wallet"}
+							{isLoading1 ? "Creating..." : "Create Wallet"}
 						</button>
 					</div>
-				) : (
+				) : (  
 					// Registration Form
-					<form onSubmit={handleCreateUser}>
+					<form>
 						<div className="mb-4">
 							<label
 								htmlFor="name"
@@ -161,6 +184,7 @@ const LoginForm = () => {
 						<button
 							type="submit"
 							disabled={isLoading}
+							onClick={handleCreateUser}
 							className={`w-full bg-[#003aceda] ${
 								isLoading ? "bg-[#003ace9c]" : "bg-[#003aceda]"
 							} hover:bg-[#003aceda] text-white font-medium py-2 px-4 rounded-md focus:outline-none`}
@@ -168,7 +192,7 @@ const LoginForm = () => {
 							{isLoading ? "Creating..." : "Create Account"}
 						</button>
 					</form>
-				)}
+			 )}  
 			</div>
 		</div>
 	);
