@@ -1,10 +1,43 @@
 "use client";
 import Link from "next/link";
+import { useState,useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useReadContract,useAccount } from "wagmi";
+import { contractAddress2 } from "@/context/contractAddress";
+import { abi, abi2 } from "@/context/abi";
 import React from "react";
 
 const ContributionList = () => {
 	const router = useRouter();
+	const account = useAccount();
+	const { isConnected, address } = useAccount();
+	const [userContractAddress, setUserContractAddress] = useState("" as `0x${string}`);
+
+	const { data: userAddress, isSuccess: success, error} = useReadContract({
+		abi:abi2,
+		address: contractAddress2,
+		functionName: 'getUserBudget',
+		args: [address],
+		account: address,
+	  });
+
+
+	  useEffect(() => {
+		if (userAddress && userAddress !== '0x0000000000000000000000000000000000000000') {
+		  setUserContractAddress(userAddress as `0x${string}`);
+		}
+	  }, [userAddress]);
+	
+	const {data:allContributions, isSuccess} = useReadContract({
+		abi: abi2,
+		address: userContractAddress,
+		args: [address],
+		functionName: 'getCampaignsOfUser',
+		account: account.address,
+	  });
+
+	console.log(allContributions)
+	console.log(isSuccess)
 
 	const contributions = [
 		{

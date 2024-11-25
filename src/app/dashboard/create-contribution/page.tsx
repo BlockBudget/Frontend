@@ -3,11 +3,12 @@ import { IndentDecrease } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { useState, useEffect } from "react";
-import { contractAddress } from "@/context/contractAddress";
+import { contractAddress, contractAddress2 } from "@/context/contractAddress";
 import toast from "react-hot-toast";
-import { abi } from "@/context/abi";
-import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { abi, abi2 } from "@/context/abi";
+import { useWriteContract, useWaitForTransactionReceipt, useAccount, useReadContract } from "wagmi";
 import { parseEther } from "viem";
+import { useUserProfile } from "@/hooks/RegisteredUser";
 
 function CreateSavingsGroup() {
 	const [savingsName, setSavingsName] = useState("");
@@ -16,18 +17,22 @@ function CreateSavingsGroup() {
 	const [duration, setDuration] = useState("");
 	const [isPrivate, setIsPrivate] = useState(true);
 	const [txHash, setTxHash] = useState<`0x${string}` | null>(null);
-
+	const { userAddress } = useUserProfile();
+	
+	const { isConnected, address } = useAccount();
 	const { writeContractAsync, isPending } = useWriteContract();
 
 	const handleCreateNewContribution = async (e: any) => {
 		try {
 			e.preventDefault();
+			console.log(userAddress);
 			const targetAmountToReach = parseEther(targetAmount);
 			const durationTimestamp = Math.floor(new Date(duration).getTime() / 1000);
+			console.log(durationTimestamp);
 
 			const tx = await writeContractAsync({
-				address: contractAddress,
-				abi: abi,
+				address: userAddress,
+				abi: abi2,
 				functionName: "createCampaign",
 				args: [
 					savingsName,
@@ -38,7 +43,6 @@ function CreateSavingsGroup() {
 				],
 			});
 
-			console.log(tx);
 			setTxHash(tx);
 			toast.success("Campaign Submitted. Waiting for confirmation...");
 		} catch (error) {
