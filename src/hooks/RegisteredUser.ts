@@ -18,15 +18,16 @@ export const useUserProfile = () => {
   });
 
   useEffect(() => {
-  
+  if(success){
+
     if (userAddress && userAddress !== '0x0000000000000000000000000000000000000000') {
       setUserContractAddress(userAddress as `0x${string}`);
 
     }
-  }, [userAddress]);
+  }
+  }, [userAddress, success, userContractAddress]);
  
 
-console.log(userAddress);
 
   const { data, isSuccess, }:any = useReadContract({
     abi:abi2,
