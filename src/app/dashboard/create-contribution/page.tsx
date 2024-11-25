@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { abi, abi2 } from "@/context/abi";
 import { useWriteContract, useWaitForTransactionReceipt, useAccount, useReadContract } from "wagmi";
 import { parseEther } from "viem";
+import { useUserProfile } from "@/hooks/RegisteredUser";
 
 function CreateSavingsGroup() {
 	const [savingsName, setSavingsName] = useState("");
@@ -16,33 +17,21 @@ function CreateSavingsGroup() {
 	const [duration, setDuration] = useState("");
 	const [isPrivate, setIsPrivate] = useState(true);
 	const [txHash, setTxHash] = useState<`0x${string}` | null>(null);
+	const { userAddress } = useUserProfile();
 	
 	const { isConnected, address } = useAccount();
 	const { writeContractAsync, isPending } = useWriteContract();
-	const [userContractAddress, setUserContractAddress] = useState("" as `0x${string}`);
-
-	const { data: userAddress, isSuccess: success, error} = useReadContract({
-		abi:abi2,
-		address: contractAddress2,
-		functionName: 'getUserBudget',
-		args: [address],
-		account: address,
-	  });
-
-	  useEffect(() => {
-		if (userAddress && userAddress !== '0x0000000000000000000000000000000000000000') {
-		  setUserContractAddress(userAddress as `0x${string}`);
-		}
-	  }, [userAddress]);
 
 	const handleCreateNewContribution = async (e: any) => {
 		try {
 			e.preventDefault();
+			console.log(userAddress);
 			const targetAmountToReach = parseEther(targetAmount);
 			const durationTimestamp = Math.floor(new Date(duration).getTime() / 1000);
+			console.log(durationTimestamp);
 
 			const tx = await writeContractAsync({
-				address: userContractAddress,
+				address: userAddress,
 				abi: abi2,
 				functionName: "createCampaign",
 				args: [
