@@ -2,9 +2,46 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React from "react";
+import {  useReadContract, useAccount } from "wagmi";
+import {  abi } from "../../../context/abi";
+import { contractAddress2 } from "../../../context/contractAddress";
+import { useUserProfile } from "@/hooks/RegisteredUser";
+import { useState , useEffect} from "react";
 
 const ContributionList = () => {
+	const {userAddress} = useUserProfile();
 	const router = useRouter();
+	const { isConnected, address } = useAccount();
+	const [userCampaigns, setUserCampaigns] = useState([]);
+
+	const {data,isLoading,error,isSuccess}:any = useReadContract({
+        address: userAddress as `0x${string}`,
+        abi: abi,
+        functionName: "getCampaignsOfUser",
+        args: address ? [address] : []
+    });
+
+	useEffect(() => {
+		if (isConnected && isSuccess && data) {
+
+			console.log(data,"DATA");
+		  
+		//   const mappedProfile = {
+		// 	name: data[0],
+		// 	userAddress: data[1],
+		// 	registrationDate: Number(data[2]), // Convert BigInt to a regular number
+		// 	isRegistered: data[3],
+		//   };
+		//   setUserCampaigns(mappedProfile);
+		//   setLoading(false);
+		} else if (!isConnected) {
+		//   setLoading(false);
+		}
+	  }, [isConnected, data, isSuccess]);
+
+
+
+
 
 	const contributions = [
 		{
