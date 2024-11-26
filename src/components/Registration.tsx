@@ -96,7 +96,7 @@ const Registration = () => {
     <div className="min-h-screen flex items-center gap-8 justify-center">
       <div className="p-8 w-full max-w-md">
         <div className="">
-          <Link href="/create-wallet" className="flex left-10 top-10 absolute space-x-2">
+          <Link href="/" className="flex left-10 top-10 absolute space-x-2">
             <IndentDecrease className="text-black " size={20} />{" "}
             <span className="text-black font-montserrat font-semibold text-sm">
               Back

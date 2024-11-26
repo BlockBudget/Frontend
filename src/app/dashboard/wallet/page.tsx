@@ -38,6 +38,7 @@ const WalletDashboard = () => {
         )
         const price = response.data.lisk.usd;
         const value = price * balance;
+        console.log(price);
         setLskPrice(value)
         
       } catch (error) {
@@ -226,7 +227,7 @@ useEffect(() => {
       {formatBalance(`≈ $ ${balance ? lskPrice : "0"} USD`)}
       </p>
       
-      <div className="grid grid-cols-3 gap-4 mt-6">
+      <div className="grid grid-cols-4 gap-4 mt-6">
         <button 
           onClick={() => setIsSendModalOpen(true)} 
           className="flex items-center justify-center gap-2 bg-white/20 rounded-xl p-3 hover:bg-white/30 transition"
@@ -244,6 +245,10 @@ useEffect(() => {
         <button onClick={() => setIsDepositModalOpen(true)}  className="flex items-center justify-center gap-2 bg-white/20 rounded-xl p-3 hover:bg-white/30 transition">
           <CreditCard className="w-5 h-5" />
           <span>Deposit</span>
+        </button>
+        <button  className="flex items-center justify-center gap-2 bg-white/20 rounded-xl p-3 hover:bg-white/30 transition">
+          <CreditCard className="w-5 h-5" />
+          <span>Withdraw</span>
         </button>
       </div>
     </div>
