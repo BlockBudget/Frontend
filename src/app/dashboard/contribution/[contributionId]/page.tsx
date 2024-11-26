@@ -16,9 +16,10 @@ import { Command, Minus, PiggyBank, Plus, Target, X } from "lucide-react";
 
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { isAddress } from "viem";
+import { isAddress, parseEther } from "viem";
 import { useAccount, useReadContract, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import WhitelistModal from "@/components/WhitelistModal";
+import PayNow from "@/components/PayNow";
 import { useParams } from 'next/navigation'
 import ProgressBar from "@/components/ProgressBar";
 import { formatEther } from "viem";
@@ -27,6 +28,7 @@ import { useUserProfile } from "@/hooks/RegisteredUser";
 
 const SavingsDashboard = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [isPayModalOpen, setPayIsModalOpen] = useState(false);
 	const [addresses, setAddresses] = useState([""]); 
 	const { writeContract } = useWriteContract();
 	const params = useParams()
@@ -35,7 +37,8 @@ const SavingsDashboard = () => {
 	const [txHash, setTxHash] = useState<`0x${string}` | null>(null);
 	const { writeContractAsync, isPending } = useWriteContract();
 	const [isLoading, setIsLoading] = useState(false);
-	const {userAddress}=useUserProfile();
+	const {userAddress}: any =useUserProfile();
+	const [ amount, setAmount ] = useState('')
 
 	const mockPriceHistory = [
 		{ date: "Jan", price: 4000 },
@@ -145,10 +148,66 @@ console.log(whitelist);
 		}
 	};
 
-	const {isSuccess: isConfirmed } =
+	const handlePay = async (amount: string) => {
+		try {
+			if(!isConnected){
+				toast.error("Please connect your wallet");
+			}
+
+			setIsLoading(true);
+			const tx = await writeContractAsync({
+				abi: abi,
+				address: userAddress as `0x${string}`,
+				functionName: "contributeToCompaign",
+				args: [
+					params.contributionId,
+				],
+				value: parseEther(amount)
+			});
+			setTxHash(tx);
+			toast.success("Payment Submitted. Waiting for confirmation...");
+		} catch (error: any) {
+			setIsLoading(false)
+			console.log(error);
+			toast.error("Failed to pay. Check your inputs:", error);
+		}
+	}
+
+	const handleWithdrawal = async (e: any) => {
+		e.preventDefault();
+		try {
+			const tx = await writeContractAsync({
+				address: userAddress,
+				abi: abi2,
+				functionName: "withdrawContribution",
+				args: [
+					params.contributionId
+				]
+			})	
+
+			setTxHash(tx);
+			toast.success("Withdrawal Initiated. Waiting for confirmation...");
+		} catch (error) {
+			toast.error("Withdrawal failed: " + error);
+		}
+	}
+
+	const {isSuccess: withdrawalConfirmed } =
 		useWaitForTransactionReceipt({
 			hash: txHash ?? undefined,
 		});
+		
+		const {isSuccess: isConfirmed } =
+			useWaitForTransactionReceipt({
+				hash: txHash ?? undefined,
+			});
+
+		useEffect(() => {
+			if (withdrawalConfirmed) {
+				toast.success("Withdrawal successful!");
+			}
+		}, [withdrawalConfirmed]);
+
 		
 	useEffect(() => {
 		if (isConfirmed) {
@@ -170,7 +229,7 @@ console.log(whitelist);
 							<p className="text-sm font-bold my-3">Available for withdrawal</p>
 							<h3 className="text-sm  my-3">$ {campaignDetail?.totalContributed ?campaignDetail?.totalContributed : "0.00" }</h3>
 
-							<button className=" text-white font-medium py-2 px-4 bg-gradient-to-r from-[#003aceda] to-[#003aceaf] shadow-md w-72 rounded-full">
+							<button onClick={handleWithdrawal} className=" text-white font-medium py-2 px-4 bg-gradient-to-r from-[#003aceda] to-[#003aceaf] shadow-md w-72 rounded-full">
 								Withdraw
 							</button>
 						</div>
@@ -250,7 +309,7 @@ console.log(whitelist);
 						>
 							Add Contributors
 						</button>
-						<button className="px-6 md:w-[405px] rounded-full py-3 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black  shadow-md ">
+						<button onClick={() => setPayIsModalOpen(true)} className="px-6 md:w-[405px] rounded-full py-3 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black  shadow-md ">
 							Pay Now
 						</button>
 						<button className="px-6 py-2 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black rounded-xl hover:">
@@ -316,6 +375,16 @@ console.log(whitelist);
 					isLoading={isLoading}
 					addresses={addresses}
 					setAddresses={setAddresses}
+				/>
+			)}
+			{/* Paynow modal */}
+			{isPayModalOpen && (
+				<PayNow
+					setPayIsModalOpen={setPayIsModalOpen}
+					handlePay={handlePay}
+					amount={amount}
+					setAmount={setAmount}
+					isLoading={isLoading}
 				/>
 			)}
 
