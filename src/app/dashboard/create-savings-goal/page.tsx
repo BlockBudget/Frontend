@@ -2,8 +2,8 @@
 import { IndentDecrease } from "lucide-react";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { abi } from "../../../context/abi";
-import { contractAddress } from "../../../context/contractAddress";
+import { abi } from "@/context/abi";
+import { contractAddress2 } from "@/context/contractAddress";
 import {
 	useWriteContract,
 	useWaitForTransactionReceipt,
@@ -38,7 +38,7 @@ function CreateSavingsGoal() {
 			// const dueDateTimestamp = Math.floor(new Date(date).getTime() / 1000);
 
 			const tx = await writeContractAsync({
-				address: contractAddress,
+				address: contractAddress2,
 				abi: abi,
 				functionName: "createTimeLockedAccount",
 				args: [accountType, interestType, dueDateTimestamp, amountInWei],
