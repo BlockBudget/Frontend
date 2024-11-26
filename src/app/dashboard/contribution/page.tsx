@@ -26,7 +26,7 @@ const ContributionList = () => {
 		const {data:details} = useReadContract({
 		  abi: abi2,
 		  address: userAddress,
-		  args: ['0x446959a7c0bd6d90f7bd3c4717e55bb49493487975823901a37f0a77fe251514'],
+		  args: ['0x1e4207b19218cee6752142783128bad6bca9446d82a060e7b1a569d8aa151c17'],
 		  functionName: 'getCampaignDetails',
 		  account: address,
 		});
@@ -85,7 +85,7 @@ const ContributionList = () => {
 							<p>Target Savings</p>
 							<span className="text-lg font-bold">{contribution.total}</span>
 							</div>
-						<button className="px-6 py-2  font-medium border bg-[#003ace8f]  text-sm text-black rounded-xl shadow-md " onClick={()=>handleClick("0x446959a7c0bd6d90f7bd3c4717e55bb49493487975823901a37f0a77fe251514")}>
+						<button className="px-6 py-2  font-medium border bg-[#003ace8f]  text-sm text-black rounded-xl shadow-md " onClick={()=>handleClick("0x1e4207b19218cee6752142783128bad6bca9446d82a060e7b1a569d8aa151c17")}>
 							View details
 						</button>
 					</div>

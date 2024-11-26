@@ -17,22 +17,25 @@ import { Command, Minus, PiggyBank, Plus, Target, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { isAddress } from "viem";
-import { useAccount, useReadContract, useWriteContract } from "wagmi";
-import { } from "viem";
+import { useAccount, useReadContract, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import WhitelistModal from "@/components/WhitelistModal";
 import { useParams } from 'next/navigation'
 import ProgressBar from "@/components/ProgressBar";
 import { formatEther } from "viem";
+import { useUserProfile } from "@/hooks/RegisteredUser";
+
 
 const SavingsDashboard = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [userAddress1, setUserAddress] = useState("");
-	const [campaignId, setCampaignId] = useState("");
+	const [addresses, setAddresses] = useState([""]); 
 	const { writeContract } = useWriteContract();
 	const params = useParams()
 	const { isConnected, address } = useAccount();
 	const [campaignDetail, setCampaignDetails] = useState<any>();
-
+	const [txHash, setTxHash] = useState<`0x${string}` | null>(null);
+	const { writeContractAsync, isPending } = useWriteContract();
+	const [isLoading, setIsLoading] = useState(false);
+	const {userAddress}=useUserProfile();
 
 	const mockPriceHistory = [
 		{ date: "Jan", price: 4000 },
@@ -43,28 +46,10 @@ const SavingsDashboard = () => {
 		{ date: "Jun", price: 5500 },
 	];
 
-	const [userContractAddress, setUserContractAddress] = useState("" as `0x${string}`);
-	
-
-	const { data: userAddress, isSuccess: success, error} = useReadContract({
-		abi:abi2,
-		address: contractAddress2,
-		functionName: 'getUserBudget',
-		args: [address],
-		account: address,
-	  });
-
-
-	  useEffect(() => {
-		if (userAddress && userAddress !== '0x0000000000000000000000000000000000000000') {
-		  setUserContractAddress(userAddress as `0x${string}`);
-		}
-	  }, [userAddress]);
-
 
 	const {data:details, isSuccess}:any = useReadContract({
 		abi: abi2,
-		address: userContractAddress,
+		address: userAddress as `0x${string}`,
 		args: [params.contributionId],
 		functionName: 'getCampaignDetails',
 		account: address,
@@ -89,53 +74,54 @@ const SavingsDashboard = () => {
 		  } 
 	  },[details,isSuccess ]);
 
-console.log(campaignDetail);
-
+	
 
 	  
-	const handleAddUsers = (addresses: any) => {
+	const handleAddUsers = async(addresses: any) => {
 		try {
-			if (userAddress1.trim() === "") {
+			if(!isConnected){
+				toast.error("Please connect your wallet");
+			}
+			else if (addresses === "") {
 				toast.error("Please enter an address!");
-				return;
-			} else if (!isAddress(userAddress1)) {
+				
+			}
+			else if (!isAddress(addresses)) {
 				toast.error("Please enter a valid address!");
 			}
-			writeContract({
+			setIsLoading(true);
+			const tx = await writeContractAsync({
 				abi: abi,
-				address: contractAddress2,
+				address: userAddress as `0x${string}`,
 				functionName: "whitelistAddresses",
 				args: [
-					campaignId ? campaignId : null,
-					userAddress1 ? userAddress1.split(",").map((addr) => addr.trim()) : [],
+					params.contributionId,
+					addresses,
 				],
 			});
-			if (isSuccess) {
-				toast.success("Address have been successfully whitelisted!");
-				setIsModalOpen(false);
-				setUserAddress("");
-			}
+			setTxHash(tx);
+			toast.success("Campaign Submitted. Waiting for confirmation...");
 		} catch (error: any) {
+			setIsLoading(false)
+			console.log(error);
+			
 			toast.error("Failed to whitelist addresses. Check your inputs:", error);
 		}
 	};
 
-	const handleWithdraw = async () => {
-		try {
-			const tx = await writeContract({
-				abi: abi2,
-				address: contractAddress,
-				functionName: "withdrawContribution",
-				args: [campaignId],
-			});
-			toast.success("Withdrawal successful!");
-			console.log(tx);
-			setIsWithdrawModalOpen(false);
-		} catch (error: any) {
-			toast.error("Failed to withdraw. Please try again.");
-			console.log(error);
+	const {isSuccess: isConfirmed } =
+		useWaitForTransactionReceipt({
+			hash: txHash ?? undefined,
+		});
+		
+	useEffect(() => {
+		if (isConfirmed) {
+			toast.success("Address have been successfully whitelisted!");
+			setIsModalOpen(false);
+			setIsLoading(true);
+			setAddresses([""]);
 		}
-	};
+	}, [isConfirmed]);
 
 	const completionPercentage = 39;
 	return (
@@ -239,14 +225,14 @@ console.log(campaignDetail);
 
 				{/* Savings Metrics */}
 				<div className="flex gap-2">
-					<div className="md:w-[834px] bg-white p-6 rounded-lg shadow-md mt-8">
+					<div className="md:w-full bg-white p-6 rounded-lg shadow-md mt-8">
 						<h3 className="text-lg font-bold text-gray-800">Pool savings metrics</h3>
 						<ResponsiveContainer width="100%" height={300}>
 							<AreaChart data={mockPriceHistory}>
 								<defs>
 									<linearGradient id="colorSavings" x1="0" y1="0" x2="0" y2="1">
-										<stop offset="5%" stopColor="#6B5AED" stopOpacity={0.8} />
-										<stop offset="95%" stopColor="#6B5AED" stopOpacity={0.1} />
+										<stop offset="5%" stopColor="#003ace8f" stopOpacity={0.8} />
+										<stop offset="95%" stopColor="#003ace8f" stopOpacity={0.1} />
 									</linearGradient>
 								</defs>
 								<CartesianGrid strokeDasharray="3 3" />
@@ -265,9 +251,11 @@ console.log(campaignDetail);
 					</div>
 
 					{/* Member Contributions */}
+					{campaignDetail?.isPrivate  && 
 					<div className="md:w-[404px] bg-white  rounded-lg shadow-md ">
-						<p className="w-full text-white rounded-full text-base bg-gradient-to-r from-[#9C2CF399] to-[#3A6FF999] py-3 font-bold  justify-center text-center">Whitelist member contributions</p>
+						<p className="w-full text-white rounded-lg text-base bg-gradient-to-r from-[#003aceb7] to-[#003ace8f]  py-4 font-bold  justify-center text-center">Whitelist member contributions</p>
 						<div className="mt-4 space-y-8 p-6">
+							<div>{campaignDetail?.contributorCount}</div>
 							{["john paul", "john paul", "john paul", "john paul", "John Doe"].map((name, index) => (
 								<div key={index} className="flex justify-between items-center text-gray-600">
 									<span>{name}</span>
@@ -276,10 +264,8 @@ console.log(campaignDetail);
 							))}
 						</div>
 
-						<button className="w-full mt-14 bg-gradient-to-r from-[#9C2CF399] to-[#3A6FF999] text-white py-2  rounded-full ">
-							Add New Member
-						</button>
 					</div>
+					}
 				</div>
 			</div>
 
@@ -288,6 +274,9 @@ console.log(campaignDetail);
 				<WhitelistModal
 					setIsModalOpen={setIsModalOpen}
 					handleAddUsers={handleAddUsers}
+					isLoading={isLoading}
+					addresses={addresses}
+					setAddresses={setAddresses}
 				/>
 			)}
 

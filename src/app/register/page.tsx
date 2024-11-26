@@ -7,7 +7,6 @@ import Registration from "@/components/Registration";
 
 
 const LoginForm = () => {
-	const router = useRouter();
 	const [hasWallet, setHasWallet] = useState(false);
 
 
