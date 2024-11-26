@@ -324,4 +324,3 @@ console.log(whitelist);
 };
 
 export default SavingsDashboard;
-
