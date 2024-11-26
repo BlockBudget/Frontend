@@ -29,18 +29,18 @@ const SendFund = ({
 					>
 						<X className="w-5 h-5" />
 					</button>
-					<h3 className="text-xl font-bold mb-4">Send Funds</h3>
+					<h3 className="text-xl text-black font-bold mb-4">Send Funds</h3>
 					<form onSubmit={handleSend}>
 						<div className="space-y-4">
 							<div>
 								<label className="block text-sm font-medium text-gray-700 mb-1">
-									Recipient Address
+									Recipient Addresss
 								</label>
 								<input
 									type="text"
 									value={recipient}
 									onChange={(e) => setRecipient(e.target.value)}
-									className="w-full border rounded-lg p-1 focus:outline-none "
+									className="w-full border rounded-lg p-1 focus:outline-nonem text-black "
 									placeholder="0xa7F87590b8aE36947E5105aE5112761B7d0D5d7D"
 								/>
 							</div>
@@ -52,7 +52,7 @@ const SendFund = ({
 									type="number"
 									value={amount}
 									onChange={(e) => setAmount(e.target.value)}
-									className="w-full border rounded-lg p-1 focus:outline-none"
+									className="w-full border rounded-lg p-1 text-black focus:outline-none"
 									placeholder="0.0"
 									step="0.000001"
 								/>

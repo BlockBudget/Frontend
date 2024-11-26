@@ -36,7 +36,6 @@ const Registration = () => {
     // If no wallet is found, redirect to wallet creation
     if (success && (!userAddress || userAddress === '0x0000000000000000000000000000000000000000')) {
       toast.error("Please create a wallet first!");
-      router.push("/");
       return;
     }
 

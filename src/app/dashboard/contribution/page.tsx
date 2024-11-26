@@ -1,47 +1,39 @@
 "use client";
 import Link from "next/link";
+import { useState,useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useReadContract,useAccount } from "wagmi";
+import { contractAddress2 } from "@/context/contractAddress";
+import {  abi2 } from "@/context/abi";
 import React from "react";
-import {  useReadContract, useAccount } from "wagmi";
-import {  abi } from "../../../context/abi";
-import { contractAddress2 } from "../../../context/contractAddress";
 import { useUserProfile } from "@/hooks/RegisteredUser";
-import { useState , useEffect} from "react";
-
 const ContributionList = () => {
-	const {userAddress} = useUserProfile();
+	const {userAddress}:any = useUserProfile();
 	const router = useRouter();
 	const { isConnected, address } = useAccount();
-	const [userCampaigns, setUserCampaigns] = useState([]);
+	
 
-	const {data,isLoading,error,isSuccess}:any = useReadContract({
-        address: userAddress as `0x${string}`,
-        abi: abi,
-        functionName: "getCampaignsOfUser",
-        args: address ? [address] : []
-    });
+	
+	const {data:allContributions, isSuccess} = useReadContract({
+		abi: abi2,
+		address: userAddress,
+		args: [address],
+		functionName: 'getCampaignsOfUser',
+		account: address,
+	  });
 
-	useEffect(() => {
-		if (isConnected && isSuccess && data) {
+	 
+		const {data:details} = useReadContract({
+		  abi: abi2,
+		  address: userAddress,
+		  args: ['0x446959a7c0bd6d90f7bd3c4717e55bb49493487975823901a37f0a77fe251514'],
+		  functionName: 'getCampaignDetails',
+		  account: address,
+		});
+	
 
-			console.log(data,"DATA");
-		  
-		//   const mappedProfile = {
-		// 	name: data[0],
-		// 	userAddress: data[1],
-		// 	registrationDate: Number(data[2]), // Convert BigInt to a regular number
-		// 	isRegistered: data[3],
-		//   };
-		//   setUserCampaigns(mappedProfile);
-		//   setLoading(false);
-		} else if (!isConnected) {
-		//   setLoading(false);
-		}
-	  }, [isConnected, data, isSuccess]);
-
-
-
-
+	console.log(allContributions)
+	console.log(details)
 
 	const contributions = [
 		{
@@ -93,7 +85,7 @@ const ContributionList = () => {
 							<p>Target Savings</p>
 							<span className="text-lg font-bold">{contribution.total}</span>
 							</div>
-						<button className="px-6 py-2  font-medium border bg-[#003ace8f]  text-sm text-black rounded-xl shadow-md " onClick={()=>handleClick(contribution.id)}>
+						<button className="px-6 py-2  font-medium border bg-[#003ace8f]  text-sm text-black rounded-xl shadow-md " onClick={()=>handleClick("0x446959a7c0bd6d90f7bd3c4717e55bb49493487975823901a37f0a77fe251514")}>
 							View details
 						</button>
 					</div>

@@ -19,7 +19,6 @@ import {
 	ChartData,
 	ChartOptions,
 } from "chart.js";
-import Navbar from "../../components/Navbar";
 import Link from "next/link";
 import { useAccount } from "wagmi";
 import { useGetCampaignDetails } from "@/hooks/useGetCampaignDetails";
@@ -344,3 +343,4 @@ const page = () => {
 };
 
 export default page;
+

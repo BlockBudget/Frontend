@@ -22,10 +22,10 @@ const Receive = ({setIsReceiveModalOpen}:any) => {
             >
               <X className="w-5 h-5" />
             </button>
-            <h3 className="text-xl font-bold mb-4">Receive Funds</h3>
+            <h3 className="text-xl text-black font-bold mb-4">Receive Funds</h3>
             <div className="text-center">
               <p className="text-gray-600 mb-4">Your wallet address:</p>
-              <div className="bg-gray-100 p-4 text-sm font-medium rounded-lg break-all">
+              <div className="bg-gray-100 p-4 text-sm text-black font-medium rounded-lg break-all">
                 {userAddress}
               </div>
               <button 
