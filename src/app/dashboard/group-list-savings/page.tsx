@@ -1,22 +1,8 @@
 import React from "react";
 import Avatar from "@/components/Avatar";
-import { useReadContract } from "wagmi";
-import { abi } from "@/context/abi";
-import { contractAddress2 } from "@/context/contractAddress";
 
 function CreateSavingsGroup() {
 
-    const handleGetHistory = () => {
-
-    }
-
-    const {data:invoiceHistory, isSuccess} = useReadContract({
-		abi,
-		address: contractAddress2,
-		functionName: 'generateAllInvoice',
-		// account: account.address,
-	  });
-    
     return(
         <>
             <div className="avatar flex items-center">
