@@ -148,7 +148,7 @@ console.log(whitelist);
 		}
 	};
 
-	const handlePay = async (amount: any) => {
+	const handlePay = async (amount: string) => {
 		try {
 			if(!isConnected){
 				toast.error("Please connect your wallet");
