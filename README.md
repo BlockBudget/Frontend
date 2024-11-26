@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Decentralized Personal Finance Application
 
-## Getting Started
+This project is a decentralized personal finance application that allows users to manage their finances through an in-app wallet. Users can deposit and withdraw funds, create contributions, and contribute to others' campaigns. The application leverages blockchain technology to ensure secure and transparent transactions.
 
-First, run the development server:
+## Live Demo
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Check out the live application here: [Live Demo](https://your-live-demo-link.com)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **In-App Wallet**: Create and manage a personal wallet for secure transactions.
+- **Deposit and Withdraw**: Easily deposit and withdraw funds from your wallet.
+- **Create Contributions**: Start your own savings campaign and invite others to contribute.
+- **Contribute to Others**: Support other users' campaigns by contributing funds.
+- **Whitelist Management**: Manage a list of whitelisted addresses for private campaigns.
+- **Real-Time Metrics**: View savings metrics and contribution details in real-time.
 
-## Learn More
+## Technologies Used
 
-To learn more about Next.js, take a look at the following resources:
+- **React**: Frontend library for building user interfaces.
+- **Next.js**: Framework for server-side rendering and static site generation.
+- **Recharts**: Library for creating responsive charts and data visualizations.
+- **Wagmi**: React hooks library for Ethereum.
+- **Viem**: Utility library for Ethereum-related operations.
+- **Lucide-React**: Icon library for React.
+- **React Hot Toast**: Notifications library for React.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Usage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Connect Wallet**: Connect your Ethereum wallet to the application.
+2. **Create a Campaign**: Navigate to the dashboard and create a new savings campaign.
+3. **Manage Contributions**: Add contributors to your campaign and manage whitelisted addresses.
+4. **View Metrics**: Monitor your campaign's progress and view detailed metrics.
 
-## Deploy on Vercel
+## Roadmap
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### MVP (Minimum Viable Product)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Basic wallet creation and management
+- Deposit and withdrawal functionality
+- Campaign creation and contribution
+- Basic whitelisting for private campaigns
+
+### Now
+
+- Enhanced real-time metrics and analytics
+- Improved user interface and experience
+- Integration with additional blockchain networks
+- Advanced security features
+
+
+## Contributors✨
+Thanks goes to these wonderful people:
+
+- ![ 1](https://github.com/peternnadi1999.png?size=50) [Peter Nnadi](https://github.com/peternnadi1999)
+
+- ![2](https://github.com/Akanimorex.png?size=50) [Akanimo Rex](https://github.com/Akanimorex)
+
+- ![3](https://github.com/Lukman-01.png?size=50) [Lukman Ibukun](https://github.com/Lukman-01)
+
+- ![4](https://github.com/DevMukhtarr.png?size=50) [Mukhtarr](https://github.com/DevMukhtarr)
+
+- ![5](https://github.com/Edoscoba.png?size=50) [Obi Simon](https://github.com/Edoscoba)
+
+- ![6](https://github.com/khayss.png?size=50) [Kufre Samuel](https://github.com/khayss)
+
+- ![7](https://github.com/TechTalkBlockchain.png?size=50) [Ponfa Michael](https://github.com/TechTalkBlockchain)
+
+
+
+
+
+
+
+
+
+## Contributing
+
+We are not open-sourcing the project for the time being. 
+
+
+
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+For questions or support, please contact [your-email@example.com](mailto:your-email@example.com).
