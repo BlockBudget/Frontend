@@ -55,6 +55,16 @@ const SavingsDashboard = () => {
 		account: address,
 	  });
 
+	  const {data:whitelist}:any = useReadContract({
+		abi: abi2,
+		address: userAddress as `0x${string}`,
+		args: [params.contributionId],
+		functionName: 'getAllWhitelistedAddresses',
+		account: address,
+	  });
+console.log(whitelist);
+
+
 	  useEffect(()=>{
 		if (isConnected && isSuccess && details) {
       
@@ -74,7 +84,33 @@ const SavingsDashboard = () => {
 		  } 
 	  },[details,isSuccess ]);
 
-	
+	  const {data:whitelistAdr, isSuccess: successful}:any = useReadContract({
+		abi: abi2,
+		address: userAddress as `0x${string}`,
+		args: [params.contributionId],
+		functionName: 'getCampaignDetails',
+		account: address,
+	  });
+
+	  useEffect(()=>{
+		if (isConnected && successful && whitelistAdr) {
+      
+			const campaignDetails = {
+				name: details[0],
+				description: details[1],
+				owner: details[2],
+				targetAmount: formatEther(details[3]),
+				deadline: details[4],
+				totalContributed: formatEther(details[5]),
+				contributorCount: details[6],
+				isActive: details[7],
+				isPrivate: details[8],
+			};
+			setCampaignDetails(campaignDetails);
+		
+		  } 
+	  },[details,isSuccess ]);
+
 
 	  
 	const handleAddUsers = async(addresses: any) => {
@@ -256,12 +292,15 @@ const SavingsDashboard = () => {
 						<p className="w-full text-white rounded-lg text-base bg-gradient-to-r from-[#003aceb7] to-[#003ace8f]  py-4 font-bold  justify-center text-center">Whitelist member contributions</p>
 						<div className="mt-4 space-y-8 p-6">
 							<div>{campaignDetail?.contributorCount}</div>
-							{["john paul", "john paul", "john paul", "john paul", "John Doe"].map((name, index) => (
+							 {/* { */}
+							{/* whitelist.map((name, index) => (
 								<div key={index} className="flex justify-between items-center text-gray-600">
 									<span>{name}</span>
 									<span>₦100,000,000</span>
 								</div>
-							))}
+							)) */}
+							{/* }  */}
+							
 						</div>
 
 					</div>
