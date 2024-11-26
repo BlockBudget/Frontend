@@ -1338,6 +1338,19 @@ export const abi2 = [
 		"type": "function"
 	  },
 	  {
+		"inputs": [],
+		"name": "getAllBudgets",
+		"outputs": [
+		  {
+			"internalType": "address[]",
+			"name": "",
+			"type": "address[]"
+		  }
+		],
+		"stateMutability": "view",
+		"type": "function"
+	  },
+	  {
 		"inputs": [
 		  {
 			"internalType": "address",
@@ -1544,59 +1557,6 @@ export const abi2 = [
 		"inputs": [
 		  {
 			"internalType": "bytes32",
-			"name": "goalId",
-			"type": "bytes32"
-		  }
-		],
-		"name": "calculateGoalProgress",
-		"outputs": [
-		  {
-			"internalType": "uint256",
-			"name": "percentageComplete",
-			"type": "uint256"
-		  },
-		  {
-			"internalType": "uint256",
-			"name": "remaining",
-			"type": "uint256"
-		  },
-		  {
-			"internalType": "uint256",
-			"name": "timeLeft",
-			"type": "uint256"
-		  }
-		],
-		"stateMutability": "view",
-		"type": "function"
-	  },
-	  {
-		"inputs": [
-		  {
-			"internalType": "bytes32",
-			"name": "goalId",
-			"type": "bytes32"
-		  },
-		  {
-			"internalType": "uint256",
-			"name": "milestoneIndex",
-			"type": "uint256"
-		  }
-		],
-		"name": "checkMilestoneProgress",
-		"outputs": [
-		  {
-			"internalType": "bool",
-			"name": "",
-			"type": "bool"
-		  }
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	  },
-	  {
-		"inputs": [
-		  {
-			"internalType": "bytes32",
 			"name": "campaignId",
 			"type": "bytes32"
 		  }
@@ -1646,104 +1606,6 @@ export const abi2 = [
 			"internalType": "bytes32",
 			"name": "",
 			"type": "bytes32"
-		  }
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	  },
-	  {
-		"inputs": [
-		  {
-			"internalType": "string",
-			"name": "name",
-			"type": "string"
-		  },
-		  {
-			"internalType": "uint256",
-			"name": "targetAmount",
-			"type": "uint256"
-		  },
-		  {
-			"internalType": "uint256",
-			"name": "deadline",
-			"type": "uint256"
-		  },
-		  {
-			"internalType": "enum GoalBasedLib.GoalType",
-			"name": "goalType",
-			"type": "uint8"
-		  },
-		  {
-			"internalType": "enum GoalBasedLib.SavingFrequency",
-			"name": "frequency",
-			"type": "uint8"
-		  },
-		  {
-			"internalType": "uint256",
-			"name": "minContributionAmount",
-			"type": "uint256"
-		  },
-		  {
-			"internalType": "bool",
-			"name": "isFlexible",
-			"type": "bool"
-		  },
-		  {
-			"internalType": "bool",
-			"name": "autoContribute",
-			"type": "bool"
-		  },
-		  {
-			"internalType": "uint256",
-			"name": "penaltyRate",
-			"type": "uint256"
-		  }
-		],
-		"name": "createSavingsGoal",
-		"outputs": [
-		  {
-			"internalType": "bytes32",
-			"name": "",
-			"type": "bytes32"
-		  }
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	  },
-	  {
-		"inputs": [
-		  {
-			"internalType": "bytes32",
-			"name": "goalId",
-			"type": "bytes32"
-		  },
-		  {
-			"internalType": "string",
-			"name": "description",
-			"type": "string"
-		  },
-		  {
-			"internalType": "uint256",
-			"name": "targetAmount",
-			"type": "uint256"
-		  },
-		  {
-			"internalType": "uint256",
-			"name": "deadline",
-			"type": "uint256"
-		  },
-		  {
-			"internalType": "uint256",
-			"name": "rewardAmount",
-			"type": "uint256"
-		  }
-		],
-		"name": "defineSavingsMilestone",
-		"outputs": [
-		  {
-			"internalType": "uint256",
-			"name": "",
-			"type": "uint256"
 		  }
 		],
 		"stateMutability": "nonpayable",
@@ -1999,118 +1861,6 @@ export const abi2 = [
 		"type": "function"
 	  },
 	  {
-		"inputs": [
-		  {
-			"internalType": "bytes32",
-			"name": "goalId",
-			"type": "bytes32"
-		  },
-		  {
-			"internalType": "address",
-			"name": "contributor",
-			"type": "address"
-		  }
-		],
-		"name": "getGoalContributionHistory",
-		"outputs": [
-		  {
-			"internalType": "uint256[]",
-			"name": "",
-			"type": "uint256[]"
-		  }
-		],
-		"stateMutability": "view",
-		"type": "function"
-	  },
-	  {
-		"inputs": [
-		  {
-			"internalType": "bytes32",
-			"name": "goalId",
-			"type": "bytes32"
-		  }
-		],
-		"name": "getGoalDetails",
-		"outputs": [
-		  {
-			"internalType": "string",
-			"name": "name",
-			"type": "string"
-		  },
-		  {
-			"internalType": "uint256",
-			"name": "targetAmount",
-			"type": "uint256"
-		  },
-		  {
-			"internalType": "uint256",
-			"name": "currentAmount",
-			"type": "uint256"
-		  },
-		  {
-			"internalType": "uint256",
-			"name": "deadline",
-			"type": "uint256"
-		  },
-		  {
-			"internalType": "enum GoalBasedLib.GoalStatus",
-			"name": "status",
-			"type": "uint8"
-		  },
-		  {
-			"internalType": "uint256",
-			"name": "milestoneCount",
-			"type": "uint256"
-		  }
-		],
-		"stateMutability": "view",
-		"type": "function"
-	  },
-	  {
-		"inputs": [
-		  {
-			"internalType": "bytes32",
-			"name": "goalId",
-			"type": "bytes32"
-		  },
-		  {
-			"internalType": "uint256",
-			"name": "milestoneIndex",
-			"type": "uint256"
-		  }
-		],
-		"name": "getMilestoneDetails",
-		"outputs": [
-		  {
-			"internalType": "string",
-			"name": "description",
-			"type": "string"
-		  },
-		  {
-			"internalType": "uint256",
-			"name": "targetAmount",
-			"type": "uint256"
-		  },
-		  {
-			"internalType": "uint256",
-			"name": "deadline",
-			"type": "uint256"
-		  },
-		  {
-			"internalType": "bool",
-			"name": "isCompleted",
-			"type": "bool"
-		  },
-		  {
-			"internalType": "uint256",
-			"name": "completedAt",
-			"type": "uint256"
-		  }
-		],
-		"stateMutability": "view",
-		"type": "function"
-	  },
-	  {
 		"inputs": [],
 		"name": "getTransactionHistory",
 		"outputs": [
@@ -2209,29 +1959,6 @@ export const abi2 = [
 		"type": "function"
 	  },
 	  {
-		"inputs": [
-		  {
-			"internalType": "bytes32",
-			"name": "goalId",
-			"type": "bytes32"
-		  },
-		  {
-			"internalType": "uint256",
-			"name": "newTarget",
-			"type": "uint256"
-		  },
-		  {
-			"internalType": "uint256",
-			"name": "newDeadline",
-			"type": "uint256"
-		  }
-		],
-		"name": "modifySavingsGoal",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	  },
-	  {
 		"inputs": [],
 		"name": "owner",
 		"outputs": [
@@ -2291,25 +2018,6 @@ export const abi2 = [
 	  {
 		"inputs": [
 		  {
-			"internalType": "bytes32",
-			"name": "goalId",
-			"type": "bytes32"
-		  }
-		],
-		"name": "trackSavingRate",
-		"outputs": [
-		  {
-			"internalType": "uint256",
-			"name": "",
-			"type": "uint256"
-		  }
-		],
-		"stateMutability": "view",
-		"type": "function"
-	  },
-	  {
-		"inputs": [
-		  {
 			"internalType": "address",
 			"name": "recipient",
 			"type": "address"
@@ -2334,29 +2042,6 @@ export const abi2 = [
 		  }
 		],
 		"name": "transferOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	  },
-	  {
-		"inputs": [
-		  {
-			"internalType": "bytes32",
-			"name": "goalId",
-			"type": "bytes32"
-		  },
-		  {
-			"internalType": "string",
-			"name": "actionType",
-			"type": "string"
-		  },
-		  {
-			"internalType": "string",
-			"name": "reason",
-			"type": "string"
-		  }
-		],
-		"name": "triggerEmergencyAction",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -2517,25 +2202,6 @@ export const abi2 = [
 		"inputs": [
 		  {
 			"internalType": "bytes32",
-			"name": "goalId",
-			"type": "bytes32"
-		  }
-		],
-		"name": "verifyGoalCompletion",
-		"outputs": [
-		  {
-			"internalType": "bool",
-			"name": "",
-			"type": "bool"
-		  }
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	  },
-	  {
-		"inputs": [
-		  {
-			"internalType": "bytes32",
 			"name": "campaignId",
 			"type": "bytes32"
 		  },
@@ -2591,30 +2257,6 @@ export const abi2 = [
 		  }
 		],
 		"name": "withdrawContribution",
-		"outputs": [
-		  {
-			"internalType": "bool",
-			"name": "",
-			"type": "bool"
-		  }
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	  },
-	  {
-		"inputs": [
-		  {
-			"internalType": "bytes32",
-			"name": "goalId",
-			"type": "bytes32"
-		  },
-		  {
-			"internalType": "uint256",
-			"name": "amount",
-			"type": "uint256"
-		  }
-		],
-		"name": "withdrawFromGoal",
 		"outputs": [
 		  {
 			"internalType": "bool",
