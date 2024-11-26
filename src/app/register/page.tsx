@@ -7,7 +7,6 @@ import Registration from "@/components/Registration";
 
 
 const LoginForm = () => {
-	const router = useRouter();
 	const [hasWallet, setHasWallet] = useState(false);
 
 
@@ -15,7 +14,7 @@ const LoginForm = () => {
 		<div className="min-h-screen flex items-center gap-8 justify-center">
 		
 
-				{hasWallet ? ( 
+				{!hasWallet ? ( 
 					// Wallet Creation Step
 					<CreateWallet setHasWallet={setHasWallet} />
 				) : (  

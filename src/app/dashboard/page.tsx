@@ -9,6 +9,7 @@ import {
 	Users,
 	Banknote,
 	Bell,
+	Wallet,
 } from "lucide-react";
 
 import {
@@ -169,7 +170,7 @@ const page = () => {
 					{/* Action Buttons */}
 					<div className="grid md:grid-cols-3 grid-cols-1  gap-3 py-5 text-center">
 						<Link
-							href="/dashboard/plans"
+							href="/dashboard/create-locked-savings"
 							className="flex w-full col-span-1 border items-center justify-center m-auto text-black hover:text-white bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] gap-2 py-2 rounded-full text-sm font-semibold "
 						>
 							<span>
@@ -187,13 +188,13 @@ const page = () => {
 							Create Contribution
 						</Link>
 						<Link
-							href="/dashboard/create-savings"
+							href="/dashboard/wallet"
 							className="flex w-full col-span-1 border items-center justify-center m-auto text-black hover:text-white bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] gap-2 py-2 rounded-full text-sm font-semibold "
 						>
 							<span>
-								<Banknote />{" "}
+								<Wallet />{" "}
 							</span>
-							Join group savings
+							Wallet
 						</Link>
 					</div>
 

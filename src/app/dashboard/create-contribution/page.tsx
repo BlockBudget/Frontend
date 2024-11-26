@@ -5,12 +5,12 @@ import React from "react";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { abi2 } from "@/context/abi";
-import { useWriteContract, useWaitForTransactionReceipt, useAccount, useReadContract } from "wagmi";
+import { useWriteContract, useWaitForTransactionReceipt, } from "wagmi";
 import { parseEther } from "viem";
 import { useRouter } from "next/navigation";
 import { useUserProfile } from "@/hooks/RegisteredUser";
 
-function CreateSavingsGroup() {
+function CreateContribution() {
 	const [savingsName, setSavingsName] = useState("");
 	const [description, setDescription] = useState("");
 	const [targetAmount, setTargetAmount] = useState("0");
@@ -30,11 +30,12 @@ function CreateSavingsGroup() {
 
 	const handleCreateNewContribution = async (e: any) => {
 		e.preventDefault();
-		setIsLoading(true);
 		if (description == "") {
 			toast.error("Description cannot  be Empty!");
 			return;
-		  }
+		}
+		
+		setIsLoading(true);
 		  
 		try {
 			const targetAmountToReach = parseEther(targetAmount);
@@ -180,7 +181,7 @@ function CreateSavingsGroup() {
 							type="submit"
 							className="w-full py-2 mt-4 bg-gradient-to-r from-[#2c50f3cc] to-[#2c50f39d]  text-white border border-[#DADADA]  font-semibold rounded-xl hover:bg-[#131418]  transition duration-200"
 						>
-							Create Group
+							{isLoading ? "loading..." : "Create Group"}
 						</button>
 					</form>
 
@@ -193,4 +194,4 @@ function CreateSavingsGroup() {
 	);
 }
 
-export default CreateSavingsGroup;
+export default CreateContribution;

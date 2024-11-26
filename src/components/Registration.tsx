@@ -53,7 +53,7 @@ const Registration = () => {
     if (isUserTxConfirmed && userTxHash) {
       setIsLoading(false);
       toast.success("Account created successfully!");
-      router.push("/dashboard");
+      router.push("/dashboard/wallet");
       setUserTxHash("" as `0x${string}`);
     }
   }, [isUserTxConfirmed, userTxHash, router]);
