@@ -38,6 +38,7 @@ const WalletDashboard = () => {
         )
         const price = response.data.lisk.usd;
         const value = price * balance;
+        console.log(price);
         setLskPrice(value)
         
       } catch (error) {

@@ -2,8 +2,8 @@
 import React from "react";
 import Avatar from "@/components/Avatar";
 import { useReadContract,useAccount } from "wagmi";
-import { abi } from "../../../context/abi";
-import { contractAddress } from "../../../context/contractAddress";
+import { abi } from "@/context/abi";
+import { contractAddress2 } from "@/context/contractAddress";
 import { useState, useEffect } from "react";
 import { formatEther } from "viem";
 
@@ -12,7 +12,7 @@ function CreateLockedSavings() {
     const {address} = useAccount();
 
     const {data,isLoading,error,isSuccess}:any = useReadContract({
-        address: contractAddress,
+        address: contractAddress2,
         abi: abi,
         functionName: "getTimeLockedAccountDetails",
         args: address ? [address] : []

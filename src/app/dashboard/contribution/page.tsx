@@ -10,9 +10,10 @@ import React from "react";
 const ContributionList = () => {
 	const router = useRouter();
 	const { isConnected, address } = useAccount();
+	const [contributions, setContributions] = useState<any>([]);
 	const [userContractAddress, setUserContractAddress] = useState("" as `0x${string}`);
 
-	const { data: userAddress, isSuccess: success, error} = useReadContract({
+	const { data: userAddress} = useReadContract({
 		abi:abi2,
 		address: contractAddress2,
 		functionName: 'getUserBudget',
@@ -36,38 +37,43 @@ const ContributionList = () => {
 	  });
 
 	 
-		const {data:details} = useReadContract({
+		const {data, isSuccess:success} = useReadContract({
 		  abi: abi2,
 		  address: userContractAddress,
-		  args: ['0x1e4207b19218cee6752142783128bad6bca9446d82a060e7b1a569d8aa151c17'],
-		  functionName: 'getCampaignDetails',
+		//   args: ['0x1e4207b19218cee6752142783128bad6bca9446d82a060e7b1a569d8aa151c17'],
+		  functionName: 'getAllCampaigns',
 		  account: address,
 		});
 	
 
 	console.log(allContributions)
-	console.log(details)
+	console.log(data)
+	useEffect(() => {
+		if (success && data) {
+			setContributions(data)
+		}
+	  }, [success, data]);
 
-	const contributions = [
-		{
-			id: 1,
-			name: "December Savings",
-			total: "₦632,000",
-			dueDate: "Oct 4, 2024",
-		},
-		{
-			id: 2,
-			name: "January Savings",
-			total: "₦500,000",
-			dueDate: "Jan 10, 2025",
-		},
-		{
-			id: 3,
-			name: "February Savings",
-			total: "₦450,000",
-			dueDate: "Feb 15, 2025",
-		},
-	];
+	// const contributions = [
+	// 	{
+	// 		id: 1,
+	// 		name: "December Savings",
+	// 		total: "₦632,000",
+	// 		dueDate: "Oct 4, 2024",
+	// 	},
+	// 	{
+	// 		id: 2,
+	// 		name: "January Savings",
+	// 		total: "₦500,000",
+	// 		dueDate: "Jan 10, 2025",
+	// 	},
+	// 	{
+	// 		id: 3,
+	// 		name: "February Savings",
+	// 		total: "₦450,000",
+	// 		dueDate: "Feb 15, 2025",
+	// 	},
+	// ];
 
 	const handleClick = (id:any) => {
 		router.push(`/dashboard/contribution/${id}`);
@@ -82,7 +88,7 @@ const ContributionList = () => {
 				</Link>
 			</div>
 			<div className="space-y-4">
-				{contributions.map((contribution) => (
+				{/* {contributions.map((contribution) => (
 					<div
 						key={contribution.id}
 						
@@ -102,7 +108,7 @@ const ContributionList = () => {
 							View details
 						</button>
 					</div>
-				))}
+				))} */}
 			</div>
 		</div>
 	);
