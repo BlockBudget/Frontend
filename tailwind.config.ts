@@ -17,7 +17,10 @@ export default {
          'borderColor':'#344054',
          'gray-medium': '#9A9A9A',
       },
-      
+      animation: {
+        'spin-slow': 'spin 2.5s linear infinite',
+        'spin': 'spin 1s linear infinite'
+      },
       fontFamily: {
         montserrat: ["Montserrat"],
       },

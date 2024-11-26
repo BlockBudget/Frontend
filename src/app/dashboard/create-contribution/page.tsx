@@ -5,7 +5,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { abi2 } from "@/context/abi";
-import { useWriteContract, useWaitForTransactionReceipt, } from "wagmi";
+import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { parseEther } from "viem";
 import { useRouter } from "next/navigation";
 import { useUserProfile } from "@/hooks/RegisteredUser";
@@ -17,10 +17,10 @@ function CreateContribution() {
 	const [duration, setDuration] = useState("");
 	const [isPrivate, setIsPrivate] = useState(true);
 	const [txHash, setTxHash] = useState<`0x${string}` | null>(null);
-	const { userAddress }:any = useUserProfile();
+	const { userAddress }: any = useUserProfile();
 	const [isLoading, setIsLoading] = useState(false);
 	const router = useRouter();
-	
+
 	const { writeContractAsync, isPending } = useWriteContract();
 
 	const convertMonthsToDays = (months: number): number => {
@@ -34,9 +34,9 @@ function CreateContribution() {
 			toast.error("Description cannot  be Empty!");
 			return;
 		}
-		
+
 		setIsLoading(true);
-		  
+
 		try {
 			const targetAmountToReach = parseEther(targetAmount);
 			const durationInDays = convertMonthsToDays(Number(duration));
@@ -72,7 +72,7 @@ function CreateContribution() {
 		if (isConfirmed) {
 			setIsLoading(false);
 			toast.success("New Campaign Created Successfully");
-			router.push("/dashboard/contribution")
+			router.push("/dashboard/contribution");
 		}
 	}, [isConfirmed]);
 	return (
@@ -173,21 +173,28 @@ function CreateContribution() {
 								<option value="6">6 Months</option>
 								<option value="12">1 Year</option>
 							</select>
-							
 						</div>
 
 						<button
 							onClick={handleCreateNewContribution}
 							type="submit"
-							className="w-full py-2 mt-4 bg-gradient-to-r from-[#2c50f3cc] to-[#2c50f39d]  text-white border border-[#DADADA]  font-semibold rounded-xl hover:bg-[#131418]  transition duration-200"
+							className={`w-full py-2 rounded-lg text-white font-semibold transition-colors ${
+								isLoading
+									? "bg-gray-400 cursor-not-allowed"
+									: "bg-blue-600 hover:bg-blue-700"
+							}`}
 						>
-							{isLoading ? "loading..." : "Create Group"}
+							{isLoading ? (
+								<div className="relative w-5 h-5 m-auto">
+									<div className="absolute inset-0 border-2 border-blue-100 rounded-full animate-spin-slow"></div>
+									<div className="absolute inset-0 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+								</div>
+							) : (
+								"Create Group"
+							)}
 						</button>
 					</form>
 
-					{/* <div className="absolute bg-opacity-50  backdrop:blur-lg   bg-gray-800 left-0 right-0 h-full -z-5 w-full rounded-full -bottom-[300px]">
-						<div className=" bg-gray-700/20 h-1/2  m-auto mt-20 w-3/5 blur-sm rounded-full"></div>
-					</div> */}
 				</div>
 			</div>
 		</>
