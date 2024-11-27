@@ -79,7 +79,7 @@ const ContributionList = () => {
 					<div
 						key={campaignIds[index]}
 						
-						className="flex justify-between items-center bg-[] hover:bg-[#0039CE1A] px-6 py-4 rounded-lg cursor-pointer shadow-md"
+						className="flex justify-between items-center border hover:bg-[#0039CE1A] px-6 py-4 rounded-lg cursor-pointer shadow-md"
 					>
 						
 						<div>
@@ -90,7 +90,7 @@ const ContributionList = () => {
 						</div>
 						<div className="">
 							<p>Target Savings</p>
-							<span className="text-lg font-bold">{formatEther(contribution.result[3].toString())} ETH</span>
+							<span className="text-lg font-bold">{formatEther(contribution.result[3].toString())} LSK</span>
 							</div>
 						<button className="px-6 py-2  font-medium border bg-[#003ace8f]  text-sm text-white rounded-xl shadow-md " onClick={()=>handleClick(campaignIds[index])}>
 							View details

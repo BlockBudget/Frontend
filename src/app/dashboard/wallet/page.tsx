@@ -175,7 +175,6 @@ const WalletDashboard = () => {
 			setDxHash(tx as `0x${string}`);
 		} catch (error: any) {
 			setIsLoading(false);
-			console.log(error);
 
 			toast.error("Something went wrong.", error);
 		}
@@ -320,7 +319,9 @@ const WalletDashboard = () => {
 									className="flex items-center justify-between py-3 border-b last:border-0"
 								>
 									<div className="flex items-center gap-3">
-										{tx.transactionType === "Received" ? (
+
+										{tx.transactionType === "deposit" ? (
+
 											<div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
 												<ArrowDownRight className="w-5 h-5 text-green-600" />
 											</div>

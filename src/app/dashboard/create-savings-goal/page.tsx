@@ -152,9 +152,6 @@ function CreateSavingsGoal() {
 						</button>
 					</form>
 
-					{/* <div className="absolute bg-opacity-40 z-0 backdrop-blur-lg bg-gray-800 left-0 right-0 h-full -z-5 w-full rounded-full -bottom-[200px]">
-						<div className="bg-gray-700/20 h-1/2 m-auto mt-20 w-3/5 blur-sm rounded-full"></div>
-					</div> */}
 				</div>
 			</div>
 		</>
