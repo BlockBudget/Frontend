@@ -74,7 +74,7 @@ const ContributionList = () => {
 			</div>
 			<div className="space-y-4">
 				{campaignDetailsQueries ? (
-					<div>
+					<div className="space-y-5">
 						{campaignDetailsQueries.map((contribution:any, index) => (
 					<div
 						key={campaignIds[index]}
