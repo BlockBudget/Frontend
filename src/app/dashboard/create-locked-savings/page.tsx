@@ -146,15 +146,12 @@ function CreateLockedSavings() {
 
 						<button
 							type="submit"
-							className="w-full py-2 mt-4 bg-gradient-to-r from-[#9C2CF3] to-[#3A6FF9] [border-[#DADADA]] border text-white font-semibold rounded-full hover:bg-[#131418] transition duration-200"
+							className="w-full py-2 mt-4 bg-blue-600 hover:bg-blue-700  border text-white font-semibold rounded-full transition duration-200"
 						>
 							{isPending ? "Confirming..." : "Create Savings"}
 						</button>
 					</form>
 
-					{/* <div className="absolute bg-opacity-40 z-0 backdrop-blur-lg bg-gray-800 left-0 right-0 h-full -z-5 w-full rounded-full -bottom-[200px]">
-						<div className="bg-gray-700/20 h-1/2 m-auto mt-20 w-3/5 blur-sm rounded-full"></div>
-					</div> */}
 				</div>
 			</div>
 		</>
