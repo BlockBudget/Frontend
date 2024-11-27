@@ -178,7 +178,6 @@ const SavingsDashboard = () => {
 			toast.success("Withdrawal Initiated. Waiting for confirmation...");
 		} catch (error) {
 			console.log(error);
-
 			toast.error("Withdrawal failed: " + error);
 		}
 	};
