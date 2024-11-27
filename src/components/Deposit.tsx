@@ -1,6 +1,8 @@
 import { X } from "lucide-react";
 import React from "react";
+
 import Image from "next/image"
+
 
 interface DepositProps {
     setIsDepositModalOpen: (open: boolean) => void;
