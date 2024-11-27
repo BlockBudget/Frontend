@@ -153,7 +153,6 @@ console.log(whitelist);
 			if(!isConnected){
 				toast.error("Please connect your wallet");
 			}
-
 			setIsLoading(true);
 			const tx = await writeContractAsync({
 				abi: abi,
