@@ -1,4 +1,3 @@
-
 "use client";
 import {
 	AreaChart,
@@ -16,26 +15,35 @@ import { Command, Minus, PiggyBank, Plus, Target, X } from "lucide-react";
 
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { isAddress } from "viem";
-import { useAccount, useReadContract, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
+import { isAddress, parseEther } from "viem";
+import {
+	useAccount,
+	useReadContract,
+	useWaitForTransactionReceipt,
+	useWriteContract,
+} from "wagmi";
 import WhitelistModal from "@/components/WhitelistModal";
-import { useParams } from 'next/navigation'
+import PayNow from "@/components/PayNow";
+import { useParams } from "next/navigation";
 import ProgressBar from "@/components/ProgressBar";
 import { formatEther } from "viem";
 import { useUserProfile } from "@/hooks/RegisteredUser";
 
-
 const SavingsDashboard = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	const [addresses, setAddresses] = useState([""]); 
+	const [isPayModalOpen, setPayIsModalOpen] = useState(false);
+	const [addresses, setAddresses] = useState([""]);
 	const { writeContract } = useWriteContract();
-	const params = useParams()
+	const params = useParams();
 	const { isConnected, address } = useAccount();
 	const [campaignDetail, setCampaignDetails] = useState<any>();
 	const [txHash, setTxHash] = useState<`0x${string}` | null>(null);
+	const [txPayHash, setTxPayHash] = useState<`0x${string}` | null>(null);
+
 	const { writeContractAsync, isPending } = useWriteContract();
 	const [isLoading, setIsLoading] = useState(false);
-	const {userAddress}=useUserProfile();
+	const { userAddress }: any = useUserProfile();
+	const [amount, setAmount] = useState("");
 
 	const mockPriceHistory = [
 		{ date: "Jan", price: 4000 },
@@ -46,28 +54,25 @@ const SavingsDashboard = () => {
 		{ date: "Jun", price: 5500 },
 	];
 
-
-	const {data:details, isSuccess}:any = useReadContract({
+	const { data: details, isSuccess }: any = useReadContract({
 		abi: abi2,
 		address: userAddress as `0x${string}`,
 		args: [params.contributionId],
-		functionName: 'getCampaignDetails',
+		functionName: "getCampaignDetails",
 		account: address,
-	  });
+	});
 
-	  const {data:whitelist}:any = useReadContract({
+	const { data: whitelist }: any = useReadContract({
 		abi: abi2,
 		address: userAddress as `0x${string}`,
 		args: [params.contributionId],
-		functionName: 'getAllWhitelistedAddresses',
+		functionName: "getAllWhitelistedAddresses",
 		account: address,
-	  });
-console.log(whitelist);
+	});
+	console.log(whitelist);
 
-
-	  useEffect(()=>{
+	useEffect(() => {
 		if (isConnected && isSuccess && details) {
-      
 			const campaignDetails = {
 				name: details[0],
 				description: details[1],
@@ -80,21 +85,19 @@ console.log(whitelist);
 				isPrivate: details[8],
 			};
 			setCampaignDetails(campaignDetails);
-		
-		  } 
-	  },[details,isSuccess ]);
+		}
+	}, [details, isSuccess]);
 
-	  const {data:whitelistAdr, isSuccess: successful}:any = useReadContract({
+	const { data: whitelistAdr, isSuccess: successful }: any = useReadContract({
 		abi: abi2,
 		address: userAddress as `0x${string}`,
 		args: [params.contributionId],
-		functionName: 'getCampaignDetails',
+		functionName: "getCampaignDetails",
 		account: address,
-	  });
+	});
 
-	  useEffect(()=>{
+	useEffect(() => {
 		if (isConnected && successful && whitelistAdr) {
-      
 			const campaignDetails = {
 				name: details[0],
 				description: details[1],
@@ -107,22 +110,16 @@ console.log(whitelist);
 				isPrivate: details[8],
 			};
 			setCampaignDetails(campaignDetails);
-		
-		  } 
-	  },[details,isSuccess ]);
+		}
+	}, [details, isSuccess]);
 
-
-	  
-	const handleAddUsers = async(addresses: any) => {
+	const handleAddUsers = async (addresses: any) => {
 		try {
-			if(!isConnected){
+			if (!isConnected) {
 				toast.error("Please connect your wallet");
-			}
-			else if (addresses === "") {
+			} else if (addresses === "") {
 				toast.error("Please enter an address!");
-				
-			}
-			else if (!isAddress(addresses)) {
+			} else if (!isAddress(addresses)) {
 				toast.error("Please enter a valid address!");
 			}
 			setIsLoading(true);
@@ -130,26 +127,86 @@ console.log(whitelist);
 				abi: abi,
 				address: userAddress as `0x${string}`,
 				functionName: "whitelistAddresses",
-				args: [
-					params.contributionId,
-					addresses,
-				],
+				args: [params.contributionId, addresses],
 			});
 			setTxHash(tx);
 			toast.success("Campaign Submitted. Waiting for confirmation...");
 		} catch (error: any) {
-			setIsLoading(false)
+			setIsLoading(false);
 			console.log(error);
-			
+
 			toast.error("Failed to whitelist addresses. Check your inputs:", error);
 		}
 	};
 
-	const {isSuccess: isConfirmed } =
-		useWaitForTransactionReceipt({
-			hash: txHash ?? undefined,
-		});
-		
+	const handlePay = async (e: any) => {
+		e.preventDefault();
+		try {
+			if (!isConnected) {
+				toast.error("Please connect your wallet");
+			}
+
+			setIsLoading(true);
+			const tx = await writeContractAsync({
+				abi: abi,
+				address: userAddress as `0x${string}`,
+				functionName: "contributeToCompaign",
+				args: [params.contributionId],
+				value: parseEther(amount),
+			});
+			setTxPayHash(tx);
+			toast.success("Payment Submitted. Waiting for confirmation...");
+		} catch (error: any) {
+			setIsLoading(false);
+			console.log(error);
+			setPayIsModalOpen(false);
+			toast.error("Failed to pay. Check your inputs:", error);
+		}
+	};
+
+	const handleWithdrawal = async (e: any) => {
+		e.preventDefault();
+		try {
+			const tx = await writeContractAsync({
+				address: userAddress,
+				abi: abi2,
+				functionName: "withdrawContribution",
+				args: [params.contributionId],
+			});
+
+			setTxHash(tx);
+			toast.success("Withdrawal Initiated. Waiting for confirmation...");
+		} catch (error) {
+			console.log(error);
+
+			toast.error("Withdrawal failed: " + error);
+		}
+	};
+
+	const { isSuccess: withdrawalConfirmed } = useWaitForTransactionReceipt({
+		hash: txHash ?? undefined,
+	});
+	const { isSuccess: Confirmedpay } = useWaitForTransactionReceipt({
+		hash: txPayHash ?? undefined,
+	});
+
+	const { isSuccess: isConfirmed } = useWaitForTransactionReceipt({
+		hash: txHash ?? undefined,
+	});
+
+	useEffect(() => {
+		if (Confirmedpay) {
+			toast.success("You have contributed successfully!");
+			setPayIsModalOpen(false);
+		}
+	}, [withdrawalConfirmed]);
+
+	useEffect(() => {
+		if (withdrawalConfirmed) {
+			toast.success("Withdrawal successful!");
+		}
+	}, [withdrawalConfirmed]);
+
 	useEffect(() => {
 		if (isConfirmed) {
 			toast.success("Address have been successfully whitelisted!");
@@ -159,34 +216,45 @@ console.log(whitelist);
 		}
 	}, [isConfirmed]);
 
-	const completionPercentage = 39;
+	const completionPercentage = 1;
 	return (
 		<>
 			<div className="min-h-screen  from-white to-gray-100 p-6">
 				{/* Welcome Header */}
-				<div className="mb-8 flex gap-4">
-					<div className="bg-white bg-gradient-to-r from-[#003aceb7] to-[#003ace8f]  overflow-hidden relative  md:w-[512px] h-[215px] border-2 space-x-3 flex p-6 rounded-lg shadow-md justify-center text-center">
+				<div className="mb-8 flex justify-center gap-4">
+					<div className="bg-white bg-gradient-to-r from-[#003aceb7] w-1/2 to-[#003ace8f]  overflow-hidden relative   h-[215px] border-2 space-x-3 flex p-6 rounded-lg shadow-md justify-center text-center">
 						<div className="text-white py-5">
 							<p className="text-sm font-bold my-3">Available for withdrawal</p>
-							<h3 className="text-sm  my-3">$ {campaignDetail?.totalContributed ?campaignDetail?.totalContributed : "0.00" }</h3>
+							<h3 className="text-sm  my-3">
+								${" "}
+								{campaignDetail?.totalContributed
+									? campaignDetail?.totalContributed
+									: "0.00"}
+							</h3>
 
-							<button className=" text-white font-medium py-2 px-4 bg-gradient-to-r from-[#003aceda] to-[#003aceaf] shadow-md w-72 rounded-full">
+							<button
+								onClick={handleWithdrawal}
+								className=" text-white font-medium py-2 px-4 bg-gradient-to-r from-[#003aceda] to-[#003aceaf] shadow-md w-72 rounded-full"
+							>
 								Withdraw
 							</button>
 						</div>
-
 					</div>
 
-					<div className="bg-white p-6 rounded-lg shadow-md md:w-[725px]">
-						<p className="text-xl font-bold text-black">{campaignDetail?.name} Contribution</p>
-						<p className="text-black text-sm"><span className="text-black font-bold">Close date:</span> {new Date(Number(campaignDetail?.deadline) * 1000).toDateString() }</p>
+					<div className="bg-white p-6 rounded-lg shadow-md w-1/2 ">
+						<p className="text-xl font-bold text-black">
+							{campaignDetail?.name} Contribution
+						</p>
+						<p className="text-black text-sm">
+							<span className="text-black font-bold">Close date:</span>{" "}
+							{new Date(Number(campaignDetail?.deadline) * 1000).toDateString()}
+						</p>
 						<div className="my-4">
 							<div className="text-black">
 								<ProgressBar percentage={completionPercentage} />
 							</div>
 						</div>
 					</div>
-
 				</div>
 
 				{/* Main Section */}
@@ -198,7 +266,9 @@ console.log(whitelist);
 							</div>
 							<div>
 								<h3 className="text-sm text-gray-800">Target Savings</h3>
-								<p className="text-2xl font-bold text-black">$ {campaignDetail?.targetAmount}</p>
+								<p className="text-2xl font-bold text-black">
+									{campaignDetail?.targetAmount} LSK
+								</p>
 							</div>
 						</div>
 						<div className="flex items-center left-48 top-0 justify-center w-52 h-52 absolute rounded-full bg-[#003ace11]">
@@ -214,7 +284,12 @@ console.log(whitelist);
 							</div>
 							<div>
 								<h3 className="text-sm text-gray-800">Total Accumulated</h3>
-								<p className="text-2xl font-bold text-black">$ {campaignDetail?.totalContributed ?campaignDetail?.totalContributed : "0.00" }</p>
+								<p className="text-2xl font-bold text-black">
+									${" "}
+									{campaignDetail?.totalContributed
+										? campaignDetail?.totalContributed
+										: "0.00"}
+								</p>
 							</div>
 						</div>
 						<div className="flex items-center left-48 top-0 justify-center w-52 h-52 absolute rounded-full bg-[#003ace11]">
@@ -241,19 +316,23 @@ console.log(whitelist);
 					</div>
 				</div>
 
-				<div className="flex md:flex-row flex-col justify-between items-center my-10">
-
-					<div className="space-x-4">
+				<div className=" justify-between items-center my-10">
+					<div className="grid grid-cols-3 gap-5">
+						{campaignDetail?.isPrivate && (
+							<button
+								onClick={() => setIsModalOpen(true)}
+								className="px-6  rounded-full py-3 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium text-sm text-black  shadow-md "
+							>
+								Add Contributors
+							</button>
+						)}
 						<button
-							onClick={() => setIsModalOpen(true)}
-							className="px-6 md:w-[405px] rounded-full py-3 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium text-sm text-black  shadow-md "
+							onClick={() => setPayIsModalOpen(true)}
+							className="px-6  rounded-full py-3 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black  shadow-md "
 						>
-							Add Contributors
-						</button>
-						<button className="px-6 md:w-[405px] rounded-full py-3 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black  shadow-md ">
 							Pay Now
 						</button>
-						<button className="px-6 py-2 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black rounded-xl hover:">
+						<button className="px-6 py-3 col-span-1 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black rounded-full hover:">
 							Refund
 						</button>
 					</div>
@@ -262,13 +341,19 @@ console.log(whitelist);
 				{/* Savings Metrics */}
 				<div className="flex gap-2">
 					<div className="md:w-full bg-white p-6 rounded-lg shadow-md mt-8">
-						<h3 className="text-lg font-bold text-gray-800">Pool savings metrics</h3>
+						<h3 className="text-lg font-bold text-gray-800">
+							Pool savings metrics
+						</h3>
 						<ResponsiveContainer width="100%" height={300}>
 							<AreaChart data={mockPriceHistory}>
 								<defs>
 									<linearGradient id="colorSavings" x1="0" y1="0" x2="0" y2="1">
 										<stop offset="5%" stopColor="#003ace8f" stopOpacity={0.8} />
-										<stop offset="95%" stopColor="#003ace8f" stopOpacity={0.1} />
+										<stop
+											offset="95%"
+											stopColor="#003ace8f"
+											stopOpacity={0.1}
+										/>
 									</linearGradient>
 								</defs>
 								<CartesianGrid strokeDasharray="3 3" />
@@ -287,24 +372,24 @@ console.log(whitelist);
 					</div>
 
 					{/* Member Contributions */}
-					{campaignDetail?.isPrivate  && 
-					<div className="md:w-[404px] bg-white  rounded-lg shadow-md ">
-						<p className="w-full text-white rounded-lg text-base bg-gradient-to-r from-[#003aceb7] to-[#003ace8f]  py-4 font-bold  justify-center text-center">Whitelist member contributions</p>
-						<div className="mt-4 space-y-8 p-6">
-							<div>{campaignDetail?.contributorCount}</div>
-							 {/* { */}
-							{/* whitelist.map((name, index) => (
+					{campaignDetail?.isPrivate && (
+						<div className="md:w-[404px] bg-white  rounded-lg shadow-md ">
+							<p className="w-full text-white rounded-lg text-base bg-gradient-to-r from-[#003aceb7] to-[#003ace8f]  py-4 font-bold  justify-center text-center">
+								Whitelist member contributions
+							</p>
+							<div className="mt-4 space-y-8 p-6">
+								<div>{campaignDetail?.contributorCount}</div>
+								{/* { */}
+								{/* whitelist.map((name, index) => (
 								<div key={index} className="flex justify-between items-center text-gray-600">
 									<span>{name}</span>
 									<span>₦100,000,000</span>
 								</div>
 							)) */}
-							{/* }  */}
-							
+								{/* }  */}
+							</div>
 						</div>
-
-					</div>
-					}
+					)}
 				</div>
 			</div>
 
@@ -318,10 +403,18 @@ console.log(whitelist);
 					setAddresses={setAddresses}
 				/>
 			)}
-
+			{/* Paynow modal */}
+			{isPayModalOpen && (
+				<PayNow
+					setPayIsModalOpen={setPayIsModalOpen}
+					handlePay={handlePay}
+					amount={amount}
+					setAmount={setAmount}
+					isLoading={isLoading}
+				/>
+			)}
 		</>
 	);
 };
 
 export default SavingsDashboard;
-

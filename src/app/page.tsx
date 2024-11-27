@@ -2,7 +2,7 @@
 import { ConnectBtn } from "@/components/ConnectBtn";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import { useUserProfile } from "../hooks/RegisteredUser";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import StartJourney from "@/components/StartJourney";
@@ -10,6 +10,7 @@ import Footer from "@/components/Footer";
 
 const LandingPage = () => {
 	const { userProfile, isConnected } = useUserProfile();
+	
 
 	return (
 		<>

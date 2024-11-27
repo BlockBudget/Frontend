@@ -6,23 +6,23 @@ interface ProgressBarProps {
 
 const ProgressBar: React.FC<ProgressBarProps> = ({ percentage }) => {
   return (
-    <div className="my-9 relative">
-      {/* Outer Progress Bar Container */}
-      <div className="w-full h-[19px] bg-transparent justify-center items-center rounded-full border-2 border-[#003ace9f]">
-        {/* Inner Bar */}
-        <div
-          className="bg-[#003acec2] h-[16px] rounded-full border-2 border-white ml-1"
-          style={{ width: `${percentage}%` }}
-        ></div> 
-        {/* Percentage Text */}
-        <p
-          className="text-sm absolute top-[18px] transform -translate-x-1/2"
-          style={{ left: `${percentage}%` }}
-        >
-          {percentage}% completed
-        </p>
-      </div>
+    <div className="my-9 relative w-full">
+    {/* Outer Progress Bar Container */}
+    <div className="w-full h-5 bg-gray-200 rounded-full border border-blue-300 overflow-hidden">
+      {/* Inner Progress Bar */}
+      <div
+        className="bg-blue-600 h-full rounded-full transition-all duration-300 ease-in-out"
+        style={{ width: `${percentage}%` }}
+      ></div>
     </div>
+    {/* Percentage Text */}
+    <p
+      className="text-xs sm:text-sm absolute top-6 left-12 transform -translate-x-1/2 translate-y-1/2 text-blue-700 font-medium"
+      // style={{ left: `${percentage}%` }}
+    >
+      {percentage}% completed
+    </p>
+  </div>
   );
 };
 

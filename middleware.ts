@@ -1,22 +1,39 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
- 
+import { NextRequest, NextResponse } from 'next/server';
 
-// const path = request.nextUrl.pathname
-  
-// // Define paths that require wallet connection
-// const isProtectedPath = path.startsWith('/dapp') || 
-//                        path.startsWith('/swap') || 
-//                        path.startsWith('/stake')
+export function middleware(request: NextRequest) {
+  // Get the pathname of the request (e.g. /, /dashboard)
+  const path = request.nextUrl.pathname;
 
-// // Check if user has connected their wallet before
-// // We'll store this in a cookie when they connect
-// const isWalletConnected = request.cookies.get('walletConnected')?.value
-// // See "Matching Paths" below to learn more
-// if (isProtectedPath && !isWalletConnected) {
-//     return NextResponse.redirect(new URL('/connect-wallet', request.nextUrl))
-//   }
+  // Define routes that require authentication
+  const protectedRoutes = ['/dashboard', '/dashboard/create-contribution', '/wallet'];
 
-// export const config = {
-//   matcher: '/about/:path*',
-// }
+  // Check if the current path is a protected route
+  const isProtectedRoute = protectedRoutes.some(route => path.startsWith(route));
+
+  // Check if the user is authenticated (wallet connected)
+  const token = request.cookies.get('wallet_connected')?.value;
+
+  // If trying to access a protected route without being authenticated
+  if (isProtectedRoute && !token) {
+    // Redirect to the connect wallet page
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+
+  // If already on connect wallet page and authenticated, redirect to dashboard
+  if (path === '/' && token) {
+    return NextResponse.redirect(new URL('/wallet', request.url));
+  }
+
+  // Continue with the request
+  return NextResponse.next();
+}
+
+// See "Matching Paths" below to learn more
+export const config = {
+  matcher: [
+    '/dashboard/:path*', 
+    '/create-contribution/:path*', 
+    '/wallet/:path*', 
+    '/connect-wallet'
+  ]
+}

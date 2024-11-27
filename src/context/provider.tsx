@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 // import { ThirdwebProvider } from "thirdweb/react";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
@@ -11,17 +11,15 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
 	
 	const queryClient = new QueryClient();
 	return (
-		<div>
+		<>
 			<WagmiProvider config={config}>
 				<QueryClientProvider client={queryClient}>
-					{/* <ThirdwebProvider> */}
 					<RainbowKitProvider modalSize="compact">
 						{children}
 					</RainbowKitProvider>
-					{/* </ThirdwebProvider> */}
 				</QueryClientProvider>
 			</WagmiProvider>
-		</div>
+		</>
 	);
 };
 
