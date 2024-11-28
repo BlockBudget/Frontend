@@ -28,6 +28,7 @@ import { useParams } from "next/navigation";
 import ProgressBar from "@/components/ProgressBar";
 import { formatEther } from "viem";
 import { useUserProfile } from "@/hooks/RegisteredUser";
+import { decodeErrorResult } from "viem";
 
 // Create a new component for the confirmation modal
 const ConfirmationModal = ({ isOpen, onClose, onConfirm }: any) => {
@@ -41,13 +42,13 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm }: any) => {
 				<div className="flex justify-end mt-4">
 					<button
 						onClick={onClose}
-						className="px-4 py-2 mr-2 bg-gray-200 rounded-lg"
+						className="px-4 bg-red-500 py-2 mr-2 bg-gray-200 rounded-lg"
 					>
 						Cancel
 					</button>
 					<button
 						onClick={onConfirm}
-						className="px-4 py-2 bg-red-500 text-white rounded-lg"
+						className="px-4 py-2 bg-gradient-to-r from-[#003aceb7] w-1/2 to-[#003ace8f] text-white rounded-lg"
 					>
 						Proceed
 					</button>
@@ -159,8 +160,11 @@ const SavingsDashboard = () => {
 			toast.success("Ending Campaign. Waiting for confirmation...");
 			setEndIsModalOpen(false);
 		} catch (error: any) {
-			console.log(error);
-			toast.error("Failed to end campaign. Check your inputs:", error);
+			
+			if (error.message.includes("0x66ec4ee6")) {
+				toast.error("Failed to end campaign. Deadline has not reached yet!");
+			}
+			//decoding  error
 		}
 	};
 
@@ -403,7 +407,7 @@ const SavingsDashboard = () => {
 							onClick={() => setEndIsModalOpen(true)}
 							className="px-6 py-3 col-span-1 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium text-sm text-black rounded-full"
 						>
-							End Campaign
+							{isLoading ? "Ending..." : "End Campaign"}
 						</button>
 					</div>
 				</div>
