@@ -29,9 +29,38 @@ import ProgressBar from "@/components/ProgressBar";
 import { formatEther } from "viem";
 import { useUserProfile } from "@/hooks/RegisteredUser";
 
+// Create a new component for the confirmation modal
+const ConfirmationModal = ({ isOpen, onClose, onConfirm }: any) => {
+	if (!isOpen) return null;
+
+	return (
+		<div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+			<div className="bg-white text-black p-6 rounded-lg shadow-md">
+				<h2 className="text-lg font-bold mb-4">Confirm End Campaign</h2>
+				<p>Are you sure you want to end this campaign?</p>
+				<div className="flex justify-end mt-4">
+					<button
+						onClick={onClose}
+						className="px-4 py-2 mr-2 bg-gray-200 rounded-lg"
+					>
+						Cancel
+					</button>
+					<button
+						onClick={onConfirm}
+						className="px-4 py-2 bg-red-500 text-white rounded-lg"
+					>
+						Proceed
+					</button>
+				</div>
+			</div>
+		</div>
+	);
+};
+
 const SavingsDashboard = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isPayModalOpen, setPayIsModalOpen] = useState(false);
+	const [isEndModalOpen, setEndIsModalOpen] = useState(false);
 	const [addresses, setAddresses] = useState([""]);
 	const { writeContract } = useWriteContract();
 	const params = useParams();
@@ -113,6 +142,28 @@ const SavingsDashboard = () => {
 		}
 	}, [details, isSuccess]);
 
+	const handleEndCampaign = async () => {
+		//check if the campaign is active. Therefore there should be an enum to check if the campaign is active to read
+		if (!campaignDetail?.isActive) {
+			toast.error("Campaign has been ended already!");
+			return;
+		}
+		try {
+			const tx = await writeContractAsync({
+				abi: abi2,
+				address: userAddress as `0x${string}`,
+				functionName: "endCampaign",
+				args: [params.contributionId],
+			});
+			setTxHash(tx);
+			toast.success("Ending Campaign. Waiting for confirmation...");
+			setEndIsModalOpen(false);
+		} catch (error: any) {
+			console.log(error);
+			toast.error("Failed to end campaign. Check your inputs:", error);
+		}
+	};
+
 	const handleAddUsers = async (addresses: any) => {
 		try {
 			if (!isConnected) {
@@ -182,6 +233,10 @@ const SavingsDashboard = () => {
 		}
 	};
 
+	const { isSuccess: endConfirmed } = useWaitForTransactionReceipt({
+		hash: txHash ?? undefined,
+	});
+
 	const { isSuccess: withdrawalConfirmed } = useWaitForTransactionReceipt({
 		hash: txHash ?? undefined,
 	});
@@ -192,6 +247,13 @@ const SavingsDashboard = () => {
 	const { isSuccess: isConfirmed } = useWaitForTransactionReceipt({
 		hash: txHash ?? undefined,
 	});
+
+	useEffect(() => {
+		if (endConfirmed) {
+			toast.success("Campaign ended successfully!");
+			setEndIsModalOpen(false);
+		}
+	}, [endConfirmed]);
 
 	useEffect(() => {
 		if (Confirmedpay) {
@@ -214,6 +276,8 @@ const SavingsDashboard = () => {
 			setAddresses([""]);
 		}
 	}, [isConfirmed]);
+
+	
 
 	const completionPercentage = 1;
 	return (
@@ -334,6 +398,13 @@ const SavingsDashboard = () => {
 						<button className="px-6 py-3 col-span-1 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black rounded-full hover:">
 							Refund
 						</button>
+
+						<button
+							onClick={() => setEndIsModalOpen(true)}
+							className="px-6 py-3 col-span-1 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium text-sm text-black rounded-full"
+						>
+							End Campaign
+						</button>
 					</div>
 				</div>
 
@@ -412,6 +483,13 @@ const SavingsDashboard = () => {
 					isLoading={isLoading}
 				/>
 			)}
+
+			{/* End Campaign Confirmation Modal */}
+			<ConfirmationModal
+				isOpen={isEndModalOpen}
+				onClose={() => setEndIsModalOpen(false)}
+				onConfirm={handleEndCampaign}
+			/>
 		</>
 	);
 };

@@ -28,7 +28,7 @@ Check out the live application here: [Live Demo](https://your-live-demo-link.com
 
 ## Usage
 
-1. **Connect Wallet**: Connect your Ethereum wallet to the application.
+1. **Connect Wallet**: Connect your Evm compatible wallet to the application, Switch to Lisk sepolia testnet.
 2. **Create a Campaign**: Navigate to the dashboard and create a new savings campaign.
 3. **Manage Contributions**: Add contributors to your campaign and manage whitelisted addresses.
 4. **View Metrics**: Monitor your campaign's progress and view detailed metrics.
