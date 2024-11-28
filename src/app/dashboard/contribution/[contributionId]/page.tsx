@@ -198,7 +198,7 @@ const SavingsDashboard = () => {
 			toast.success("You have contributed successfully!");
 			setPayIsModalOpen(false);
 		}
-	}, [withdrawalConfirmed]);
+	}, [Confirmedpay]);
 
 	useEffect(() => {
 		if (withdrawalConfirmed) {
