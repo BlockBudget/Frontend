@@ -27,6 +27,7 @@ import { formatEther, isAddress, parseEther } from "viem";
 import Deposit from "@/components/Deposit";
 import axios from "axios";
 import Withdrawal from "@/components/Withdraw";
+import { useRouter } from "next/navigation";
 
 const WalletDashboard = () => {
 	const [isSendModalOpen, setIsSendModalOpen] = useState(false);
@@ -47,6 +48,7 @@ const WalletDashboard = () => {
 	const [lskPrice, setLskPrice] = useState<number | any>();
 	const [isWithdrawalModalOpen, setIsWithdrawalModalOpen] = useState(false);
 	const [maxWithdrawableAmount, setMaxWithdrawableAmount] = useState("");
+	const router = useRouter();
 
 	// toggle balance visibility
 	const toggleBalance = () => {
@@ -65,12 +67,20 @@ const WalletDashboard = () => {
 		account: address,
 	});
 
+
 	useEffect(() => {
-		if (isConnected && isSuccess && data) {
+		if (isSuccess && data) {
 			setBalance(formatEther(data));
 			setMaxWithdrawableAmount(formatEther(data));
 		}
-	}, [isConnected, data, isSuccess]);
+	}, [data, balance, isSuccess]);
+
+	useEffect(()=>{
+		if(!isConnected){
+			router.push("/")
+		}
+	}, [isConnected])
+
 
 	useEffect(() => {
 		const fetchLSKPrice = async () => {
@@ -129,7 +139,7 @@ const WalletDashboard = () => {
 			setIsLoading(false);
 			console.log(error);
 
-			toast.error("Transfer Failed.", error);
+			toast.error("Transfer Failed.", error.message);
 		}
 	};
 	const {
@@ -146,7 +156,7 @@ const WalletDashboard = () => {
 			setIsSendModalOpen(false);
 			toast.success("Transfered Successfully");
 		}
-	}, [isConfirmed, isFetched]);
+	}, [isConfirmed,balance, isFetched]);
 
 	// Deposit function
 	const handleDeposite = async (e: any) => {
@@ -175,8 +185,7 @@ const WalletDashboard = () => {
 			setDxHash(tx as `0x${string}`);
 		} catch (error: any) {
 			setIsLoading(false);
-
-			toast.error("Something went wrong.", error);
+			toast.error("Something went wrong.", error.message);
 		}
 	};
 	const { isSuccess: isConfirmedTx } = useWaitForTransactionReceipt({
@@ -189,7 +198,7 @@ const WalletDashboard = () => {
 			setIsDepositModalOpen(false);
 			toast.success("Transfered Successfully");
 		}
-	}, [isConfirmed]);
+	}, [isConfirmedTx,balance,]);
 
 	//  recentTransactions
 	const { data: output, isSuccess: isSuccess2 }: any = useReadContract({
@@ -199,11 +208,10 @@ const WalletDashboard = () => {
 		account: address,
 	});
 	useEffect(() => {
-		if (isConnected && isSuccess2 && output) {
+		if (isSuccess2 && output) {
 			setTransactions(output);
-			console.log(output);
 		}
-	}, [isConnected, output, isSuccess2]);
+	}, [output,balance, isSuccess2]);
 
 	return (
 		<div className="min-h-screen p-6">

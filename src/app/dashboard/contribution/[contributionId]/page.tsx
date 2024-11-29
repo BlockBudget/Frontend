@@ -24,7 +24,7 @@ import {
 } from "wagmi";
 import WhitelistModal from "@/components/WhitelistModal";
 import PayNow from "@/components/PayNow";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import ProgressBar from "@/components/ProgressBar";
 import { formatEther } from "viem";
 import { useUserProfile } from "@/hooks/RegisteredUser";
@@ -42,7 +42,7 @@ const ConfirmationModal = ({ isOpen, onClose, onConfirm }: any) => {
 				<div className="flex justify-end mt-4">
 					<button
 						onClick={onClose}
-						className="px-4 bg-red-500 py-2 mr-2 bg-gray-200 rounded-lg"
+						className="px-4 bg-red-500 py-2 mr-2  rounded-lg"
 					>
 						Cancel
 					</button>
@@ -84,6 +84,14 @@ const SavingsDashboard = () => {
 		{ date: "Jun", price: 5500 },
 	];
 
+	const router = useRouter();
+
+	useEffect(()=>{
+		if(!isConnected && !userAddress){
+			router.push("/")
+		}
+	}, [])
+	
 	const { data: details, isSuccess }: any = useReadContract({
 		abi: abi2,
 		address: userAddress as `0x${string}`,
@@ -200,7 +208,6 @@ const SavingsDashboard = () => {
 			if (!isConnected) {
 				toast.error("Please connect your wallet");
 			}
-
 			setIsLoading(true);
 			const tx = await writeContractAsync({
 				abi: abi,
@@ -228,7 +235,7 @@ const SavingsDashboard = () => {
 				functionName: "withdrawContribution",
 				args: [params.contributionId],
 			});
-
+			
 			setTxHash(tx);
 			toast.success("Withdrawal Initiated. Waiting for confirmation...");
 		} catch (error) {
@@ -240,6 +247,26 @@ const SavingsDashboard = () => {
 	const { isSuccess: endConfirmed } = useWaitForTransactionReceipt({
 		hash: txHash ?? undefined,
 	});
+	const handleRefund = async (e: any) => {
+		e.preventDefault();
+		try {
+			const tx = await writeContractAsync({
+				address: userAddress,
+				abi: abi2,
+				functionName: "refundContribution",
+				args: [
+					params.contributionId,
+					address
+				],
+			});
+
+			setTxHash(tx);
+			toast.success("Refund Initiated. Waiting for confirmation...");
+		} catch (error) {
+			console.log(error);
+			toast.error("Refund failed: " + error);
+		}
+	}
 
 	const { isSuccess: withdrawalConfirmed } = useWaitForTransactionReceipt({
 		hash: txHash ?? undefined,
@@ -249,6 +276,10 @@ const SavingsDashboard = () => {
 	});
 
 	const { isSuccess: isConfirmed } = useWaitForTransactionReceipt({
+		hash: txHash ?? undefined,
+	});
+
+	const { isSuccess: refundConfirmed } = useWaitForTransactionReceipt({
 		hash: txHash ?? undefined,
 	});
 
@@ -264,14 +295,14 @@ const SavingsDashboard = () => {
 			toast.success("You have contributed successfully!");
 			setPayIsModalOpen(false);
 		}
-	}, [withdrawalConfirmed]);
+	}, [Confirmedpay]);
 
 	useEffect(() => {
 		if (withdrawalConfirmed) {
 			toast.success("Withdrawal successful!");
 		}
 	}, [withdrawalConfirmed]);
-
+	
 	useEffect(() => {
 		if (isConfirmed) {
 			toast.success("Address have been successfully whitelisted!");
@@ -280,6 +311,12 @@ const SavingsDashboard = () => {
 			setAddresses([""]);
 		}
 	}, [isConfirmed]);
+	
+	useEffect(() => {
+		if (refundConfirmed) {
+			toast.success("Refund successful!");
+		}
+	}, [refundConfirmed]);
 
 	
 
@@ -399,7 +436,7 @@ const SavingsDashboard = () => {
 						>
 							Pay Now
 						</button>
-						<button className="px-6 py-3 col-span-1 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black rounded-full hover:">
+						<button onClick={handleRefund} className="px-6 py-3 col-span-1 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black rounded-full hover:">
 							Refund
 						</button>
 

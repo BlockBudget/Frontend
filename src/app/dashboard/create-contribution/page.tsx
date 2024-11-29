@@ -5,7 +5,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { abi2 } from "@/context/abi";
-import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { useWriteContract, useWaitForTransactionReceipt, useAccount } from "wagmi";
 import { parseEther } from "viem";
 import { useRouter } from "next/navigation";
 import { useUserProfile } from "@/hooks/RegisteredUser";
@@ -13,6 +13,7 @@ import { useUserProfile } from "@/hooks/RegisteredUser";
 function CreateContribution() {
 	const [savingsName, setSavingsName] = useState("");
 	const [description, setDescription] = useState("");
+	const { isConnected } = useAccount();
 	const [targetAmount, setTargetAmount] = useState("0");
 	const [duration, setDuration] = useState("");
 	const [isPrivate, setIsPrivate] = useState(true);
@@ -27,6 +28,14 @@ function CreateContribution() {
 		// Approximate days per month
 		return months * 30;
 	};
+	
+
+	useEffect(()=>{
+		if(!isConnected && !userAddress){
+			router.push("/")
+		}
+	}, [])
+	
 
 	const handleCreateNewContribution = async (e: any) => {
 		e.preventDefault();

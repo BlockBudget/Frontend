@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { IndentDecrease } from "lucide-react";
 
-const CreateWallet = ({setHasWallet}:any) => {
+const CreateWallet = () => {
   const { writeContractAsync } = useWriteContract();
   const { address, isConnected } = useAccount();
   const router = useRouter();
@@ -31,7 +31,7 @@ const CreateWallet = ({setHasWallet}:any) => {
       toast.success("Wallet created successfully!");
       setWalletTxHash("" as `0x${string}`);
       // Redirect to registration page after successful wallet creation
-      setHasWallet(true);
+      router.push("/register")
     }
   }, [isWalletTxConfirmed, walletTxHash, router]);
 
@@ -81,11 +81,18 @@ const CreateWallet = ({setHasWallet}:any) => {
           <button
             onClick={handleCreateWallet}
             disabled={isLoading}
-            className={`w-full bg-[#003aceda] ${
-              isLoading ? "bg-[#003ace9c]" : "bg-[#003aceda]"
-            } hover:bg-[#003aceda] text-white font-medium py-2 px-4 rounded-md focus:outline-none`}
+            className={`w-full py-2 rounded-lg text-white font-semibold transition-colors ${
+							isLoading
+								? "bg-gray-400 cursor-not-allowed"
+								: "bg-blue-600 hover:bg-blue-700"
+						}`}
           >
-            {isLoading ? "Creating..." : "Create Wallet"}
+            {isLoading ? (
+							<div className="relative w-5 h-5 m-auto">
+								<div className="absolute inset-0 border-2 border-blue-100 rounded-full animate-spin-slow"></div>
+								<div className="absolute inset-0 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+							</div>
+						) : "Create Wallet"}
           </button>
         </div>
       </div>
