@@ -28,10 +28,40 @@ import { useParams, useRouter } from "next/navigation";
 import ProgressBar from "@/components/ProgressBar";
 import { formatEther } from "viem";
 import { useUserProfile } from "@/hooks/RegisteredUser";
+import { decodeErrorResult } from "viem";
+
+// Create a new component for the confirmation modal
+const ConfirmationModal = ({ isOpen, onClose, onConfirm }: any) => {
+	if (!isOpen) return null;
+
+	return (
+		<div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+			<div className="bg-white text-black p-6 rounded-lg shadow-md">
+				<h2 className="text-lg font-bold mb-4">Confirm End Campaign</h2>
+				<p>Are you sure you want to end this campaign?</p>
+				<div className="flex justify-end mt-4">
+					<button
+						onClick={onClose}
+						className="px-4 bg-red-500 py-2 mr-2  rounded-lg"
+					>
+						Cancel
+					</button>
+					<button
+						onClick={onConfirm}
+						className="px-4 py-2 bg-gradient-to-r from-[#003aceb7] w-1/2 to-[#003ace8f] text-white rounded-lg"
+					>
+						Proceed
+					</button>
+				</div>
+			</div>
+		</div>
+	);
+};
 
 const SavingsDashboard = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [isPayModalOpen, setPayIsModalOpen] = useState(false);
+	const [isEndModalOpen, setEndIsModalOpen] = useState(false);
 	const [addresses, setAddresses] = useState([""]);
 	const { writeContract } = useWriteContract();
 	const params = useParams();
@@ -121,6 +151,31 @@ const SavingsDashboard = () => {
 		}
 	}, [details, isSuccess]);
 
+	const handleEndCampaign = async () => {
+		//check if the campaign is active. Therefore there should be an enum to check if the campaign is active to read
+		if (!campaignDetail?.isActive) {
+			toast.error("Campaign has been ended already!");
+			return;
+		}
+		try {
+			const tx = await writeContractAsync({
+				abi: abi2,
+				address: userAddress as `0x${string}`,
+				functionName: "endCampaign",
+				args: [params.contributionId],
+			});
+			setTxHash(tx);
+			toast.success("Ending Campaign. Waiting for confirmation...");
+			setEndIsModalOpen(false);
+		} catch (error: any) {
+			
+			if (error.message.includes("0x66ec4ee6")) {
+				toast.error("Failed to end campaign. Deadline has not reached yet!");
+			}
+			//decoding  error
+		}
+	};
+
 	const handleAddUsers = async (addresses: any) => {
 		try {
 			if (!isConnected) {
@@ -189,6 +244,9 @@ const SavingsDashboard = () => {
 		}
 	};
 
+	const { isSuccess: endConfirmed } = useWaitForTransactionReceipt({
+		hash: txHash ?? undefined,
+	});
 	const handleRefund = async (e: any) => {
 		e.preventDefault();
 		try {
@@ -226,6 +284,13 @@ const SavingsDashboard = () => {
 	});
 
 	useEffect(() => {
+		if (endConfirmed) {
+			toast.success("Campaign ended successfully!");
+			setEndIsModalOpen(false);
+		}
+	}, [endConfirmed]);
+
+	useEffect(() => {
 		if (Confirmedpay) {
 			toast.success("You have contributed successfully!");
 			setPayIsModalOpen(false);
@@ -252,6 +317,8 @@ const SavingsDashboard = () => {
 			toast.success("Refund successful!");
 		}
 	}, [refundConfirmed]);
+
+	
 
 	const completionPercentage = 1;
 	return (
@@ -372,6 +439,13 @@ const SavingsDashboard = () => {
 						<button onClick={handleRefund} className="px-6 py-3 col-span-1 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium  text-sm text-black rounded-full hover:">
 							Refund
 						</button>
+
+						<button
+							onClick={() => setEndIsModalOpen(true)}
+							className="px-6 py-3 col-span-1 border bg-[#0039CE1A] hover:bg-gradient-to-r hover:from-[#003aceaf] hover:to-[#003ace77] font-medium text-sm text-black rounded-full"
+						>
+							{isLoading ? "Ending..." : "End Campaign"}
+						</button>
 					</div>
 				</div>
 
@@ -450,6 +524,13 @@ const SavingsDashboard = () => {
 					isLoading={isLoading}
 				/>
 			)}
+
+			{/* End Campaign Confirmation Modal */}
+			<ConfirmationModal
+				isOpen={isEndModalOpen}
+				onClose={() => setEndIsModalOpen(false)}
+				onConfirm={handleEndCampaign}
+			/>
 		</>
 	);
 };
