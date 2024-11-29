@@ -43,7 +43,7 @@ const LandingPage = () => {
 								{isConnected ? (
 									<Link
 										href={`${
-											userProfile?.isRegistered ? "/dashboard" : "/register"
+											userProfile?.isRegistered ? "/dashboard" : "/create-wallet"
 										}`}
 										className="px-6 py-3 border text-center bg-[#003acec2]  text-sm text-white rounded-full shadow-md "
 									>

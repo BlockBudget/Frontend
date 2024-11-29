@@ -45,7 +45,7 @@ const SendFund = ({
 									type="text"
 									value={recipient}
 									onChange={(e) => setRecipient(e.target.value)}
-									className="w-full border rounded-lg p-1 focus:outline-nonem text-black "
+									className="w-full border rounded-lg p-1 focus:outline-none focus:ring focus:ring-blue-500 text-black "
 									placeholder="0xa7F87590b8aE36947E5105aE5112761B7d0D5d7D"
 								/>
 							</div>
@@ -74,7 +74,7 @@ const SendFund = ({
                                 type="number"
                                 value={amount}
                                 onChange={(e) => setAmount(e.target.value)}
-                                className="w-full border border-gray-300 rounded-lg px-3 py-2 pl-14 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full border border-gray-300 rounded-lg px-3 py-2 pl-14 focus:outline-none focus:ring focus:ring-blue-500"
                                 placeholder="Enter withdrawal amount"
                                 step="0.000001"
                                 max={maxWithdrawableAmount}
