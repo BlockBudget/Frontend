@@ -24,12 +24,22 @@ import Link from "next/link";
 import { useAccount } from "wagmi";
 import { useGetCampaignDetails } from "@/hooks/useGetCampaignDetails";
 import { useUserProfile } from "@/hooks/RegisteredUser";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 // Register components to prevent missing scale errors
 ChartJS.register(LinearScale, CategoryScale, BarElement);
 
 const page = () => {
 	const { getCampaignDetails } = useGetCampaignDetails();
 	const { userProfile, isConnected } = useUserProfile();
+	const router = useRouter();
+
+	useEffect(()=>{
+		if(!isConnected){
+			router.push("/")
+		}
+	},[])
+	
 	const revenueData = {
 		labels: [
 			"Jan",

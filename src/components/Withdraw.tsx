@@ -124,7 +124,6 @@ const Withdrawal: React.FC<WithdrawalProps> = ({
                                 onChange={(e) => setWithdrawalAmount(e.target.value)}
                                 className="w-full border border-gray-300 rounded-lg px-3 py-2 pl-14 focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 placeholder="Enter withdrawal amount"
-                                step="0.000001"
                                 max={maxWithdrawableAmount}
                                 required
                             />

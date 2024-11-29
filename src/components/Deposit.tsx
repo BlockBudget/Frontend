@@ -60,8 +60,6 @@ const Deposit: React.FC<DepositProps> = ({
                                 onChange={(e) => setDepositAmount(e.target.value)}
                                 className="w-full border border-gray-300 rounded-lg px-3 py-1 pl-14 focus:outline-none "
                                 placeholder="Enter deposit amount"
-                                step="0.000001"
-                                min="0"
                                 required
                             />
                             <div className="absolute left-3 top-1/2 transform -translate-y-1/2 flex items-center">

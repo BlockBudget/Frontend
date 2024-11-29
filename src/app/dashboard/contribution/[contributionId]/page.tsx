@@ -24,7 +24,7 @@ import {
 } from "wagmi";
 import WhitelistModal from "@/components/WhitelistModal";
 import PayNow from "@/components/PayNow";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import ProgressBar from "@/components/ProgressBar";
 import { formatEther } from "viem";
 import { useUserProfile } from "@/hooks/RegisteredUser";
@@ -54,6 +54,14 @@ const SavingsDashboard = () => {
 		{ date: "Jun", price: 5500 },
 	];
 
+	const router = useRouter();
+
+	useEffect(()=>{
+		if(!isConnected && !userAddress){
+			router.push("/")
+		}
+	}, [])
+	
 	const { data: details, isSuccess }: any = useReadContract({
 		abi: abi2,
 		address: userAddress as `0x${string}`,
