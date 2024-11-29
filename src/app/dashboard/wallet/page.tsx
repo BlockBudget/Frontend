@@ -368,6 +368,7 @@ const WalletDashboard = () => {
 					maxWithdrawableAmount={maxWithdrawableAmount}
 					abi={abi2}
 					contractAddress={userAddress}
+					balance= {balance}
 				/>
 			)}
 		</div>
