@@ -24,7 +24,6 @@ const ContributionList = () => {
 		account: address,
 	});
 
-
 	useEffect(()=>{
 		if(!isConnected && !userAddress){
 			router.push("/")

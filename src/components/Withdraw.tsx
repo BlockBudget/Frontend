@@ -7,6 +7,7 @@ interface WithdrawalProps {
     setIsWithdrawalModalOpen: (open: boolean) => void;
     maxWithdrawableAmount: string;
     abi: any; 
+    balance: any
     contractAddress: `0x${string}`; 
 }
 
@@ -14,6 +15,7 @@ const Withdrawal: React.FC<WithdrawalProps> = ({
     setIsWithdrawalModalOpen,
     maxWithdrawableAmount,
     abi,
+    balance,
     contractAddress
 }) => {
     const [withdrawalAmount, setWithdrawalAmount] = useState('');
@@ -56,7 +58,7 @@ const Withdrawal: React.FC<WithdrawalProps> = ({
             setIsWithdrawalModalOpen(false);
             setWithdrawalAmount('');
         }
-    }, [isSuccess, setIsWithdrawalModalOpen]);
+    }, [isSuccess,balance, setIsWithdrawalModalOpen]);
 
     const handleMaxWithdraw = () => {
         setWithdrawalAmount(maxWithdrawableAmount);

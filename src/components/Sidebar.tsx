@@ -1,7 +1,9 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
-import { usePathname } from "next/navigation";
+import { useAccount } from "wagmi";
+import { useDisconnect } from "wagmi";
+import { usePathname, useRouter } from "next/navigation";
 import {
 	Settings,
 	Inbox,
@@ -23,6 +25,15 @@ import { useUserProfile } from "../hooks/RegisteredUser";
 export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 	const pathname = usePathname();
 	const { userProfile } = useUserProfile();
+	const router = useRouter();
+	const {isDisconnected} = useAccount();
+	const {disconnect} =useDisconnect()
+
+	const logout =()=>{
+		disconnect();
+			router.replace("/")
+		
+	}
 
 	const navs = [
 		{
@@ -35,7 +46,7 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 			icon: <HandCoins className="h-5 w-5" />,
 			url: "/dashboard/contribution",
 		},
-		
+
 		{
 			title: "Locked Savings",
 			icon: <Users className="h-5 w-5" />,
@@ -58,11 +69,6 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 			title: "Notifications",
 			icon: <Bell className="h-5 w-5" />,
 			url: "#",
-		},
-		{
-			title: "Logout",
-			icon: <LogOut className="h-5 w-5" />,
-			url: "/",
 		},
 	];
 
@@ -140,6 +146,22 @@ export default function Sidebar({ isCollapsed, setIsCollapsed }: any) {
 							</Link>
 						);
 					})}
+					<div>
+						<button
+						onClick={logout}
+							className={`flex items-center space-x-3 py-2 ${
+								isCollapsed ? "px-3" : "px-4"
+							}  border border-[#FFFFFF1A] font-semibold transition-colors text-[7108c2fb] bg-[#003ace0c] hover:bg-[#003ace4f]"
+							}`}
+						>
+							<div>
+								<LogOut className="h-5 w-5" />
+							</div>
+							{!isCollapsed && (
+								<span className="text-sm font-medium">Logout</span>
+							)}
+						</button>
+					</div>
 					<div className="mt-4 cursor-pointer flex gap-3 items-center ">
 						<img
 							src="/user10.jpg"
